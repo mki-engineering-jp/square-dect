@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News 管理 | square</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --dark: #141414; --card: #1a1a1a; --red: #c8102e; --red-dark: #9e0c24;
+      --white: #ffffff; --gray-100: #f5f5f5; --gray-300: #d0d0d0; --gray-500: #888; --gray-700: #3a3a3a;
+      --line: rgba(255,255,255,0.1); --ok: #2e9e5b;
+    }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── LOGIN ── */
+    #login-view { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .login-box { width: 380px; max-width: 100%; background: var(--dark); border: 1px solid rgba(200,16,46,0.25); border-radius: 10px; padding: 44px 36px; }
+    .login-logo { font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 4px; }
+    .login-logo span { color: var(--red); }
+    .login-sub { font-size: 12px; color: var(--gray-500); letter-spacing: 0.08em; margin-bottom: 32px; }
+    label { display: block; font-size: 12px; color: var(--gray-300); margin-bottom: 6px; font-weight: 600; }
+    .field { margin-bottom: 18px; }
+    input[type=email], input[type=password], input[type=text], input[type=date], textarea {
+      width: 100%; padding: 12px 14px; font-size: 14px; background: var(--black);
+      border: 1px solid var(--gray-700); color: var(--white); border-radius: 6px; outline: none;
+      font-family: inherit; transition: border-color 0.15s;
+    }
+    input:focus, textarea:focus { border-color: var(--red); }
+    textarea { resize: vertical; min-height: 140px; line-height: 1.7; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; font-size: 14px; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; font-family: inherit; transition: background 0.15s, opacity 0.15s; }
+    .btn-primary { background: var(--red); color: var(--white); width: 100%; }
+    .btn-primary:hover { background: var(--red-dark); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost { background: transparent; border: 1px solid var(--gray-700); color: var(--gray-300); }
+    .btn-ghost:hover { border-color: var(--white); color: var(--white); }
+    .btn-danger { background: transparent; border: 1px solid rgba(200,16,46,0.5); color: #ff6b81; }
+    .btn-danger:hover { background: rgba(200,16,46,0.12); }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    .msg-error { font-size: 13px; color: #ff6b81; margin-top: 12px; min-height: 18px; }
+
+    /* ── APP HEADER ── */
+    #app-view { display: none; }
+    .topbar { border-bottom: 1px solid var(--line); position: sticky; top: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(8px); z-index: 50; }
+    .topbar-inner { max-width: 880px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .topbar-logo { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
+    .topbar-logo span { color: var(--red); }
+    .topbar-logo small { font-family: 'Noto Sans JP'; font-size: 12px; font-weight: 600; color: var(--gray-500); margin-left: 8px; letter-spacing: 0.04em; }
+    .topbar-user { font-size: 12px; color: var(--gray-500); display: flex; align-items: center; gap: 14px; }
+
+    /* ── LIST ── */
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin: 40px 0 24px; }
+    .section-head h1 { font-size: 22px; font-weight: 900; }
+    .article-row { display: flex; gap: 16px; align-items: center; padding: 16px; background: var(--card); border-radius: 8px; margin-bottom: 12px; }
+    .article-row-thumb { width: 88px; height: 58px; flex-shrink: 0; object-fit: cover; border-radius: 4px; background: var(--dark); }
+    .article-row-body { flex: 1; min-width: 0; }
+    .article-row-date { font-size: 11px; color: var(--red); font-weight: 700; letter-spacing: 0.05em; }
+    .article-row-title { font-size: 15px; font-weight: 700; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .article-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .empty { color: var(--gray-500); text-align: center; padding: 60px 0; }
+    .loading { color: var(--gray-500); text-align: center; padding: 40px 0; }
+
+    /* ── EDITOR ── */
+    #editor-view { display: none; }
+    .editor-head { display: flex; align-items: center; gap: 12px; margin: 40px 0 28px; }
+    .editor-head h1 { font-size: 22px; font-weight: 900; }
+    .hint { font-size: 12px; color: var(--gray-500); margin-top: 6px; }
+    .row2 { display: grid; grid-template-columns: 200px 1fr; gap: 20px; }
+    @media (max-width: 600px) { .row2 { grid-template-columns: 1fr; } }
+
+    /* image upload */
+    .uploader { border: 1px dashed var(--gray-700); border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .uploader:hover, .uploader.drag { border-color: var(--red); background: rgba(200,16,46,0.05); }
+    .uploader input { display: none; }
+    .uploader-label { font-size: 13px; color: var(--gray-300); }
+    .uploader-label b { color: var(--white); }
+    .thumb-preview { position: relative; display: inline-block; margin-top: 12px; }
+    .thumb-preview img { max-width: 220px; max-height: 140px; border-radius: 6px; display: block; }
+    .gallery-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .gallery-cell { position: relative; }
+    .gallery-cell img { width: 110px; height: 74px; object-fit: cover; border-radius: 6px; display: block; }
+    .remove-x { position: absolute; top: -8px; right: -8px; width: 24px; height: 24px; border-radius: 50%; background: var(--red); color: #fff; border: none; cursor: pointer; font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+    .uploading-tag { font-size: 12px; color: var(--gray-500); margin-top: 8px; }
+    .editor-actions { display: flex; gap: 12px; margin: 32px 0 80px; }
+    .editor-actions .btn-primary { width: auto; }
+
+    /* toast */
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ok); color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.err { background: var(--red); }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login-view">
+  <div class="login-box">
+    <div class="login-logo">squa<span>re</span></div>
+    <div class="login-sub">NEWS 管理画面</div>
+    <div class="field">
+      <label for="email">メールアドレス</label>
+      <input type="email" id="email" autocomplete="username" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label for="password">パスワード</label>
+      <input type="password" id="password" autocomplete="current-password" placeholder="パスワード">
+    </div>
+    <button class="btn btn-primary" id="login-btn">ログイン</button>
+    <div class="msg-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app-view">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-logo">squa<span>re</span><small>NEWS 管理</small></div>
+      <div class="topbar-user">
+        <span id="who"></span>
+        <button class="btn btn-ghost btn-sm" id="logout-btn">ログアウト</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div id="list-view" class="wrap">
+    <div class="section-head">
+      <h1>お知らせ一覧</h1>
+      <button class="btn btn-primary btn-sm" id="new-btn" style="width:auto;">＋ 新規投稿</button>
+    </div>
+    <div id="article-list"><div class="loading">読み込み中...</div></div>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editor-view" class="wrap">
+    <div class="editor-head">
+      <button class="btn btn-ghost btn-sm" id="back-btn">&lsaquo; 一覧へ</button>
+      <h1 id="editor-title">新規投稿</h1>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label for="f-date">日付</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="field">
+        <label for="f-title">タイトル</label>
+        <input type="text" id="f-title" placeholder="例：○○様にsquareを導入いただきました">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>メイン写真（一覧・記事トップに表示）</label>
+      <div class="uploader" id="thumb-uploader">
+        <input type="file" id="thumb-input" accept="image/*">
+        <div class="uploader-label"><b>クリック</b>または写真をドラッグして選択</div>
+      </div>
+      <div id="thumb-preview"></div>
+    </div>
+
+    <div class="field">
+      <label for="f-body">本文</label>
+      <textarea id="f-body" placeholder="本文を入力します。&#10;&#10;空行で段落が分かれます。"></textarea>
+      <div class="hint">空行（Enter2回）で段落が分かれます。</div>
+    </div>
+
+    <div class="field">
+      <label>追加写真（本文の下にギャラリー表示・複数可）</label>
+      <div class="uploader" id="gallery-uploader">
+        <input type="file" id="gallery-input" accept="image/*" multiple>
+        <div class="uploader-label"><b>クリック</b>または写真をドラッグして追加</div>
+      </div>
+      <div class="gallery-grid" id="gallery-preview"></div>
+    </div>
+
+    <div class="editor-actions">
+      <button class="btn btn-primary" id="save-btn">保存して公開</button>
+      <button class="btn btn-ghost" id="cancel-btn">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function() {
+  'use strict';
+  var SB_URL = 'https://adatzeolzkjujtuxebrc.supabase.co';
+  var SB_KEY = 'sb_publishable_2Ghe-V3dLS7Ym06p71i33A_zFU8eJgz';
+  var BUCKET = 'news-images';
+  var sb = window.supabase.createClient(SB_URL, SB_KEY);
+
+  var state = { editingId: null, thumb: '', images: [] };
+
+  // elements
+  var $ = function(id) { return document.getElementById(id); };
+
+  // ---------- toast ----------
+  var toastTimer;
+  function toast(msg, isErr) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = isErr ? 'show err' : 'show';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { t.className = ''; }, 2600);
+  }
+
+  // ---------- auth ----------
+  function showLogin() { $('login-view').style.display = 'flex'; $('app-view').style.display = 'none'; }
+  function showApp(email) {
+    $('login-view').style.display = 'none';
+    $('app-view').style.display = 'block';
+    $('who').textContent = email || '';
+    openList();
+  }
+
+  sb.auth.getSession().then(function(res) {
+    var s = res.data.session;
+    if (s) { showApp(s.user.email); } else { showLogin(); }
+  });
+
+  $('login-btn').addEventListener('click', doLogin);
+  $('password').addEventListener('keydown', function(e) { if (e.key === 'Enter') doLogin(); });
+  function doLogin() {
+    var email = $('email').value.trim();
+    var pw = $('password').value;
+    $('login-error').textContent = '';
+    if (!email || !pw) { $('login-error').textContent = 'メールアドレスとパスワードを入力してください。'; return; }
+    $('login-btn').disabled = true; $('login-btn').textContent = 'ログイン中...';
+    sb.auth.signInWithPassword({ email: email, password: pw }).then(function(res) {
+      $('login-btn').disabled = false; $('login-btn').textContent = 'ログイン';
+      if (res.error) { $('login-error').textContent = 'ログインできませんでした。メールアドレスとパスワードをご確認ください。'; return; }
+      showApp(res.data.user.email);
+    });
+  }
+
+  $('logout-btn').addEventListener('click', function() {
+    sb.auth.signOut().then(function() { showLogin(); $('password').value=''; });
+  });
+
+  // ---------- list ----------
+  function openList() {
+    $('list-view').style.display = 'block';
+    $('editor-view').style.display = 'none';
+    loadList();
+  }
+  function loadList() {
+    var box = $('article-list');
+    box.innerHTML = '<div class="loading">読み込み中...</div>';
+    sb.from('news').select('id,date,title,thumb').order('date', { ascending: false }).then(function(res) {
+      if (res.error) { box.innerHTML = '<div class="empty">読み込めませんでした。再読み込みしてください。</div>'; return; }
+      var rows = res.data || [];
+      if (!rows.length) { box.innerHTML = '<div class="empty">まだ記事がありません。「＋ 新規投稿」から作成できます。</div>'; return; }
+      box.innerHTML = '';
+      rows.forEach(function(a) {
+        var el = document.createElement('div');
+        el.className = 'article-row';
+        var thumb = a.thumb ? '<img class="article-row-thumb" src="'+a.thumb+'" alt="">' : '<div class="article-row-thumb"></div>';
+        el.innerHTML = thumb +
+          '<div class="article-row-body">' +
+            '<div class="article-row-date">' + fmtDate(a.date) + '</div>' +
+            '<div class="article-row-title">' + esc(a.title) + '</div>' +
+          '</div>' +
+          '<div class="article-row-actions">' +
+            '<button class="btn btn-ghost btn-sm" data-edit="'+a.id+'">編集</button>' +
+            '<button class="btn btn-danger btn-sm" data-del="'+a.id+'">削除</button>' +
+          '</div>';
+        box.appendChild(el);
+      });
+      box.querySelectorAll('[data-edit]').forEach(function(b) {
+        b.addEventListener('click', function() { openEditor(b.getAttribute('data-edit')); });
+      });
+      box.querySelectorAll('[data-del]').forEach(function(b) {
+        b.addEventListener('click', function() { delArticle(b.getAttribute('data-del')); });
+      });
+    });
+  }
+
+  $('new-btn').addEventListener('click', function() { openEditor(null); });
+  $('back-btn').addEventListener('click', openList);
+  $('cancel-btn').addEventListener('click', openList);
+
+  // ---------- editor ----------
+  function openEditor(id) {
+    state = { editingId: id, thumb: '', images: [] };
+    $('list-view').style.display = 'none';
+    $('editor-view').style.display = 'block';
+    $('editor-title').textContent = id ? '記事を編集' : '新規投稿';
+    $('f-title').value = '';
+    $('f-body').value = '';
+    $('f-date').value = todayStr();
+    renderThumb(); renderGallery();
+    window.scrollTo(0,0);
+
+    if (id) {
+      sb.from('news').select('*').eq('id', id).maybeSingle().then(function(res) {
+        if (res.error || !res.data) { toast('記事を読み込めませんでした', true); openList(); return; }
+        var a = res.data;
+        $('f-title').value = a.title || '';
+        $('f-body').value = a.body || '';
+        $('f-date').value = a.date || todayStr();
+        state.thumb = a.thumb || '';
+        state.images = Array.isArray(a.images) ? a.images.slice() : [];
+        renderThumb(); renderGallery();
+      });
+    }
+  }
+
+  function renderThumb() {
+    var box = $('thumb-preview');
+    if (!state.thumb) { box.innerHTML = ''; return; }
+    box.innerHTML = '<div class="thumb-preview"><img src="'+state.thumb+'" alt="">' +
+      '<button class="remove-x" id="rm-thumb">&times;</button></div>';
+    $('rm-thumb').addEventListener('click', function() { state.thumb=''; renderThumb(); });
+  }
+  function renderGallery() {
+    var box = $('gallery-preview');
+    box.innerHTML = state.images.map(function(src, i) {
+      return '<div class="gallery-cell"><img src="'+src+'" alt="">' +
+        '<button class="remove-x" data-rm="'+i+'">&times;</button></div>';
+    }).join('');
+    box.querySelectorAll('[data-rm]').forEach(function(b) {
+      b.addEventListener('click', function() {
+        state.images.splice(parseInt(b.getAttribute('data-rm'),10),1); renderGallery();
+      });
+    });
+  }
+
+  // ---------- upload ----------
+  function uploadFile(file) {
+    var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    var name = Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+    return sb.storage.from(BUCKET).upload(name, file, { cacheControl: '3600', upsert: false })
+      .then(function(res) {
+        if (res.error) { throw res.error; }
+        return sb.storage.from(BUCKET).getPublicUrl(name).data.publicUrl;
+      });
+  }
+
+  // thumb uploader
+  setupUploader('thumb-uploader', 'thumb-input', false, function(urls) {
+    state.thumb = urls[0]; renderThumb();
+  });
+  // gallery uploader
+  setupUploader('gallery-uploader', 'gallery-input', true, function(urls) {
+    state.images = state.images.concat(urls); renderGallery();
+  });
+
+  function setupUploader(zoneId, inputId, multiple, onDone) {
+    var zone = $(zoneId), input = $(inputId);
+    zone.addEventListener('click', function() { input.click(); });
+    input.addEventListener('change', function() { handleFiles(input.files); input.value=''; });
+    ['dragover','dragenter'].forEach(function(ev){ zone.addEventListener(ev, function(e){ e.preventDefault(); zone.classList.add('drag'); }); });
+    ['dragleave','drop'].forEach(function(ev){ zone.addEventListener(ev, function(e){ e.preventDefault(); zone.classList.remove('drag'); }); });
+    zone.addEventListener('drop', function(e) { handleFiles(e.dataTransfer.files); });
+
+    function handleFiles(files) {
+      if (!files || !files.length) return;
+      var arr = Array.prototype.slice.call(files);
+      if (!multiple) arr = arr.slice(0,1);
+      var lbl = zone.querySelector('.uploader-label');
+      var orig = lbl.innerHTML;
+      lbl.textContent = 'アップロード中...';
+      Promise.all(arr.map(uploadFile)).then(function(urls) {
+        lbl.innerHTML = orig;
+        onDone(urls);
+        toast('写真をアップロードしました');
+      }).catch(function() {
+        lbl.innerHTML = orig;
+        toast('写真をアップロードできませんでした', true);
+      });
+    }
+  }
+
+  // ---------- save ----------
+  $('save-btn').addEventListener('click', function() {
+    var title = $('f-title').value.trim();
+    var date = $('f-date').value;
+    var body = $('f-body').value;
+    if (!title) { toast('タイトルを入力してください', true); return; }
+    if (!date) { toast('日付を選んでください', true); return; }
+
+    var btn = $('save-btn');
+    btn.disabled = true; btn.textContent = '保存中...';
+    var record = { date: date, title: title, body: body, thumb: state.thumb, images: state.images };
+
+    var op = state.editingId
+      ? sb.from('news').update(record).eq('id', state.editingId)
+      : sb.from('news').insert(record);
+
+    op.then(function(res) {
+      btn.disabled = false; btn.textContent = '保存して公開';
+      if (res.error) { toast('保存できませんでした', true); return; }
+      toast(state.editingId ? '記事を更新しました' : '記事を公開しました');
+      openList();
+    });
+  });
+
+  // ---------- delete ----------
+  function delArticle(id) {
+    if (!window.confirm('この記事を削除します。よろしいですか？')) return;
+    sb.from('news').delete().eq('id', id).then(function(res) {
+      if (res.error) { toast('削除できませんでした', true); return; }
+      toast('記事を削除しました');
+      loadList();
+    });
+  }
+
+  // ---------- utils ----------
+  function todayStr() {
+    var d = new Date(), p = function(n){ return (n<10?'0':'')+n; };
+    return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate());
+  }
+  function fmtDate(d) { var p=(d||'').split('-'); return p.length===3 ? p[0]+'.'+p[1]+'.'+p[2] : d; }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+})();
+</script>
+</body>
+</html>

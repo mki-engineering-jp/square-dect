@@ -71,6 +71,11 @@
       .news-title { font-size: 14px; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.SQUARE_SUPABASE_URL = 'https://adatzeolzkjujtuxebrc.supabase.co';
+    window.SQUARE_SUPABASE_KEY = 'sb_publishable_2Ghe-V3dLS7Ym06p71i33A_zFU8eJgz';
+  </script>
 </head>
 <body>
 
@@ -130,17 +135,29 @@
   function loadContent() {
     var params = new URLSearchParams(window.location.search);
     var id = params.get('id');
-    fetch('news.json', { cache: 'no-store' })
-      .then(function(res) { return res.json(); })
-      .then(function(articles) {
-        articles.sort(function(a, b) { return (a.date < b.date ? 1 : -1); });
-        if (id) { renderArticle(articles, id); }
-        else { renderList(articles); }
-      })
-      .catch(function() {
-        document.getElementById('content').innerHTML =
-          '<p class="msg">お知らせを読み込めませんでした。</p>';
-      });
+    var sb = window.supabase.createClient(window.SQUARE_SUPABASE_URL, window.SQUARE_SUPABASE_KEY);
+
+    if (id) {
+      sb.from('news').select('*').eq('id', id).maybeSingle()
+        .then(function(res) {
+          if (res.error) { throw res.error; }
+          renderArticle(res.data ? [res.data] : [], id);
+        })
+        .catch(function() {
+          document.getElementById('content').innerHTML =
+            '<p class="msg">お知らせを読み込めませんでした。</p>';
+        });
+    } else {
+      sb.from('news').select('id,date,title,thumb').order('date', { ascending: false })
+        .then(function(res) {
+          if (res.error) { throw res.error; }
+          renderList(res.data || []);
+        })
+        .catch(function() {
+          document.getElementById('content').innerHTML =
+            '<p class="msg">お知らせを読み込めませんでした。</p>';
+        });
+    }
   }
 
   function renderArticle(articles, id) {
