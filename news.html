@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">News | square（スクエア）</title>
+  <meta name="description" content="square（スクエア）の導入事例・お知らせ。多人数同時通話DECTインカム。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --dark: #141414; --red: #c8102e; --red-dark: #9e0c24;
+      --white: #ffffff; --gray-100: #f5f5f5; --gray-300: #d0d0d0;
+      --gray-500: #888888; --gray-700: #444444;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; }
+
+    /* ── PASSWORD OVERLAY ── */
+    #pw-overlay { position: fixed; inset: 0; z-index: 9999; background: var(--black); display: flex; align-items: center; justify-content: center; }
+    .pw-box { text-align: center; padding: 48px 40px; background: var(--dark); border: 1px solid rgba(200,16,46,0.25); border-radius: 8px; width: 360px; }
+    .pw-logo { font-family: 'Inter', sans-serif; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: var(--white); margin-bottom: 8px; }
+    .pw-logo span { color: var(--red); }
+    .pw-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 32px; letter-spacing: 0.06em; }
+    .pw-input { width: 100%; padding: 14px 16px; font-size: 15px; background: var(--black); border: 1px solid var(--gray-700); color: var(--white); border-radius: 4px; outline: none; margin-bottom: 12px; font-family: 'Inter', sans-serif; transition: border-color 0.2s; }
+    .pw-input:focus { border-color: var(--red); }
+    .pw-btn { width: 100%; padding: 14px; font-size: 14px; font-weight: 700; background: var(--red); color: var(--white); border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s; font-family: 'Noto Sans JP', sans-serif; }
+    .pw-btn:hover { background: var(--red-dark); }
+    .pw-error { font-size: 12px; color: var(--red); margin-top: 10px; min-height: 18px; }
+    #main-content { display: none; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo img { height: 28px; width: auto; display: block; filter: invert(1); }
+    .nav-back { color: var(--gray-300); text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
+    .nav-back:hover { color: var(--white); }
+
+    /* ── CONTENT ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    main { padding: 140px 0 100px; }
+    .article-date { font-size: 13px; color: var(--red); font-weight: 700; letter-spacing: 0.06em; margin-bottom: 12px; }
+    .article-title { font-size: 32px; font-weight: 900; line-height: 1.4; margin-bottom: 40px; }
+    .article-hero { width: 100%; border-radius: 6px; margin-bottom: 40px; display: block; }
+    .article-body { font-size: 16px; color: var(--gray-100); }
+    .article-body p { margin-bottom: 24px; }
+    .article-gallery { margin-top: 48px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .article-gallery img { width: 100%; border-radius: 6px; display: block; }
+    .article-back { margin-top: 60px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .article-back a { color: var(--white); border: 1px solid rgba(255,255,255,0.3); padding: 12px 32px; border-radius: 4px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.2s; display: inline-block; }
+    .article-back a:hover { background: var(--white); color: var(--black); }
+
+    /* ── LIST (id無しアクセス時) ── */
+    .list-title { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
+    .list-sub { font-size: 14px; color: var(--gray-500); margin-bottom: 50px; }
+    .news-item { display: flex; gap: 24px; align-items: center; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.1); text-decoration: none; transition: opacity 0.2s; }
+    .news-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .news-item:hover { opacity: 0.7; }
+    .news-thumb { width: 160px; height: 100px; flex-shrink: 0; object-fit: cover; border-radius: 4px; background: var(--dark); }
+    .news-body { flex: 1; min-width: 0; }
+    .news-date { font-size: 12px; color: var(--red); font-weight: 700; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .news-title { font-size: 17px; font-weight: 700; color: var(--white); line-height: 1.4; }
+    .news-arrow { color: var(--gray-300); font-size: 20px; flex-shrink: 0; }
+    .msg { color: var(--gray-300); padding: 40px 0; }
+
+    @media (max-width: 640px) {
+      .article-title, .list-title { font-size: 24px; }
+      .article-gallery { grid-template-columns: 1fr; }
+      .news-thumb { width: 100px; height: 70px; }
+      .news-title { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD OVERLAY -->
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">squa<span>re</span></div>
+    <div class="pw-sub">PROTECTED PAGE</div>
+    <input type="password" class="pw-input" id="pw-input" placeholder="パスワードを入力" autocomplete="off">
+    <button class="pw-btn" id="pw-btn">入力</button>
+    <div class="pw-error" id="pw-error"></div>
+  </div>
+</div>
+
+<div id="main-content">
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><img src="square_logo__1_.png" alt="square"></a>
+      <a href="index.html" class="nav-back">&lsaquo; トップへ戻る</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container" id="content">
+      <p class="msg">読み込み中...</p>
+    </div>
+  </main>
+</div>
+
+<script>
+  // ── パスワードゲート（index.html とセッション共有）──
+  (function() {
+    const PASS = 'square2026_MKI';
+    const SESSION_KEY = 'sq_auth';
+    function unlock() {
+      document.getElementById('pw-overlay').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      sessionStorage.setItem(SESSION_KEY, '1');
+      loadContent();
+    }
+    if (sessionStorage.getItem(SESSION_KEY) === '1') { unlock(); return; }
+    document.getElementById('pw-btn').addEventListener('click', check);
+    document.getElementById('pw-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') check();
+    });
+    function check() {
+      if (document.getElementById('pw-input').value === PASS) { unlock(); }
+      else {
+        document.getElementById('pw-error').textContent = 'パスワードが正しくありません';
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-input').focus();
+      }
+    }
+  })();
+
+  // ── 記事表示ロジック ──
+  function loadContent() {
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    fetch('news.json', { cache: 'no-store' })
+      .then(function(res) { return res.json(); })
+      .then(function(articles) {
+        articles.sort(function(a, b) { return (a.date < b.date ? 1 : -1); });
+        if (id) { renderArticle(articles, id); }
+        else { renderList(articles); }
+      })
+      .catch(function() {
+        document.getElementById('content').innerHTML =
+          '<p class="msg">お知らせを読み込めませんでした。</p>';
+      });
+  }
+
+  function renderArticle(articles, id) {
+    var a = articles.filter(function(x) { return x.id === id; })[0];
+    var el = document.getElementById('content');
+    if (!a) {
+      el.innerHTML = '<p class="msg">記事が見つかりませんでした。</p>'
+        + '<div class="article-back"><a href="news.html">お知らせ一覧へ</a></div>';
+      return;
+    }
+    document.getElementById('page-title').textContent = a.title + ' | square';
+    var hero = a.thumb ? '<img class="article-hero" src="' + a.thumb + '" alt="">' : '';
+    var bodyHtml = String(a.body).split('\n').filter(function(p){return p.trim();})
+      .map(function(p) { return '<p>' + escapeHtml(p) + '</p>'; }).join('');
+    var gallery = '';
+    if (a.images && a.images.length) {
+      gallery = '<div class="article-gallery">' + a.images.map(function(src) {
+        return '<img src="' + src + '" alt="" loading="lazy">';
+      }).join('') + '</div>';
+    }
+    el.innerHTML =
+      '<div class="article-date">' + formatDate(a.date) + '</div>'
+      + '<h1 class="article-title">' + escapeHtml(a.title) + '</h1>'
+      + hero
+      + '<div class="article-body">' + bodyHtml + '</div>'
+      + gallery
+      + '<div class="article-back"><a href="news.html">お知らせ一覧へ</a></div>';
+  }
+
+  function renderList(articles) {
+    var el = document.getElementById('content');
+    var head = '<h1 class="list-title">お知らせ・導入事例</h1>'
+      + '<p class="list-sub">squareの導入事例や最新情報をお届けします。</p>';
+    if (!articles.length) {
+      el.innerHTML = head + '<p class="msg">現在お知らせはありません。</p>';
+      return;
+    }
+    var items = articles.map(function(a) {
+      var thumb = a.thumb
+        ? '<img class="news-thumb" src="' + a.thumb + '" alt="" loading="lazy">'
+        : '<div class="news-thumb"></div>';
+      return '<a class="news-item" href="news.html?id=' + encodeURIComponent(a.id) + '">'
+        + thumb
+        + '<div class="news-body"><div class="news-date">' + formatDate(a.date) + '</div>'
+        + '<div class="news-title">' + escapeHtml(a.title) + '</div></div>'
+        + '<div class="news-arrow">&rsaquo;</div></a>';
+    }).join('');
+    el.innerHTML = head + items;
+  }
+
+  function formatDate(d) {
+    var p = (d || '').split('-');
+    return p.length === 3 ? p[0] + '.' + p[1] + '.' + p[2] : d;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+</script>
+
+</body>
+</html>
