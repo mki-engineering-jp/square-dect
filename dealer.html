@@ -134,7 +134,7 @@
 <script>
   var sb = window.supabase.createClient(window.SQUARE_SUPABASE_URL, window.SQUARE_SUPABASE_KEY);
   var FUNCTION_URL = window.SQUARE_SUPABASE_URL + '/functions/v1/dealer-chat';
-  var history = []; // {role, content} 直近の会話履歴（Edge Functionへ送る）
+  var chatHistory = []; // {role, content} 直近の会話履歴（Edge Functionへ送る）
 
   var $ = function(id) { return document.getElementById(id); };
   var pendingEmail = '';
@@ -232,7 +232,7 @@
           'Authorization': 'Bearer ' + session.access_token,
           'apikey': window.SQUARE_SUPABASE_KEY
         },
-        body: JSON.stringify({ question: q, history: history })
+        body: JSON.stringify({ question: q, history: chatHistory })
       });
     }).then(function(resp) {
       return resp.json().then(function(data) { return { ok: resp.ok, data: data }; });
@@ -244,9 +244,9 @@
         return;
       }
       addBubble('bot', r.data.answer);
-      history.push({ role: 'user', content: q });
-      history.push({ role: 'assistant', content: r.data.answer });
-      if (history.length > 6) history = history.slice(-6);
+      chatHistory.push({ role: 'user', content: q });
+      chatHistory.push({ role: 'assistant', content: r.data.answer });
+      if (chatHistory.length > 6) chatHistory = chatHistory.slice(-6);
     }).catch(function() {
       $('send-btn').disabled = false;
       if (thinking.parentNode) thinking.parentNode.removeChild(thinking);
