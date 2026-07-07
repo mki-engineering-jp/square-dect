@@ -539,25 +539,25 @@
 <section id="colors">
   <div class="container">
     <div class="section-label">Color Variation</div>
-    <h2 class="section-title">2色のカラーバリエーション</h2>
-    <p class="section-sub">現場のチームや用途に合わせて選べる2色展開。視認性と個性を両立させたデザインです。</p>
+    <h2 class="section-title">親機・子機を色で識別</h2>
+    <p class="section-sub">赤いバンパーが親機（マスター）、黒が子機（スレーブ）。ボディカラーで瞬時に役割を識別できます。</p>
     <div class="color-section-wrap">
       <div>
         <div class="color-main-img">
-          <img id="colorMainImg" src="square_red.jpg" alt="SQUARE DECT 子機">
-          <div class="color-label-badge" id="colorLabel">RED</div>
+          <img id="colorMainImg" src="square_red.jpg" alt="SQUARE DECT 本体">
+          <div class="color-label-badge" id="colorLabel">RED ─ 親機</div>
         </div>
         <div class="color-thumbs">
-          <div class="color-thumb active" onclick="changeColor('square_red.jpg','RED',this)"><img src="square_red.jpg" alt="赤"></div>
-          <div class="color-thumb" onclick="changeColor('square_black.jpg','BLACK',this)"><img src="square_black.jpg" alt="黒"></div>
+          <div class="color-thumb active" onclick="changeColor('square_red.jpg','RED ─ 親機','SQUARE DECT 親機（マスター）',this)"><img src="square_red.jpg" alt="親機（赤）"></div>
+          <div class="color-thumb" onclick="changeColor('square_black.jpg','BLACK ─ 子機','SQUARE DECT 子機（スレーブ）',this)"><img src="square_black.jpg" alt="子機（黒）"></div>
         </div>
       </div>
       <div class="color-info">
-        <h3>SQUARE DECT 子機</h3>
-        <p>防塵・防滴設計のボディに、現場での視認性を高める2色のカラーバリエーション。チームごとに色分けすることで、瞬時に役割を識別できます。</p>
+        <h3 id="colorTitle">SQUARE DECT 親機（マスター）</h3>
+        <p>防塵・防滴設計のボディ。赤いバンパーが親機（マスター）、黒が子機（スレーブ）です。ボディカラーで役割を色分けしているため、現場で瞬時に識別できます。</p>
         <div class="color-variants">
-          <div class="color-dot red active" onclick="changeColor('square_red.jpg','RED',null)" title="レッド"></div>
-          <div class="color-dot black" onclick="changeColor('square_black.jpg','BLACK',null)" title="ブラック"></div>
+          <div class="color-dot red active" onclick="changeColor('square_red.jpg','RED ─ 親機','SQUARE DECT 親機（マスター）',null)" title="親機（レッド）"></div>
+          <div class="color-dot black" onclick="changeColor('square_black.jpg','BLACK ─ 子機','SQUARE DECT 子機（スレーブ）',null)" title="子機（ブラック）"></div>
         </div>
         <div class="unit-images">
           <div class="unit-card">
@@ -807,9 +807,10 @@
 
 
   <script>
-    function changeColor(src, label, thumbEl) {
+    function changeColor(src, label, title, thumbEl) {
       document.getElementById('colorMainImg').src = src;
       document.getElementById('colorLabel').textContent = label;
+      document.getElementById('colorTitle').textContent = title;
       document.querySelectorAll('.color-thumb').forEach(t => t.classList.remove('active'));
       if (thumbEl) thumbEl.classList.add('active');
     }
