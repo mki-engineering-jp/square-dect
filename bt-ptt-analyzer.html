@@ -76,7 +76,7 @@ footer button{font-size:12px;padding:6px 12px}
 <body>
 <header>
   <h1>BT PTT ANALYZER</h1>
-  <span class="sub">GATT Notify→Write 応答タイミング診断 / 無音相関ロガー v1.0</span>
+  <span class="sub">GATT Notify→Write 応答タイミング診断 / 無音相関ロガー v3.0</span>
 </header>
 <main>
 
@@ -89,6 +89,8 @@ footer button{font-size:12px;padding:6px 12px}
     <label>探索を許可するサービスUUID（カンマ区切り / 16bit可: 例 180a, fff0, 6e400001-b5a3-f393-e0a9-e50e24dcca9e）</label>
     <input type="text" id="svcInput" value="1800, 1801, 180a, 180f, fff0, ffe0, ffb0, 2a00">
     <div class="hint">対象機の独自サービスUUIDが分かっている場合はここに追加してから接続してください（Web Bluetoothは事前宣言したサービスのみアクセス可能）。不明な場合はnRF Connect等で一度確認を。</div>
+    <label style="margin-top:10px">試験メモ（端末名・iOSバージョン等。CSVに記録されます）</label>
+    <input type="text" id="memo" placeholder="例: iPhone SE2 / iOS 17.5 / KHS-56BT S/N xxxx">
     <div class="row" style="margin-top:10px">
       <button class="primary" id="btnConnect">デバイスを選択して接続</button>
       <button id="btnDisconnect" disabled>切断</button>
@@ -142,7 +144,7 @@ footer button{font-size:12px;padding:6px 12px}
   <div class="body">
     <div class="stats">
       <div class="stat"><b id="stNotify">0</b><span>Notify受信</span></div>
-      <div class="stat"><b id="stZero">0</b><span>全ゼロNotify</span></div>
+      <div class="stat"><b id="stZero">0</b><span>ゼロ値Notify(解放)</span></div>
       <div class="stat"><b id="stWrite">0</b><span>Write送信</span></div>
       <div class="stat"><b id="stRtt">–</b><span>Write応答 avg/max (ms)</span></div>
       <div class="stat"><b id="stGap">–</b><span>Notify間隔 avg (ms)</span></div>
@@ -223,7 +225,8 @@ function isAllZero(dv){
 }
 function parseUuidList(s){
   return s.split(",").map(x=>x.trim().toLowerCase().replace(/^0x/,"")).filter(Boolean).map(x=>{
-    if(/^[0-9a-f]{4}$/.test(x)) return parseInt(x,16);
+    if(/^[0-9a-f]{4}$/.test(x)) return "0000"+x+"-0000-1000-8000-00805f9b34fb";
+    if(/^[0-9a-f]{8}$/.test(x)) return x+"-0000-1000-8000-00805f9b34fb";
     return x;
   });
 }
@@ -260,9 +263,15 @@ function stats(){
 
 // ---------- connect ----------
 $("btnConnect").onclick = async ()=>{
+  log("ev","タップ検出 — 接続処理を開始します");
+  if(!navigator.bluetooth){
+    const msg="このブラウザではWeb Bluetoothが使えません。iPhoneはBluefy、AndroidはChromeで開いてください。";
+    log("er",msg); alert(msg); return;
+  }
   try{
     const optionalServices = parseUuidList($("svcInput").value);
-    log("ev","デバイス選択ダイアログを表示…");
+    log("ev","宣言サービス: "+optionalServices.map(short).join(", "));
+    log("ev","デバイス選択ダイアログを表示…（表示されない場合はBluetooth権限を確認）");
     const dev = await navigator.bluetooth.requestDevice({acceptAllDevices:true, optionalServices});
     S.device = dev;
     dev.addEventListener("gattserverdisconnected", onDisconnect);
@@ -273,7 +282,10 @@ $("btnConnect").onclick = async ()=>{
     $("btnDisconnect").disabled=false;
     log("ev","GATT接続完了。サービス列挙中…");
     await enumerate();
-  }catch(e){ log("er","接続エラー: "+e.message); }
+  }catch(e){
+    log("er","接続エラー: "+e.name+" / "+e.message);
+    if(e.name!=="NotFoundError") alert("接続エラー: "+e.message);
+  }
 };
 $("btnDisconnect").onclick = ()=>{ if(S.device?.gatt.connected) S.device.gatt.disconnect(); };
 
@@ -317,8 +329,13 @@ async function enumerate(){
 
 async function selectSrc(uuid){
   try{
-    if(S.src && S.chars.get(S.src)){ try{ await S.chars.get(S.src).stopNotifications(); }catch(e){} }
+    if(S.src && S.chars.get(S.src)){
+      const old=S.chars.get(S.src);
+      try{ await old.stopNotifications(); }catch(e){}
+      old.removeEventListener("characteristicvaluechanged", onNotify);
+    }
     const ch=S.chars.get(uuid);
+    ch.removeEventListener("characteristicvaluechanged", onNotify); // 多重登録防止
     await ch.startNotifications();
     ch.addEventListener("characteristicvaluechanged", onNotify);
     S.src=uuid; $("srcUuid").value=short(uuid);
@@ -349,7 +366,7 @@ function onNotify(ev){
   S.lastNotifyT=t;
   const zero=isAllZero(dv);
   if(zero) S.cnt.zero++;
-  log("rx","RX Notify "+short(ev.target.uuid)+" ["+hex(dv)+"]"+(zero?' <span class="zero">ALL-ZERO</span>':""), hex(dv));
+  log("rx","RX Notify "+short(ev.target.uuid)+" ["+hex(dv)+"]"+(zero?' <span style="color:var(--ink-dim)">(解放/ゼロ値)</span>':""), hex(dv));
   stats();
   if(S.auto && S.dst){
     const delay=+$("delay").value;
@@ -443,7 +460,7 @@ $("btnMic").onclick=async ()=>{
 
 // ---------- export ----------
 $("btnCsv").onclick=()=>{
-  const head="t_ms,wall_clock,type,message,value\n";
+  const head="# memo: "+($("memo").value||"(未記入)")+"\n# UA: "+navigator.userAgent+"\nt_ms,wall_clock,type,message,value\n";
   const body=S.rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(",")).join("\n");
   const blob=new Blob(["\uFEFF"+head+body],{type:"text/csv"});
   const a=document.createElement("a");
@@ -461,6 +478,17 @@ $("btnClear").onclick=()=>{
   S.cnt={notify:0,zero:0,write:0,drop:S.cnt.drop}; S.lastNotifyT=null;
   stats();
 };
+(async function(){
+  const ua = navigator.userAgent;
+  let env = /Bluefy/i.test(ua) ? "Bluefy" : (/CriOS/i.test(ua) ? "Chrome(iOS)" : (/Chrome/i.test(ua) ? "Chrome" : (/Safari/i.test(ua) ? "Safari" : "不明")));
+  log("ev","環境診断: ブラウザ="+env+" / Web Bluetooth="+(navigator.bluetooth?"あり":"なし")+" / https="+(location.protocol==="https:"?"OK":"NG("+location.protocol+")"));
+  if(navigator.bluetooth && navigator.bluetooth.getAvailability){
+    try{ const av = await navigator.bluetooth.getAvailability();
+      log(av?"ev":"er","Bluetoothアダプタ: "+(av?"利用可能":"利用不可（本体のBluetooth設定とブラウザ権限を確認）"));
+    }catch(e){}
+  }
+  if(env==="Safari"||env==="Chrome(iOS)") log("er","★ このブラウザ(iOS版Safari/Chrome)はWeb Bluetooth非対応です。App Storeで「Bluefy」を入手し、BluefyのアドレスバーにこのURLを入力して開き直してください。");
+})();
 log("ev","BT PTT Analyzer 起動 — 手順: ①サービスUUID確認 ②接続 ③Notify元/Write先を選択 ④遅延を設定して自動応答開始");
 </script>
 </body>
