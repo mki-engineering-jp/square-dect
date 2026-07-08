@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEXA（ヴェクサ）SSW-1121 | square専用Bluetoothヘッドセット</title>
+  <meta name="description" content="VEXA（ヴェクサ）は多人数同時通話DECTインカム square専用のBluetoothヘッドセット。ボイスコマンド・サイドトーン・マルチポイントの3つのコア機能を搭載。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --dark: #141414; --panel: #1a1a1a; --red: #c8102e; --red-dark: #9e0c24;
+      --white: #ffffff; --gray-100: #f5f5f5; --gray-300: #d0d0d0;
+      --gray-500: #888888; --gray-700: #444444;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans JP', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 100px 0; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 26px; width: auto; display: block; filter: invert(1); }
+    .nav-logo span { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; color: var(--red); border-left: 1px solid rgba(255,255,255,0.2); padding-left: 12px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; list-style: none; }
+    .nav-links a { color: var(--gray-300); text-decoration: none; font-size: 13px; font-weight: 600; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--red); color: var(--white) !important; padding: 8px 18px; border-radius: 4px; }
+    .nav-cta:hover { background: var(--red-dark); }
+    @media (max-width: 760px) { .nav-links li:not(:last-child) { display: none; } }
+
+    /* ── HERO ── */
+    .hero { position: relative; min-height: 92vh; display: flex; align-items: center; padding: 140px 0 80px; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 70% 40%, rgba(200,16,46,0.16), transparent 65%); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent); }
+    .hero-inner { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    .hero-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--red); border: 1px solid rgba(200,16,46,0.6); border-radius: 3px; padding: 5px 12px; margin-bottom: 26px; }
+    .hero-title { font-family: 'Inter', 'Noto Sans JP', sans-serif; font-size: clamp(56px, 9vw, 104px); font-weight: 800; letter-spacing: 0.06em; line-height: 1; }
+    .hero-title small { display: block; font-family: 'Noto Sans JP', sans-serif; font-size: clamp(14px, 2vw, 18px); font-weight: 700; letter-spacing: 0.3em; color: var(--gray-500); margin-top: 12px; }
+    .hero-catch { font-size: clamp(18px, 2.6vw, 26px); font-weight: 900; margin: 30px 0 14px; }
+    .hero-sub { font-size: 14px; color: var(--gray-500); line-height: 1.9; max-width: 460px; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .hero-chip { font-size: 12px; font-weight: 700; color: var(--gray-300); background: var(--dark); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 6px 14px; }
+    .hero-model { margin-top: 30px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--gray-500); }
+    .hero-model strong { color: var(--white); font-size: 17px; margin-left: 8px; }
+    .hero-img-area { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-img-area::before { content: ''; position: absolute; width: 78%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(200,16,46,0.22), transparent 70%); }
+    .hero-img-area img { position: relative; max-width: 100%; max-height: 440px; object-fit: contain; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.6)); }
+    @media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; } .hero-img-area { order: -1; } .hero-img-area img { max-height: 300px; } .hero { min-height: auto; } }
+
+    /* ── 共通見出し ── */
+    .section-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; color: var(--red); text-transform: uppercase; margin-bottom: 14px; }
+    .section-title { font-size: clamp(26px, 4vw, 38px); font-weight: 900; line-height: 1.35; margin-bottom: 16px; }
+    .section-sub { font-size: 14px; color: var(--gray-500); max-width: 640px; line-height: 1.9; }
+
+    /* ── 3コア機能 ── */
+    #features { background: var(--dark); }
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+    .feat-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 34px 28px; }
+    .feat-num { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 800; color: var(--red); letter-spacing: 0.14em; margin-bottom: 18px; }
+    .feat-title { font-size: 19px; font-weight: 900; margin-bottom: 14px; }
+    .feat-body { font-size: 13px; color: var(--gray-500); line-height: 1.9; }
+    .feat-tag { display: inline-block; margin-top: 18px; font-size: 11px; font-weight: 700; color: var(--gray-300); background: rgba(200,16,46,0.14); border: 1px solid rgba(200,16,46,0.4); border-radius: 3px; padding: 4px 10px; }
+    @media (max-width: 860px) { .feat-grid { grid-template-columns: 1fr; } }
+
+    /* ── マルチポイント連携 ── */
+    .mp-diagram { margin-top: 56px; background: var(--dark); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 48px 32px; display: flex; align-items: center; justify-content: center; gap: clamp(12px, 4vw, 40px); flex-wrap: wrap; }
+    .mp-node { text-align: center; }
+    .mp-icon { width: 92px; height: 92px; margin: 0 auto 14px; border-radius: 50%; background: var(--panel); border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; }
+    .mp-icon.center { border-color: var(--red); box-shadow: 0 0 34px rgba(200,16,46,0.35); }
+    .mp-icon svg { width: 40px; height: 40px; stroke: var(--gray-100); fill: none; stroke-width: 1.6; }
+    .mp-name { font-size: 13px; font-weight: 700; }
+    .mp-role { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+    .mp-link { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .mp-wave { font-family: 'Inter', sans-serif; font-size: 20px; color: var(--red); letter-spacing: 2px; }
+    .mp-link-label { font-size: 10px; font-weight: 700; color: var(--gray-500); letter-spacing: 0.06em; }
+    .mp-note { margin-top: 26px; font-size: 13px; color: var(--gray-500); line-height: 1.9; text-align: center; }
+
+    /* ── 利用シーン ── */
+    #scenes { background: var(--dark); }
+    .scene-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+    .scene-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 30px 26px; }
+    .scene-title { font-size: 15px; font-weight: 900; margin-bottom: 10px; color: var(--gray-100); }
+    .scene-body { font-size: 13px; color: var(--gray-500); line-height: 1.9; }
+    @media (max-width: 860px) { .scene-grid { grid-template-columns: 1fr; } }
+
+    /* ── 仕様 ── */
+    .spec-table { margin-top: 48px; border-top: 1px solid rgba(255,255,255,0.1); max-width: 720px; }
+    .spec-row { display: grid; grid-template-columns: 220px 1fr; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 16px 4px; }
+    .spec-key { font-size: 13px; font-weight: 700; color: var(--gray-500); }
+    .spec-val { font-size: 14px; color: var(--gray-100); }
+    .spec-note { margin-top: 20px; font-size: 12px; color: var(--gray-700); }
+    @media (max-width: 640px) { .spec-row { grid-template-columns: 1fr; gap: 4px; } }
+
+    /* ── CTA / CONTACT ── */
+    .contact-box { margin-top: 48px; background: linear-gradient(135deg, var(--dark), var(--panel)); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 56px 40px; text-align: center; }
+    .contact-title { font-size: 22px; font-weight: 900; margin-bottom: 10px; }
+    .contact-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 32px; }
+    .contact-info { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+    .contact-item-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; color: var(--red); margin-bottom: 6px; }
+    .contact-item-value { font-size: 16px; font-weight: 700; }
+    .contact-item-value a { color: var(--white); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .btn-back { display: inline-block; margin-top: 36px; color: var(--gray-500); font-size: 13px; font-weight: 600; text-decoration: none; }
+    .btn-back:hover { color: var(--gray-300); }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-logo img { height: 24px; width: auto; filter: invert(1); }
+    .footer-company { font-size: 12px; color: var(--gray-500); margin-top: 8px; }
+    .footer-copy { font-size: 12px; color: var(--gray-700); }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="square_logo__1_.png" alt="square">
+    <span>VEXA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#openear">オープンイヤー</a></li>
+    <li><a href="#features">3つのコア機能</a></li>
+    <li><a href="#voice">ボイスコマンド</a></li>
+    <li><a href="#multipoint">square連携</a></li>
+    <li><a href="#spec">仕様</a></li>
+    <li><a href="index.html">squareサイトへ</a></li>
+    <li><a href="#contact" class="nav-cta">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">square専用 オープンイヤー型 Bluetooth&reg;ヘッドセット</div>
+      <h1 class="hero-title">VEXA<small>ヴェクサ</small></h1>
+      <p class="hero-catch">声で操作する。手は、現場のために。</p>
+      <p class="hero-sub">VEXAは、多人数同時通話DECTインカム「square」のためにつくられた耳を塞がないオープンイヤー型Bluetoothヘッドセット。ボイスコマンド・サイドトーン・マルチポイント。プロフェッショナルの現場に必要な3つのコア機能を搭載しています。</p>
+      <div class="hero-chips">
+        <span class="hero-chip">オープンイヤー型</span>
+        <span class="hero-chip">通話 約15.5時間以上</span>
+        <span class="hero-chip">IP55 防塵・防滴</span>
+        <span class="hero-chip">充電 約60分</span>
+        <span class="hero-chip">square＋スマホ同時接続</span>
+      </div>
+      <div class="hero-model">MODEL<strong>SSW-1121</strong></div>
+    </div>
+    <div class="hero-img-area">
+      <img src="1_vexa_IMG_0912.jpg" alt="VEXA（ヴェクサ）SSW-1121 Bluetoothヘッドセット">
+    </div>
+  </div>
+</header>
+
+<!-- オープンイヤー -->
+<section id="openear">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;" class="openear-wrap">
+      <div style="display:flex;justify-content:center;align-items:center;background:var(--dark);border-radius:8px;padding:32px;">
+        <img src="VEXA_HEAD.jpg" alt="VEXA 装着イメージ（オープンイヤー型）" style="max-width:100%;max-height:420px;object-fit:contain;">
+      </div>
+      <div>
+        <div class="section-label">Open-Ear Design</div>
+        <h2 class="section-title">耳を塞がない、<br>オープンイヤー設計。</h2>
+        <p class="section-sub" style="margin-bottom:24px;">VEXAは耳の穴を塞がないオープンイヤー式。周囲の呼びかけや環境音を聞き取りながら、squareのチーム通話を続けられます。耳掛け＋ネックバンドの安定した装着感で、動きの多い現場でもズレにくく、イヤーピースによる圧迫感がないため長時間でも快適です。</p>
+        <div class="hero-chips">
+          <span class="hero-chip">周囲の音が聞こえる</span>
+          <span class="hero-chip">圧迫感のない装着</span>
+          <span class="hero-chip">口元に届くブームマイク</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>@media (max-width:860px){ .openear-wrap{ grid-template-columns:1fr !important; } }</style>
+
+<!-- 3コア機能 -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Core Functions</div>
+    <h2 class="section-title">プロフェッショナルのための<br>3つのコア機能</h2>
+    <p class="section-sub">現場でヘッドセットに求められるのは、音がつながることだけではありません。VEXAは「操作」「聞こえ方」「電話との両立」という3つの課題に応えます。</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-num">01</div>
+        <div class="feat-title">ボイスコマンド</div>
+        <div class="feat-body">マイクのON/OFFや音量操作、電話の着信応答を「声」だけで操作できます。工具を握ったまま、荷物を抱えたまま、手袋をしたまま。手が離せない作業中でも、ボタンを探すことなく快適なコミュニケーションが可能です。</div>
+        <span class="feat-tag">ハンズフリー操作</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-num">02</div>
+        <div class="feat-title">サイドトーン</div>
+        <div class="feat-body">自分の声が自然に耳に返ってくるサイドトーン機能。Bluetooth使用時でも遅延なく、違和感のない自然な聞こえ方を実現しました。無意識に大声になることを防ぎ、長時間の使用でも疲れにくい設計です。</div>
+        <span class="feat-tag">疲れにくい自然な通話</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-num">03</div>
+        <div class="feat-title">マルチポイント</div>
+        <div class="feat-body">squareとスマートフォンの2台同時接続に対応。squareの接続を維持したまま、スマートフォンにかかってきた電話に応答できます。インカムと電話、2つのデバイスを持ち替える必要はもうありません。</div>
+        <span class="feat-tag">2台同時接続</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ボイスコマンド一覧 -->
+<section id="voice">
+  <div class="container">
+    <div class="section-label">Voice Commands</div>
+    <h2 class="section-title">話しかけるだけで、操作完了。</h2>
+    <p class="section-sub">ボイスコマンドモードでは、以下の言葉を発話するだけで操作できます。多機能キーと「−」キーの3秒間同時長押しで、ノーマルモードと切り替えられます。</p>
+    <div style="margin-top:48px;max-width:720px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;background:var(--dark);border:1px solid rgba(255,255,255,0.1);border-radius:8px 8px 0 0;padding:14px 20px;font-size:12px;font-weight:800;letter-spacing:0.1em;color:var(--red);">
+        <div>発話</div><div>動作</div>
+      </div>
+      <div class="vc-row"><div>「音量上げて」</div><div>音量が1ステップ上がる</div></div>
+      <div class="vc-row"><div>「音量下げて」</div><div>音量が1ステップ下がる</div></div>
+      <div class="vc-row"><div>「サイドトーンON」</div><div>サイドトーンがONになる</div></div>
+      <div class="vc-row"><div>「サイドトーンOFF」</div><div>サイドトーンがOFFになる</div></div>
+      <div class="vc-row"><div>「マイクオフ」</div><div>マイクがミュートになる</div></div>
+      <div class="vc-row"><div>「マイクオン」</div><div>マイクのミュートを解除する</div></div>
+      <div class="vc-row"><div>「はい、出ます」</div><div>着信に応答する ※</div></div>
+      <div class="vc-row"><div>「はい、出ません」</div><div>着信を拒否する ※</div></div>
+    </div>
+    <p style="margin-top:16px;font-size:12px;color:var(--gray-700);">※着信中のボイスコマンドです。音声案内の間に発話することで応答・切断ができます。Androidは動作保証外、iPhoneは2回目の音声案内後から操作できます。</p>
+  </div>
+</section>
+<style>
+  .vc-row { display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(255,255,255,0.08);border-top:none;padding:13px 20px;font-size:14px; }
+  .vc-row div:first-child { font-weight:700;color:var(--gray-100); }
+  .vc-row div:last-child { color:var(--gray-500);font-size:13px; }
+  .vc-row:last-of-type { border-radius:0 0 8px 8px; }
+</style>
+
+<!-- マルチポイント連携 -->
+<section id="multipoint">
+  <div class="container">
+    <div class="section-label">Works with square</div>
+    <h2 class="section-title">squareの通話を切らずに、<br>電話に出られる。</h2>
+    <p class="section-sub">マルチポイント接続により、VEXAひとつでsquareのチーム通話とスマートフォンの電話を両立。現場のやりとりを止めずに、外からの連絡にも応えられます。</p>
+    <div class="mp-diagram">
+      <div class="mp-node">
+        <div class="mp-icon">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.6"/><path d="M8 15h8"/></svg>
+        </div>
+        <div class="mp-name">square</div>
+        <div class="mp-role">チーム同時通話</div>
+      </div>
+      <div class="mp-link">
+        <div class="mp-wave">)))</div>
+        <div class="mp-link-label">Bluetooth</div>
+      </div>
+      <div class="mp-node">
+        <div class="mp-icon center">
+          <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="7" rx="2"/><rect x="17" y="12" width="4" height="7" rx="2"/></svg>
+        </div>
+        <div class="mp-name">VEXA</div>
+        <div class="mp-role">SSW-1121</div>
+      </div>
+      <div class="mp-link">
+        <div class="mp-wave">(((</div>
+        <div class="mp-link-label">Bluetooth</div>
+      </div>
+      <div class="mp-node">
+        <div class="mp-icon">
+          <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
+        </div>
+        <div class="mp-name">スマートフォン</div>
+        <div class="mp-role">電話応答</div>
+      </div>
+    </div>
+    <p class="mp-note">squareに接続したまま、スマートフォンからの着信にボイスコマンドまたは本体操作で応答できます。</p>
+  </div>
+</section>
+
+<!-- 利用シーン -->
+<section id="scenes">
+  <div class="container">
+    <div class="section-label">Scenes</div>
+    <h2 class="section-title">両手がふさがる現場にこそ</h2>
+    <p class="section-sub">squareの子機と組み合わせることで、ケーブルの取り回しから解放されたワイヤレス運用が可能になります。</p>
+    <div class="scene-grid">
+      <div class="scene-card">
+        <div class="scene-title">現場を動き回る管理者に</div>
+        <div class="scene-body">squareでのチーム通話と、社外・事務所からの電話連絡が1台のヘッドセットで完結。持ち替えのストレスなく、現場全体に目を配れます。</div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-title">両手を使う作業者に</div>
+        <div class="scene-body">工具・荷物・機材で手が離せなくても、ボイスコマンドでマイクON/OFFや着信応答が可能。作業を中断せずにやりとりを続けられます。</div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-title">長時間の連続運用に</div>
+        <div class="scene-body">通話約15.5時間以上のバッテリーで、一日の業務を通して使用可能。充電は約60分。自然なサイドトーンと耳を塞がないオープンイヤー設計で、長時間装着しても疲れにくい仕様です。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 仕様 -->
+<section id="spec">
+  <div class="container">
+    <div class="section-label">Specifications</div>
+    <h2 class="section-title">製品仕様</h2>
+    <div class="spec-table">
+      <div class="spec-row"><div class="spec-key">製品名</div><div class="spec-val">VEXA（ヴェクサ）</div></div>
+      <div class="spec-row"><div class="spec-key">型番</div><div class="spec-val">SSW-1121</div></div>
+      <div class="spec-row"><div class="spec-key">イヤホンタイプ</div><div class="spec-val">オープンイヤー式ワイヤレスイヤホン</div></div>
+      <div class="spec-row"><div class="spec-key">Bluetoothバージョン</div><div class="spec-val">5.1</div></div>
+      <div class="spec-row"><div class="spec-key">接続距離</div><div class="spec-val">約10m</div></div>
+      <div class="spec-row"><div class="spec-key">マルチポイント</div><div class="spec-val">対応（square＋スマートフォンの2台同時接続）</div></div>
+      <div class="spec-row"><div class="spec-key">主な機能</div><div class="spec-val">ボイスコマンド / サイドトーン / マルチポイント / 音声案内（日本語・英語）</div></div>
+      <div class="spec-row"><div class="spec-key">通話時間</div><div class="spec-val">約15.5時間以上（80%音量時）</div></div>
+      <div class="spec-row"><div class="spec-key">音楽再生時間</div><div class="spec-val">約16.5時間以上（80%音量時）</div></div>
+      <div class="spec-row"><div class="spec-key">充電時間</div><div class="spec-val">約60分</div></div>
+      <div class="spec-row"><div class="spec-key">充電ポート / 充電電圧</div><div class="spec-val">USB Type-C / DC 5V</div></div>
+      <div class="spec-row"><div class="spec-key">防塵・防水等級</div><div class="spec-val">IP55</div></div>
+      <div class="spec-row"><div class="spec-key">付属品</div><div class="spec-val">中風防（装着済）×1 / 大風防×1 / 充電ケーブル×1 / クイックスタートガイド×1</div></div>
+    </div>
+    <p class="spec-note">※IP55の防塵・防滴性能を備えていますが、完全防水ではありません。水没や多量の水流にさらすことは避けてください。<br>※仕様は改良のため予告なく変更する場合があります。</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">お問い合わせ</h2>
+    <p class="section-sub">VEXAに関するご質問、デモのご依頼、お見積もりなどお気軽にご連絡ください。</p>
+    <div class="contact-box">
+      <h3 class="contact-title">VEXA についてお気軽にご相談ください</h3>
+      <p class="contact-sub">カタログPDFのご請求、導入相談、販売店のご案内も承っております。</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value"><a href="mailto:sales@miki-kk.jp">sales@miki-kk.jp</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Company</div>
+          <div class="contact-item-value">幹開発株式会社<br><span style="font-size:13px;font-weight:400;color:var(--gray-500);">MKI Engineering Co., Ltd.</span></div>
+        </div>
+      </div>
+      <a class="btn-back" href="index.html">&larr; square 製品サイトへ戻る</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo"><img src="square_logo__1_.png" alt="square"></div>
+    <div class="footer-company">幹開発株式会社 / MKI Engineering Co., Ltd.</div>
+  </div>
+  <div class="footer-copy">&copy; 2026 MKI Engineering Co., Ltd. All rights reserved.</div>
+  <div style="flex-basis:100%;font-size:11px;color:var(--gray-700);line-height:1.7;margin-top:8px;border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+    The Bluetooth<sup style="font-size:0.7em;vertical-align:super;">&reg;</sup> word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by MKI Engineering Co., Ltd. is under license. Other trademarks and trade names are those of their respective owners.
+  </div>
+</footer>
+
+</body>
+</html>
