@@ -96,6 +96,10 @@
     .view-title { font-size: 20px; font-weight: 900; }
     .view-note { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
     .prod-cat-title { font-size: 15px; font-weight: 900; color: var(--red); letter-spacing: 0.04em; margin: 28px 0 12px; padding-left: 10px; border-left: 3px solid var(--red); }
+    #prod-cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .cat-chip { border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; background: none; color: var(--gray-300); font-family: inherit; font-size: 12px; font-weight: 700; padding: 7px 14px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .cat-chip.active { background: var(--red); color: var(--white); border-color: var(--red); }
+    .cat-chip:not(.active):hover { background: var(--panel); color: var(--white); }
     .prod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
     .prod-card { background: var(--dark); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
     .prod-img { width: 100%; height: 150px; object-fit: contain; background: #fff; padding: 10px; }
@@ -109,6 +113,13 @@
     /* ── セールストーク ── */
     #talks-view { display: none; flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 8px 24px 60px; }
     .talk-cat-title { font-size: 15px; font-weight: 900; color: var(--red); letter-spacing: 0.04em; margin: 28px 0 12px; padding-left: 10px; border-left: 3px solid var(--red); }
+    .talk-cat-btn { width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; background: var(--dark); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--red); border-radius: 8px; padding: 14px 16px; margin: 12px 0 0; font-family: inherit; font-size: 14px; font-weight: 900; color: var(--white); letter-spacing: 0.04em; cursor: pointer; transition: background 0.15s; }
+    .talk-cat-btn:hover { background: var(--panel); }
+    .talk-cat-count { font-size: 11px; font-weight: 700; color: var(--red); background: rgba(200,16,46,0.12); border-radius: 999px; padding: 2px 10px; }
+    .talk-cat-arrow { margin-left: auto; color: var(--gray-500); font-size: 11px; transition: transform 0.15s; }
+    .talk-cat-btn.open .talk-cat-arrow { transform: rotate(180deg); }
+    .talk-cat-body { display: none; padding-top: 12px; }
+    .talk-cat-body.open { display: block; }
     .talk-card { background: var(--dark); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 18px 20px; margin-bottom: 12px; }
     .talk-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
     .talk-body { font-size: 13px; color: var(--gray-300); white-space: pre-wrap; line-height: 1.8; }
@@ -135,6 +146,12 @@
       .bubble { max-width: 90%; font-size: 14px; }
       .login-card { padding: 32px 22px; }
       .tab-btn { padding: 9px 14px; font-size: 13px; }
+      /* 製品カードを横型コンパクト表示(縦スクロール削減) */
+      .prod-grid { grid-template-columns: 1fr; gap: 10px; }
+      .prod-card { flex-direction: row; align-items: stretch; }
+      .prod-img { width: 96px; height: auto; min-height: 96px; flex-shrink: 0; padding: 6px; }
+      .prod-body { padding: 12px 14px; }
+      .prod-desc { margin: 6px 0 10px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
@@ -218,6 +235,7 @@
     <div class="view-head">
       <h1 class="view-title">製品ページ</h1>
       <p class="view-note">square本体および専用アクセサリの一覧です。各カードの「AIに質問する」から、その製品について直接質問できます。</p>
+      <div id="prod-cat-chips"></div>
     </div>
     <div id="products-list"></div>
   </div>
@@ -629,6 +647,35 @@
   ];
 
   var productsRendered = false;
+  var catSections = {};   // カテゴリ名 → [見出しel, グリッドel]
+
+  function renderCatChips() {
+    var wrap = $('prod-cat-chips');
+    if (!wrap || wrap.childElementCount > 0) return;
+    var all = document.createElement('button');
+    all.className = 'cat-chip active';
+    all.textContent = 'すべて';
+    all.addEventListener('click', function() { filterCat(null, all); });
+    wrap.appendChild(all);
+    Object.keys(catSections).forEach(function(c) {
+      var b = document.createElement('button');
+      b.className = 'cat-chip';
+      b.textContent = c;
+      b.addEventListener('click', function() { filterCat(c, b); });
+      wrap.appendChild(b);
+    });
+  }
+  function filterCat(cat, btn) {
+    var chips = document.querySelectorAll('.cat-chip');
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].className = 'cat-chip' + (chips[i] === btn ? ' active' : '');
+    }
+    Object.keys(catSections).forEach(function(c) {
+      var show = (cat === null || c === cat);
+      catSections[c].forEach(function(el) { el.style.display = show ? '' : 'none'; });
+    });
+  }
+
   function renderProducts() {
     if (productsRendered) return;
     productsRendered = true;
@@ -645,6 +692,7 @@
         grid = document.createElement('div');
         grid.className = 'prod-grid';
         wrap.appendChild(grid);
+        catSections[currentCat] = [t, grid];
       }
       var card = document.createElement('div');
       card.className = 'prod-card';
@@ -677,6 +725,7 @@
       card.appendChild(body);
       grid.appendChild(card);
     });
+    renderCatChips();
   }
 
   // ── セールストーク読み込み（要ログイン・square専用）──
@@ -700,26 +749,58 @@
           return;
         }
         wrap.innerHTML = '';
-        var currentCat = '';
+        // カテゴリごとにまとめて折りたたみ表示（縦スクロール削減）
+        var cats = [];
+        var byCat = {};
         rows.forEach(function(r) {
-          if (r.category !== currentCat) {
-            currentCat = r.category;
-            var t = document.createElement('h2');
-            t.className = 'talk-cat-title';
-            t.textContent = currentCat;
-            wrap.appendChild(t);
+          var c = r.category || 'その他';
+          if (!byCat[c]) { byCat[c] = []; cats.push(c); }
+          byCat[c].push(r);
+        });
+        cats.forEach(function(c, idx) {
+          var btn = document.createElement('button');
+          btn.className = 'talk-cat-btn';
+          btn.type = 'button';
+          var name = document.createElement('span');
+          name.textContent = c;
+          var count = document.createElement('span');
+          count.className = 'talk-cat-count';
+          count.textContent = byCat[c].length + '件';
+          var arrow = document.createElement('span');
+          arrow.className = 'talk-cat-arrow';
+          arrow.textContent = '▼';
+          btn.appendChild(name);
+          btn.appendChild(count);
+          btn.appendChild(arrow);
+
+          var bodyWrap = document.createElement('div');
+          bodyWrap.className = 'talk-cat-body';
+          byCat[c].forEach(function(r) {
+            var card = document.createElement('div');
+            card.className = 'talk-card';
+            if (r.title) {
+              var tt = document.createElement('div');
+              tt.className = 'talk-title'; tt.textContent = r.title;
+              card.appendChild(tt);
+            }
+            var body = document.createElement('div');
+            body.className = 'talk-body'; body.textContent = r.content || '';
+            card.appendChild(body);
+            bodyWrap.appendChild(card);
+          });
+
+          if (idx === 0) {
+            btn.className = 'talk-cat-btn open';
+            bodyWrap.className = 'talk-cat-body open';
           }
-          var card = document.createElement('div');
-          card.className = 'talk-card';
-          if (r.title) {
-            var tt = document.createElement('div');
-            tt.className = 'talk-title'; tt.textContent = r.title;
-            card.appendChild(tt);
-          }
-          var body = document.createElement('div');
-          body.className = 'talk-body'; body.textContent = r.content || '';
-          card.appendChild(body);
-          wrap.appendChild(card);
+          btn.addEventListener('click', function() {
+            var open = bodyWrap.className.indexOf('open') >= 0;
+            bodyWrap.className = 'talk-cat-body' + (open ? '' : ' open');
+            btn.className = 'talk-cat-btn' + (open ? '' : ' open');
+          });
+
+          wrap.appendChild(btn);
+          wrap.appendChild(bodyWrap);
         });
         talksLoaded = true;
       });

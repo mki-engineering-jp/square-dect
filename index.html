@@ -15,7 +15,8 @@
       --white: #ffffff; --gray-100: #f5f5f5; --gray-300: #d0d0d0;
       --gray-500: #888888; --gray-700: #444444;
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    @media (max-width: 768px) { html { scroll-padding-top: 100px; } }
     body { font-family: 'Noto Sans JP', sans-serif; background: var(--black); color: var(--white); line-height: 1.6; }
 
     #main-content { display: block; }
@@ -226,8 +227,22 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
+      nav { padding: 10px 14px; flex-wrap: wrap; row-gap: 6px; }
+      /* モバイル: メニューを横スクロールのリンク列として表示(目的のセクションへ即ジャンプ) */
+      .nav-links {
+        display: flex; gap: 6px;
+        flex-basis: 100%; order: 3;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 2px 0 4px;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links a {
+        white-space: nowrap; font-size: 12px;
+        border: 1px solid rgba(255,255,255,0.18); border-radius: 999px;
+        padding: 6px 12px;
+      }
+      .nav-links a.nav-cta { border-color: var(--red); }
       section { padding: 64px 20px; }
       .hero { padding: 100px 20px 64px; }
       .hero-stats { gap: 28px; }
