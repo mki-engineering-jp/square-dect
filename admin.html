@@ -89,6 +89,35 @@
     .editor-actions { display: flex; gap: 12px; margin: 32px 0 80px; }
     .editor-actions .btn-primary { width: auto; }
 
+    /* ── モード切替(News / 販売店向けお知らせ) ── */
+    .mode-tabs { display: flex; gap: 8px; margin-top: 28px; }
+    .mode-tab { background: var(--card); color: var(--gray-300); border: 1px solid var(--gray-700); border-radius: 999px; padding: 9px 20px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .mode-tab.active { background: var(--red); color: var(--white); border-color: var(--red); }
+    .mode-tab:not(.active):hover { color: var(--white); }
+
+    /* ── 販売店向けお知らせ ── */
+    #notice-view { display: none; }
+    .note-box { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; font-size: 12px; color: var(--gray-500); line-height: 1.9; margin: 24px 0 20px; }
+    .note-box b { color: var(--gray-100); }
+    .notice-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 22px; margin-bottom: 20px; }
+    .notice-card h2 { font-size: 16px; font-weight: 900; margin-bottom: 14px; }
+    .n-form-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .n-form-actions .btn-primary { width: auto; }
+    .form-msg { margin-top: 12px; font-size: 13px; min-height: 1.2em; }
+    .form-msg.ok { color: #7fd8a4; }
+    .form-msg.err { color: #ff6b81; }
+    .n-item { border-top: 1px dashed var(--line); padding: 14px 2px; }
+    .n-item:first-of-type { border-top: none; padding-top: 4px; }
+    .n-meta { font-size: 11px; color: var(--gray-500); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .n-badge { display: inline-block; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 2px 10px; letter-spacing: 0.04em; }
+    .n-badge.pub { background: rgba(46,158,91,0.18); color: #7fd8a4; }
+    .n-badge.hidden { background: rgba(255,255,255,0.08); color: var(--gray-500); }
+    .n-title { font-size: 14px; font-weight: 700; margin: 4px 0 2px; }
+    .n-body { font-size: 12px; color: var(--gray-300); line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
+    .n-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .list-status { font-size: 13px; color: var(--gray-500); padding: 6px 2px; }
+    .list-status.err { color: #ff6b81; }
+
     /* toast */
     #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ok); color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 200; }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -128,13 +157,53 @@
     </div>
   </div>
 
+  <!-- モード切替 -->
+  <div class="wrap">
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="mode-news" type="button">HP News記事</button>
+      <button class="mode-tab" id="mode-notice" type="button">販売店向けお知らせ</button>
+    </div>
+  </div>
+
   <!-- LIST -->
   <div id="list-view" class="wrap">
     <div class="section-head">
-      <h1>お知らせ一覧</h1>
+      <h1>News記事一覧（HP公開）</h1>
       <button class="btn btn-primary btn-sm" id="new-btn" style="width:auto;">＋ 新規投稿</button>
     </div>
     <div id="article-list"><div class="loading">読み込み中...</div></div>
+  </div>
+
+  <!-- 販売店向けお知らせ -->
+  <div id="notice-view" class="wrap">
+    <div class="note-box">
+      <b>販売店向けお知らせ</b><br>
+      ・ここで投稿したお知らせは、販売店様専用ページ（dealer.html）にログインした全員の画面上部に表示されます（新しい順・最大5件）<br>
+      ・HPには表示されません。HP公開用の記事は「HP News記事」タブから投稿してください<br>
+      ・「非公開」にすると表示されません。過去のお知らせは非公開にしておくことをおすすめします
+    </div>
+
+    <div class="notice-card">
+      <h2 id="n-form-title">新しいお知らせを投稿</h2>
+      <div class="field">
+        <label for="n-title">タイトル</label>
+        <input type="text" id="n-title" placeholder="例: セールストークに新しい想定問答を追加しました">
+      </div>
+      <div class="field">
+        <label for="n-body">本文（任意）</label>
+        <textarea id="n-body" rows="4" style="min-height:100px;" placeholder="例: 建設現場向けの想定問答を追加しました。あわせて製品ページもご確認ください。"></textarea>
+      </div>
+      <div class="n-form-actions">
+        <button class="btn btn-primary" id="n-save-btn">投稿する</button>
+        <button class="btn btn-ghost" id="n-cancel-btn" style="display:none;">編集をやめる</button>
+      </div>
+      <p class="form-msg" id="n-form-msg"></p>
+    </div>
+
+    <div class="notice-card">
+      <h2>投稿済みのお知らせ</h2>
+      <div id="dealer-notice-list"><p class="list-status">読み込み中…</p></div>
+    </div>
   </div>
 
   <!-- EDITOR -->
@@ -411,6 +480,192 @@
       loadList();
     });
   }
+
+  // ---------- 販売店向けお知らせ ----------
+  var NOTICE_PORTAL = 'square';
+  var noticeEditingId = null;
+
+  function showNewsMode() {
+    $('mode-news').className = 'mode-tab active';
+    $('mode-notice').className = 'mode-tab';
+    $('notice-view').style.display = 'none';
+    openList();
+  }
+  function showNoticeMode() {
+    $('mode-news').className = 'mode-tab';
+    $('mode-notice').className = 'mode-tab active';
+    $('list-view').style.display = 'none';
+    $('editor-view').style.display = 'none';
+    $('notice-view').style.display = 'block';
+    loadDealerNotices();
+  }
+  $('mode-news').addEventListener('click', showNewsMode);
+  $('mode-notice').addEventListener('click', showNoticeMode);
+
+  function nFmtDate(iso) {
+    return iso ? String(iso).slice(0, 10).replace(/-/g, '/') : '';
+  }
+  function nMsg(text, cls) {
+    var el = $('n-form-msg');
+    el.textContent = text;
+    el.className = 'form-msg' + (cls ? ' ' + cls : '');
+  }
+  function nResetForm() {
+    noticeEditingId = null;
+    $('n-title').value = '';
+    $('n-body').value = '';
+    $('n-form-title').textContent = '新しいお知らせを投稿';
+    $('n-save-btn').textContent = '投稿する';
+    $('n-cancel-btn').style.display = 'none';
+  }
+
+  function loadDealerNotices() {
+    var wrap = $('dealer-notice-list');
+    wrap.innerHTML = '<p class="list-status">読み込み中…</p>';
+    sb.from('portal_notices')
+      .select('id, title, body, published, created_at')
+      .eq('portal', NOTICE_PORTAL)
+      .order('created_at', { ascending: false })
+      .then(function(res) {
+        if (res.error) {
+          wrap.innerHTML = '<p class="list-status err">読み込みに失敗しました。再ログインしてお試しください。</p>';
+          return;
+        }
+        if (!res.data || res.data.length === 0) {
+          wrap.innerHTML = '<p class="list-status">まだお知らせはありません。</p>';
+          return;
+        }
+        wrap.innerHTML = '';
+        res.data.forEach(function(n) { wrap.appendChild(renderNoticeItem(n)); });
+      });
+  }
+
+  function renderNoticeItem(n) {
+    var item = document.createElement('div');
+    item.className = 'n-item';
+
+    var meta = document.createElement('div');
+    meta.className = 'n-meta';
+    var badge = document.createElement('span');
+    badge.className = 'n-badge ' + (n.published ? 'pub' : 'hidden');
+    badge.textContent = n.published ? '公開中' : '非公開';
+    var date = document.createElement('span');
+    date.textContent = nFmtDate(n.created_at);
+    meta.appendChild(badge);
+    meta.appendChild(date);
+
+    var title = document.createElement('div');
+    title.className = 'n-title';
+    title.textContent = n.title || '';
+    var body = document.createElement('div');
+    body.className = 'n-body';
+    body.textContent = n.body || '';
+
+    var actions = document.createElement('div');
+    actions.className = 'n-actions';
+
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'btn btn-ghost btn-sm';
+    toggleBtn.textContent = n.published ? '非公開にする' : '公開する';
+    toggleBtn.addEventListener('click', function() {
+      toggleBtn.disabled = true;
+      sb.from('portal_notices')
+        .update({ published: !n.published, updated_at: new Date().toISOString() })
+        .eq('id', n.id)
+        .then(function(res) {
+          if (res.error) { toggleBtn.disabled = false; toast('更新できませんでした', true); return; }
+          toast(n.published ? '非公開にしました' : '公開しました');
+          loadDealerNotices();
+        });
+    });
+
+    var editBtn = document.createElement('button');
+    editBtn.className = 'btn btn-ghost btn-sm';
+    editBtn.textContent = '編集';
+    editBtn.addEventListener('click', function() {
+      noticeEditingId = n.id;
+      $('n-title').value = n.title || '';
+      $('n-body').value = n.body || '';
+      $('n-form-title').textContent = 'お知らせを編集';
+      $('n-save-btn').textContent = '更新する';
+      $('n-cancel-btn').style.display = 'inline-flex';
+      nMsg('', '');
+      $('n-title').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    var delBtn = document.createElement('button');
+    delBtn.className = 'btn btn-danger btn-sm';
+    delBtn.textContent = '削除';
+    delBtn.addEventListener('click', function() {
+      if (delBtn.getAttribute('data-confirm') !== '1') {
+        delBtn.setAttribute('data-confirm', '1');
+        delBtn.textContent = '本当に削除する';
+        setTimeout(function() {
+          delBtn.setAttribute('data-confirm', '0');
+          delBtn.textContent = '削除';
+        }, 4000);
+        return;
+      }
+      delBtn.disabled = true;
+      sb.from('portal_notices')
+        .delete()
+        .eq('id', n.id)
+        .then(function(res) {
+          if (res.error) { delBtn.disabled = false; toast('削除できませんでした', true); return; }
+          if (noticeEditingId === n.id) nResetForm();
+          toast('お知らせを削除しました');
+          loadDealerNotices();
+        });
+    });
+
+    actions.appendChild(toggleBtn);
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+
+    item.appendChild(meta);
+    item.appendChild(title);
+    if (n.body) item.appendChild(body);
+    item.appendChild(actions);
+    return item;
+  }
+
+  $('n-cancel-btn').addEventListener('click', function() {
+    nResetForm();
+    nMsg('', '');
+  });
+
+  $('n-save-btn').addEventListener('click', function() {
+    var title = $('n-title').value.trim();
+    var body = $('n-body').value.trim();
+    if (!title) {
+      nMsg('タイトルを入力してください。', 'err');
+      $('n-title').focus();
+      return;
+    }
+    var btn = $('n-save-btn');
+    btn.disabled = true;
+    var q;
+    if (noticeEditingId === null) {
+      q = sb.from('portal_notices').insert({ portal: NOTICE_PORTAL, title: title, body: body, published: true });
+    } else {
+      q = sb.from('portal_notices')
+        .update({ title: title, body: body, updated_at: new Date().toISOString() })
+        .eq('id', noticeEditingId);
+    }
+    q.then(function(res) {
+      btn.disabled = false;
+      if (res.error) {
+        nMsg('保存に失敗しました。このアカウントに管理者権限がない可能性があります。', 'err');
+        return;
+      }
+      var wasEdit = noticeEditingId !== null;
+      nResetForm();
+      nMsg('', '');
+      toast(wasEdit ? '更新しました' : '投稿しました。販売店ページに表示されます');
+      loadDealerNotices();
+    });
+  });
 
   // ---------- utils ----------
   function todayStr() {
