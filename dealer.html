@@ -202,10 +202,12 @@
       .view-note { font-size: 11px; }
       /* 製品カードを横型コンパクト表示(縦スクロール削減) */
       .prod-grid { grid-template-columns: 1fr; gap: 10px; }
-      .prod-card { flex-direction: row; align-items: stretch; }
-      .prod-img { width: 96px; height: auto; min-height: 96px; flex-shrink: 0; padding: 6px; }
+      .prod-card { flex-direction: row; align-items: flex-start; }
+      .prod-img { width: 104px; height: 104px; flex-shrink: 0; padding: 6px; margin: 12px 0 12px 12px; border-radius: 6px; }
       .prod-body { padding: 12px 14px; }
-      .prod-desc { margin: 6px 0 10px; }
+      .prod-model { font-size: 13px; }
+      .prod-name { font-size: 12px; }
+      .prod-desc { font-size: 11px; margin: 6px 0 10px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
