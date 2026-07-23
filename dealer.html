@@ -38,6 +38,30 @@
     .tab-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
     .tab-btn:not(.active):hover { background: var(--panel); color: var(--white); }
 
+    /* ── お知らせ(管理者からのお知らせ) ── */
+    #notices-box { display: none; max-width: 1080px; width: 100%; margin: 14px auto 0; padding: 0 24px; }
+    .notices-inner { background: var(--dark); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--red); border-radius: 8px; padding: 14px 18px; }
+    .notices-head { font-size: 13px; font-weight: 900; letter-spacing: 0.06em; color: var(--red); margin-bottom: 8px; }
+    .notice-item { padding: 8px 0; border-top: 1px dashed rgba(255,255,255,0.12); }
+    .notice-item:first-of-type { border-top: none; padding-top: 0; }
+    .notice-date { font-size: 11px; color: var(--gray-500); }
+    .notice-title { font-size: 14px; font-weight: 700; color: var(--white); margin: 2px 0; }
+    .notice-body { font-size: 12px; color: var(--gray-300); line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
+
+    /* ── 質問・要望BOX ── */
+    #qbox-view { display: none; flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 8px 24px 60px; }
+    .qbox-card { background: var(--dark); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 22px; margin-top: 16px; }
+    .qbox-card label { display: block; font-size: 12px; font-weight: 700; color: var(--gray-500); letter-spacing: 0.04em; margin: 14px 0 6px; }
+    .qbox-card label:first-of-type { margin-top: 0; }
+    .qbox-card textarea { width: 100%; background: var(--black); color: var(--white); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 10px 12px; font-family: inherit; font-size: 13px; resize: vertical; box-sizing: border-box; }
+    .qbox-card textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; border-color: transparent; }
+    .qbox-send { margin-top: 16px; background: var(--red); color: var(--white); border: none; border-radius: 4px; padding: 11px 28px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .qbox-send:hover:not(:disabled) { background: var(--red-dark); }
+    .qbox-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    .qbox-msg { margin-top: 12px; font-size: 13px; line-height: 1.7; min-height: 1.2em; }
+    .qbox-msg.ok { color: #7fd8a4; }
+    .qbox-msg.err { color: #ff8fa0; }
+
     /* ── LOGIN ── */
     #login-view { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
     .login-card { width: 100%; max-width: 420px; background: var(--dark); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 40px 32px; }
@@ -145,7 +169,8 @@
     @media (max-width: 640px) {
       .bubble { max-width: 90%; font-size: 14px; }
       .login-card { padding: 32px 22px; }
-      .tab-btn { padding: 9px 14px; font-size: 13px; }
+      #portal-tabs { flex-wrap: wrap; }
+      .tab-btn { padding: 9px 12px; font-size: 13px; flex: 1 1 auto; }
       /* 製品カードを横型コンパクト表示(縦スクロール削減) */
       .prod-grid { grid-template-columns: 1fr; gap: 10px; }
       .prod-card { flex-direction: row; align-items: stretch; }
@@ -201,7 +226,16 @@
     <button class="tab-btn active" data-tab="chat-view">AIチャット</button>
     <button class="tab-btn" data-tab="products-view">製品ページ</button>
     <button class="tab-btn" data-tab="talks-view">セールストーク</button>
+    <button class="tab-btn" data-tab="qbox-view">質問・要望</button>
   </nav>
+
+  <!-- 管理者からのお知らせ(ログイン後・全タブ共通) -->
+  <div id="notices-box" aria-label="管理者からのお知らせ">
+    <div class="notices-inner">
+      <div class="notices-head">お知らせ</div>
+      <div id="notices-list"></div>
+    </div>
+  </div>
 
   <!-- チャット -->
   <div id="chat-view">
@@ -248,6 +282,22 @@
     </div>
     <div id="talks-list"></div>
   </div>
+
+  <!-- 質問・要望BOX -->
+  <div id="qbox-view">
+    <div class="view-head">
+      <h1 class="view-title">質問・要望BOX</h1>
+      <p class="view-note">「このページに載せてほしい情報」「あると便利な資料」などのご要望や、ツールへのご質問をお送りください。内容は担当者へ通知され、必要に応じてご登録のメールアドレス宛にご連絡いたします。お客様名などの個人情報は入力しないでください。</p>
+    </div>
+    <div class="qbox-card">
+      <label for="qbox-text">ご質問・ご要望の内容</label>
+      <textarea id="qbox-text" rows="5" placeholder="例: 競合製品との比較表がほしい／設置事例の写真を増やしてほしい　など"></textarea>
+      <label for="qbox-note">補足・お急ぎの場合の連絡先など（任意）</label>
+      <textarea id="qbox-note" rows="2" placeholder="例: 来週の商談で使いたいので早めに対応いただけると助かります"></textarea>
+      <button class="qbox-send" id="qbox-send-btn">送信する</button>
+      <p class="qbox-msg" id="qbox-msg"></p>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -262,7 +312,8 @@
   var pendingEmail = '';
 
   // ── タブ切り替え ──
-  var TAB_IDS = ['chat-view', 'products-view', 'talks-view'];
+  var TAB_IDS = ['chat-view', 'products-view', 'talks-view', 'qbox-view'];
+  var noticesLoaded = false;
   function switchTab(tabId) {
     TAB_IDS.forEach(function(id) {
       $(id).style.display = (id === tabId) ? (id === 'chat-view' ? 'flex' : 'block') : 'none';
@@ -342,12 +393,105 @@
     $('portal-tabs').style.display = 'flex';
     $('chat-view').style.display = 'flex';
     $('logout-btn').style.display = 'block';
+    if (!noticesLoaded) loadNotices();
     renderChips();
     if (!$('messages').children.length) {
       addBubble('bot', 'こんにちは。square（スクエア）のAIサポートです。製品仕様・専門用語・アクセサリについて、お気軽にご質問ください。');
     }
     $('chat-input').focus();
   }
+
+  // ── 管理者からのお知らせ ──
+  function loadNotices() {
+    noticesLoaded = true;
+    sb.from('portal_notices')
+      .select('id, title, body, created_at')
+      .eq('portal', 'square')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+      .limit(5)
+      .then(function(res) {
+        if (res.error || !res.data || res.data.length === 0) return;
+        var list = $('notices-list');
+        list.innerHTML = '';
+        res.data.forEach(function(n) {
+          var item = document.createElement('div');
+          item.className = 'notice-item';
+          var d = document.createElement('div');
+          d.className = 'notice-date';
+          d.textContent = n.created_at ? String(n.created_at).slice(0, 10).replace(/-/g, '/') : '';
+          var t = document.createElement('div');
+          t.className = 'notice-title';
+          t.textContent = n.title || '';
+          var b = document.createElement('div');
+          b.className = 'notice-body';
+          b.textContent = n.body || '';
+          item.appendChild(d);
+          item.appendChild(t);
+          if (n.body) item.appendChild(b);
+          list.appendChild(item);
+        });
+        $('notices-box').style.display = 'block';
+      });
+  }
+
+  // ── 質問・要望BOX ──
+  $('qbox-send-btn').addEventListener('click', function() {
+    var text = $('qbox-text').value.trim();
+    var note = $('qbox-note').value.trim();
+    var msg = $('qbox-msg');
+    if (!text) {
+      msg.className = 'qbox-msg err';
+      msg.textContent = 'ご質問・ご要望の内容を入力してください。';
+      $('qbox-text').focus();
+      return;
+    }
+    var btn = $('qbox-send-btn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+    msg.className = 'qbox-msg';
+    msg.textContent = '';
+    sb.auth.getSession().then(function(res) {
+      var session = res.data.session;
+      if (!session) { location.reload(); return; }
+      return fetch(HANDOFF_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + session.access_token,
+          'apikey': window.SQUARE_SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          portal: 'square',
+          product: null,
+          question: '【営業ツール 質問・要望BOX】\n' + text,
+          answer: '',
+          note: note
+        })
+      });
+    }).then(function(resp) {
+      if (!resp) return null;
+      return resp.json().then(function(data) { return { ok: resp.ok, data: data }; });
+    }).then(function(r) {
+      btn.disabled = false;
+      btn.textContent = '送信する';
+      if (!r) return;
+      if (!r.ok || r.data.error) {
+        msg.className = 'qbox-msg err';
+        msg.textContent = r.data.error || '送信に失敗しました。時間をおいて再度お試しください。';
+        return;
+      }
+      $('qbox-text').value = '';
+      $('qbox-note').value = '';
+      msg.className = 'qbox-msg ok';
+      msg.textContent = '送信しました。ご意見ありがとうございます。担当者が内容を確認いたします。';
+    }).catch(function() {
+      btn.disabled = false;
+      btn.textContent = '送信する';
+      msg.className = 'qbox-msg err';
+      msg.textContent = '通信エラーが発生しました。再度お試しください。';
+    });
+  });
 
   // ── 製品指定チップ ──
   function renderChips() {
