@@ -180,6 +180,10 @@
     .led-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 5px; }
     .howto-dl { display: inline-block; margin: 10px 10px 0 0; font-size: 12px; font-weight: 700; color: var(--gray-300); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; padding: 7px 14px; text-decoration: none; transition: background 0.15s, color 0.15s; }
     .howto-dl:hover { background: var(--panel); color: var(--white); }
+    .howto-video { background: var(--dark); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px 16px 16px; margin: 12px 0 0; }
+    .howto-video-title { font-size: 13px; font-weight: 700; color: var(--gray-100); margin-bottom: 10px; }
+    .howto-video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 6px; }
+    .howto-video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
     /* ── 担当者転送カード ── */
     .handoff-card { max-width: 78%; background: var(--dark); border: 1px solid rgba(200,16,46,0.55); border-radius: 10px; border-bottom-left-radius: 2px; padding: 16px; }
@@ -344,6 +348,14 @@
 
     <h2 class="howto-sec-title">squareの使い方（クイックスタートガイド ver.1.1）</h2>
 
+    <div class="howto-video">
+      <div class="howto-video-title">▶ 動画で見る: square 基本操作方法</div>
+      <div class="howto-video-embed">
+        <iframe src="https://www.youtube.com/embed/pkhGJEOF9Ew" title="square基本操作方法" loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
     <button class="talk-cat-btn howto-acc" type="button">はじめに（設置のポイント・親機と子機の見分け方）<span class="talk-cat-arrow">▼</span></button>
     <div class="talk-cat-body"><div class="talk-card howto-body">
       <h4>親機と子機の見分け方</h4>
@@ -489,6 +501,14 @@
     </div></div>
 
     <h2 class="howto-sec-title">VEXAとつないで使う（セットアップガイド ver.1.0）</h2>
+
+    <div class="howto-video">
+      <div class="howto-video-title">▶ 動画で見る: square×VEXA ペアリング設定と操作方法</div>
+      <div class="howto-video-embed">
+        <iframe src="https://www.youtube.com/embed/1jawZxuiFpM" title="square×VEXA　ペアリング設定と操作方法" loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
 
     <button class="talk-cat-btn howto-acc" type="button">VEXAとのペアリング（Bluetooth接続・スマホとのマルチポイント）<span class="talk-cat-arrow">▼</span></button>
     <div class="talk-cat-body"><div class="talk-card howto-body">
