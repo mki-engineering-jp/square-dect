@@ -165,6 +165,22 @@
     .talk-status { font-size: 13px; color: var(--gray-500); padding: 24px 0; }
     .talk-status.err { color: #ff8fa0; }
 
+    /* ── 使い方 ── */
+    #howto-view { display: none; flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 8px 24px 60px; }
+    .howto-sec-title { font-size: 15px; font-weight: 900; color: var(--red); letter-spacing: 0.04em; margin: 28px 0 0; padding-left: 10px; border-left: 3px solid var(--red); }
+    .howto-body { font-size: 13px; color: var(--gray-300); line-height: 1.9; }
+    .howto-body h4 { font-size: 13px; font-weight: 900; color: var(--gray-100); margin: 16px 0 6px; }
+    .howto-body h4:first-child { margin-top: 0; }
+    .howto-body ol, .howto-body ul { padding-left: 20px; margin: 4px 0 10px; }
+    .howto-body li { margin: 2px 0; }
+    .howto-note { background: rgba(200,16,46,0.1); border: 1px solid rgba(200,16,46,0.4); border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #ffb3c0; margin: 10px 0; line-height: 1.8; }
+    .howto-table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 12px; }
+    .howto-table th { background: var(--panel); color: var(--gray-100); text-align: left; padding: 7px 10px; border: 1px solid rgba(255,255,255,0.12); white-space: nowrap; }
+    .howto-table td { padding: 7px 10px; border: 1px solid rgba(255,255,255,0.12); color: var(--gray-300); line-height: 1.7; }
+    .led-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 5px; }
+    .howto-dl { display: inline-block; margin: 10px 10px 0 0; font-size: 12px; font-weight: 700; color: var(--gray-300); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; padding: 7px 14px; text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .howto-dl:hover { background: var(--panel); color: var(--white); }
+
     /* ── 担当者転送カード ── */
     .handoff-card { max-width: 78%; background: var(--dark); border: 1px solid rgba(200,16,46,0.55); border-radius: 10px; border-bottom-left-radius: 2px; padding: 16px; }
     .handoff-title { font-size: 13px; font-weight: 700; color: var(--gray-100); margin-bottom: 4px; }
@@ -196,7 +212,9 @@
       .chat-input-wrap { padding: 10px 0 16px; }
       .chat-usage-note { font-size: 11px; line-height: 1.65; }
       /* 各ビューの左右余白をモバイル向けに調整 */
-      #products-view, #talks-view, #qbox-view { padding: 8px 16px 40px; }
+      #products-view, #talks-view, #qbox-view, #howto-view { padding: 8px 16px 40px; }
+      .howto-table { font-size: 11px; }
+      .howto-table th, .howto-table td { padding: 6px 7px; }
       #notices-box { padding: 0 16px; }
       .view-title { font-size: 17px; }
       .view-note { font-size: 11px; }
@@ -257,6 +275,7 @@
     <button class="tab-btn active" data-tab="chat-view">AIチャット</button>
     <button class="tab-btn" data-tab="products-view">製品ページ</button>
     <button class="tab-btn" data-tab="talks-view">セールストーク</button>
+    <button class="tab-btn" data-tab="howto-view">使い方</button>
     <button class="tab-btn" data-tab="qbox-view">質問・要望</button>
   </nav>
 
@@ -314,6 +333,248 @@
     <div id="talks-list"></div>
   </div>
 
+  <!-- 使い方 -->
+  <div id="howto-view">
+    <div class="view-head">
+      <h1 class="view-title">使い方</h1>
+      <p class="view-note">squareクイックスタートガイド ver.1.1／square&amp;VEXAセットアップガイド ver.1.0 の内容です。印刷用PDFもダウンロードできます。</p>
+      <a class="howto-dl" href="guides/square_quickstart_ver1.1.pdf" target="_blank" rel="noopener">📄 クイックスタートガイド（PDF）</a>
+      <a class="howto-dl" href="guides/square_vexa_setup_ver1.0.pdf" target="_blank" rel="noopener">📄 VEXAセットアップガイド（PDF）</a>
+    </div>
+
+    <h2 class="howto-sec-title">squareの使い方（クイックスタートガイド ver.1.1）</h2>
+
+    <button class="talk-cat-btn howto-acc" type="button">はじめに（設置のポイント・親機と子機の見分け方）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>親機と子機の見分け方</h4>
+      <p>親機（SSW-1100-M）＝<strong>コーナーガードが赤</strong>／子機（SSW-1100-S）＝<strong>コーナーガードが黒</strong>。親機1台に子機を最大8台までペアリングして同時通話できる、1.9GHz帯DECT準拠方式のデジタルトランシーバーです。</p>
+      <h4>設置のポイント</h4>
+      <ul>
+        <li>親機は電源に接続し、子機と見通しの良い場所に<strong>地面から1〜2m離して</strong>設置します。</li>
+        <li>電源に接続しない場合はバッテリー駆動（満充電で最大約8時間）。</li>
+        <li>子機は体の側面・腰のベルトなど、親機と見通しの良い位置に身に着けます。</li>
+      </ul>
+      <div class="howto-note"><strong>ご注意</strong>　親機は身に着けて使用しないでください。</div>
+      <h4>連続使用時間の目安（満充電時）</h4>
+      <table class="howto-table">
+        <tr><th>親機（バッテリー駆動）</th><th>子機（有線アクセサリ）</th><th>子機（Bluetooth）</th></tr>
+        <tr><td>約8時間</td><td>約14時間</td><td>約12時間</td></tr>
+      </table>
+      <p>※使用環境により変動します。充電時間はUSB Type-Cに接続してから約2.5時間です。</p>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">基本の操作（電源・充電・音量・サイドトーン・マイク感度）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <table class="howto-table">
+        <tr><th>したいこと</th><th>操作</th><th>確認方法（LED・音）</th></tr>
+        <tr><td>電源を入れる／切る</td><td>電源ボタンを長押し（入れる：2秒／切る：4秒）</td><td>入：BATT. グリーン1回点滅<br>切：LEDすべて消灯</td></tr>
+        <tr><td>充電する</td><td>USB Type-Cケーブルを接続</td><td>充電中：BATT. 赤点灯 → 消灯したら充電完了</td></tr>
+        <tr><td>音量を上げる／下げる</td><td>プラス／マイナスボタンを短押し</td><td>通知音1回（最大・最小で3回）</td></tr>
+        <tr><td>サイドトーン ON／OFF</td><td>プラス長押し3秒でON／マイナス長押し3秒でOFF</td><td>通知音2回</td></tr>
+        <tr><td>マイク感度の確認・変更</td><td>MIC/PAIRキー短押しで表示、さらに短押しで1段階アップ</td><td>感度LEDで7段階表示（最大の次は最小に戻ります）</td></tr>
+      </table>
+      <p>※サイドトーン＝自分の声がアクセサリのイヤホンから聞こえる機能です。</p>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">トークモード（話し方の切り替え）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <table class="howto-table">
+        <tr><th>モード</th><th>話し方</th><th>切り替え方</th></tr>
+        <tr><td><strong>トグル</strong></td><td>アクセサリのボタン短押しでトークON ⇔ ミュート切替</td><td rowspan="2">電源オフの状態からプラス＋電源ボタンを同時長押し（2秒）<br>※以前のモードからもう一方へ切替</td></tr>
+        <tr><td><strong>PTT</strong></td><td>アクセサリのボタンを押している間だけトークON</td></tr>
+        <tr><td><strong>オープン</strong></td><td>トークが常にON（録音・中継器用）</td><td>電源オフの状態からマイナス＋電源ボタンを同時長押し（2秒）でON/OFF</td></tr>
+      </table>
+      <p><strong>ワンポイント</strong>　オープンモード中でもトークモード切替の操作ができます。（例）トグル→（オープン）→PTT。オープンをOFFにすると以前のモードに戻ります。</p>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">LED表示と通知音<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>ステータス表示LED（STAT.）</h4>
+      <table class="howto-table">
+        <tr><th>対象</th><th>カラー・表示</th><th>状態</th></tr>
+        <tr><td>共通</td><td><span class="led-dot" style="background:#3ddc84"></span>グリーン 点灯</td><td>トークON（送話できます）</td></tr>
+        <tr><td>共通</td><td><span class="led-dot" style="background:#ff9f1c"></span>オレンジ 点灯</td><td>トークOFF（ミュート中）</td></tr>
+        <tr><td>親機</td><td><span class="led-dot" style="background:#3ddc84"></span><span class="led-dot" style="background:#ff9f1c"></span>グリーン／オレンジ 点滅</td><td>ペアリングモード中</td></tr>
+        <tr><td>子機</td><td><span class="led-dot" style="background:#4d8bff"></span>ブルー 点灯</td><td>親機の接続待ち／ペアリング未登録</td></tr>
+        <tr><td>子機</td><td><span class="led-dot" style="background:#57d0ff"></span>スカイブルー 点灯</td><td>親機との接続が切れた状態</td></tr>
+        <tr><td>子機</td><td><span class="led-dot" style="background:#4d8bff"></span><span class="led-dot" style="background:#ff7ad9"></span>ブルー／ピンク 点滅</td><td>親機とペアリング中</td></tr>
+      </table>
+      <h4>バッテリー残量表示LED（BATT.）　※電源オンから10秒後に常時表示</h4>
+      <table class="howto-table">
+        <tr><th>カラー・表示</th><th>状態</th></tr>
+        <tr><td><span class="led-dot" style="background:#3ddc84"></span>グリーン 点灯</td><td>電池残量 100%〜60%</td></tr>
+        <tr><td><span class="led-dot" style="background:#ff9f1c"></span>オレンジ 点灯</td><td>電池残量 60%〜20%</td></tr>
+        <tr><td><span class="led-dot" style="background:#ff4d4d"></span>レッド 点灯</td><td>電池残量 20%以下</td></tr>
+        <tr><td><span class="led-dot" style="background:#ff4d4d"></span>レッド 点灯（充電時）</td><td>充電中　／　消灯したら充電完了</td></tr>
+      </table>
+      <h4>マイク感度表示LED</h4>
+      <p>3個のLEDで感度1（MIN）〜7（MAX）を表示します。3つすべて点滅＝Bluetoothペアリング中／3つすべて点灯＝Bluetoothペアリングクリア。</p>
+      <h4>通知音（子機のみ）　※親機に通知音はありません</h4>
+      <table class="howto-table">
+        <tr><th>音</th><th>意味</th></tr>
+        <tr><td>ピッポッ（上昇音）</td><td>トークON</td></tr>
+        <tr><td>ピッポッ（下降音）</td><td>トークOFF</td></tr>
+        <tr><td>プッ</td><td>音量アップ／ダウン</td></tr>
+        <tr><td>プープープー</td><td>音量が最大／最小</td></tr>
+        <tr><td>ピッピッ</td><td>サイドトーン ON/OFF</td></tr>
+        <tr><td>ピッ…ピッ…（繰り返し）</td><td>親機と接続が切れた</td></tr>
+      </table>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">はじめて使うとき（親機と子機のペアリング）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <p>親機と子機は、はじめに1回だけ「ペアリング（登録）」が必要です。一度登録すれば、次回からは電源を入れるだけで自動接続します。</p>
+      <ol>
+        <li><strong>親機をペアリングモードにします</strong><br>電源オンの状態で、MIC/PAIRキーを4秒長押し → STAT.LEDがグリーン／オレンジに点滅（3分間で自動終了）</li>
+        <li><strong>子機をペアリングモードにします</strong><br>電源オフの状態から、MIC/PAIRキーと電源ボタンを同時長押し（5秒）→ STAT.LEDがブルー／ピンクに点滅したら手を離します</li>
+        <li><strong>自動でペアリングが完了します</strong><br>完了すると子機のSTAT.LEDがオレンジに点灯します（トークOFF状態）</li>
+        <li><strong>2台目以降の子機も同じように登録します</strong>（最大8台まで、手順2を実施）</li>
+      </ol>
+      <div class="howto-note"><strong>ご注意</strong>　複数の親機を同時にペアリングモードにしないでください。子機がどの親機に登録されたのか分かりづらくなります。</div>
+      <h4>ペアリングをやり直したいとき（リセット・初期化）</h4>
+      <table class="howto-table">
+        <tr><th>対象</th><th>操作（どちらも電源オフの状態から）</th><th>確認方法</th></tr>
+        <tr><td>親機</td><td>MIC/PAIRキー＋電源ボタンを同時長押し（10秒）</td><td>STAT. グリーン／スカイブルー高速点滅 → 消灯で消去完了</td></tr>
+        <tr><td>子機</td><td>MIC/PAIRキー＋電源ボタンを同時長押し（10秒）<br>※初期化後、自動でペアリングモードへ</td><td>STAT. ブルー／ピンク高速点滅 → 消灯で消去完了</td></tr>
+      </table>
+      <p>※新しい親機とペアリングし直す場合は、子機のリセット後に手順1〜3を行ってください。</p>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">通話するとき（有線アクセサリ／Bluetoothアクセサリ）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>有線アクセサリで通話する</h4>
+      <ol>
+        <li>子機のコーナーキャップを取り外して保管します。</li>
+        <li>専用有線アクセサリのプラグを奥までしっかり挿し込みます。<br>※市販のイヤホンマイクは使用できません。</li>
+        <li>トークモードに合わせて通話します。（トグル＝短押しでトークON⇔ミュート／PTT＝押している間だけトークON）</li>
+      </ol>
+      <h4>Bluetoothアクセサリで通話する</h4>
+      <ol>
+        <li>子機のMIC/PAIRキーを7秒長押しし、マイク感度LEDが3つすべて点滅したら手を離します（Bluetoothペアリングモード）。</li>
+        <li>Bluetoothアクセサリをペアリングモードにします。</li>
+        <li>近くに置くと10秒程度で自動でペアリング完了します。</li>
+      </ol>
+      <table class="howto-table">
+        <tr><th>したいこと</th><th>操作</th></tr>
+        <tr><td>トークON ⇔ ミュート</td><td>アクセサリの「着信受話／音楽再生・停止」ボタンを押す</td></tr>
+        <tr><td>次回からの接続</td><td>登録を解除しない限り、電源オン時に自動で接続します</td></tr>
+        <tr><td>ペアリング登録の解除</td><td>MIC/PAIRキーを10秒長押し（感度LEDが点灯し続けるまで）→ 登録が解除され、Bluetooth機能がオフになります</td></tr>
+      </table>
+      <div class="howto-note"><strong>ご注意</strong>　Bluetoothアクセサリ使用時はトグルモードのみ（PTT通話不可）。有線アクセサリのプラグが挿さっている間はBluetooth機能はオフです。</div>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">トラブルシューティング<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>Q. 通話ができない</h4>
+      <ul>
+        <li>有線アクセサリのプラグが奥まで挿さっているか確認。</li>
+        <li>専用の有線アクセサリか確認（市販品のイヤホンマイクは不可）。</li>
+        <li>別の親機とペアリングしていないか確認。子機のリセット後、新しい親機とペアリングし直してください。</li>
+      </ul>
+      <h4>Q. Bluetoothペアリングができない</h4>
+      <ul>
+        <li>有線アクセサリを外し、コーナーキャップを取り付ける（プラグが挿さっているとBluetooth機能はオフ）。</li>
+        <li>MIC/PAIRキー10秒長押しでペアリング登録の解除をした後、再度お試しください。</li>
+        <li>他のBluetooth機器・テレビ・Wi-Fiなどが近くにない場所でお試しください。</li>
+      </ul>
+      <h4>Q. 充電できない</h4>
+      <ul><li>付属の充電ケーブル・専用充電スタンド・推奨ACアダプターを使用しているか確認。</li></ul>
+      <h4>Q. 電源が入らない</h4>
+      <ul>
+        <li>十分に充電されているか確認。</li>
+        <li>付属の充電ケーブル・専用充電スタンド・推奨ACアダプターで充電しているか確認。</li>
+        <li>充電時にBATT.LEDが点灯するか確認。点灯しない場合は販売店へご相談ください。</li>
+      </ul>
+      <p>それでも解決しないときは、お買い上げの販売店または幹開発株式会社へお問い合わせください。</p>
+    </div></div>
+
+    <h2 class="howto-sec-title">VEXAとつないで使う（セットアップガイド ver.1.0）</h2>
+
+    <button class="talk-cat-btn howto-acc" type="button">VEXAとのペアリング（Bluetooth接続・スマホとのマルチポイント）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>A. VEXAをsquare子機へBluetoothペアリング</h4>
+      <ol>
+        <li>square子機の電源を入れます。</li>
+        <li>MIC/PAIRキーを7秒長押しし、マイク感度LEDが3つすべて点滅したら手を離します（Bluetoothペアリングモード）。</li>
+        <li>VEXAの電源ボタンと多機能キーを同時長押しして、ペアリングモードにします。</li>
+        <li>近くに置くと10秒程度で自動でペアリング完了します。</li>
+      </ol>
+      <h4>B. スマホとsquareの連携（マルチポイント接続）</h4>
+      <ol>
+        <li>上記Aの手順で、square子機とVEXAをBluetoothペアリングします。</li>
+        <li>square子機とBluetooth接続している状態で、VEXAの電源ボタンと多機能キーを同時長押しして、再度ペアリングモードにします。</li>
+        <li>ペアリングモード中に、VEXAの多機能キーとマイナスボタンを同時長押し。「マルチポイント接続を開始します」のアナウンスが流れます。</li>
+        <li>スマートフォンのBluetooth一覧から「VEXA-XXXXX」（XXXXXは製品記載のデバイス名）を選択して接続します。</li>
+        <li>接続が完了したら、square子機の電源を切り、スマートフォンのBluetooth個別設定から「VEXA-XXXXX」を接続解除します。※ペアリング登録削除ではありません。</li>
+        <li>VEXA本体の電源を切り、再起動します。</li>
+        <li>スマートフォンのBluetooth一覧から「VEXA-XXXXX」を再接続します。</li>
+        <li>square子機の電源を入れ、Bluetoothを再接続します。</li>
+        <li>マルチポイントペアリング完了です。</li>
+      </ol>
+      <div class="howto-note"><strong>ご注意</strong>　複数のsquareとVEXAを同時にペアリングモードにしないでください。どのデバイスがどれに登録されたのか分かりづらくなります。</div>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">完全ハンズフリーで通話する（必須設定）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <p>ペアリング完了後に、以下を設定してください。</p>
+      <h4>square子機の設定（必ず設定してください）</h4>
+      <p>➣ オープンモード／サイドトーンオフ／マイク感度1／音量最大から2つ下げ</p>
+      <ol>
+        <li><strong>オープンモードにします。</strong>電源オフの状態から、マイナスボタンと電源ボタンをMIC/PAIRのLEDが点灯するまで長押ししてください。親機と接続中はSTAT.LEDが緑に常時点灯し、ミュート状態にできなくなります。</li>
+        <li><strong>サイドトーン機能をオフにします。</strong>マイナスボタンを3秒長押ししてください。ピッピッという通知音が鳴ります。</li>
+        <li><strong>マイク感度を1に設定。</strong>MIC/PAIRボタンを短押しし、マイク感度LEDの一番下のみが点灯したら完了です。</li>
+        <li><strong>音量を最大に設定。</strong>プラスボタン短押しを繰り返し、プープープーという通知音が鳴ったら、マイナスボタンを2回押して完了です。</li>
+      </ol>
+      <h4>VEXAの設定</h4>
+      <p>➣ ボイスコマンドモードに変更／音量設定</p>
+      <ol>
+        <li>VEXAの多機能キーとマイナスキーを同時に長押ししてください。「ボイスコマンドモードです」と音声案内が流れます。<br>※モードは順番に切り替わります。「ノーマルモードです」と音声が流れたら再度多機能キーとマイナスキーを長押ししてください。</li>
+        <li>VEXAのプラスキーとマイナスキーで音量調整してください。</li>
+      </ol>
+      <p>※サイドトーンはsquare側をオフにし、VEXA本体のサイドトーン機能を使用します。</p>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">音声でコントロール（ボイスコマンド・VEXAのボタン操作）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>ボイスコマンド一覧</h4>
+      <table class="howto-table">
+        <tr><th>発話内容</th><th>動作</th><th>アナウンスと通知音</th></tr>
+        <tr><td>マイクオン</td><td>マイクのミュートを解除する</td><td>ミュートが解除されました＋プッ</td></tr>
+        <tr><td>マイクオフ</td><td>マイクがミュートになる</td><td>ミュートになりました＋ププッ</td></tr>
+        <tr><td>音量上げて</td><td>音量が1ステップ上がる</td><td>プッ</td></tr>
+        <tr><td>音量下げて</td><td>音量が1ステップ下がる</td><td>プッ</td></tr>
+        <tr><td>（※）はい、出ます</td><td>着信に応答する</td><td>−</td></tr>
+        <tr><td>（※）いいえ、出ません</td><td>着信を拒否する</td><td>−</td></tr>
+      </table>
+      <p>（※）着信中のボイスコマンドです。「着信中、電話に出ますか？」の音声案内が流れたあと着信音が鳴り、その間にボイスコマンドで応答・切断ができます。iPhoneでは2回目の音声案内後から応答・切断できます。Androidは動作保証外になります。</p>
+      <h4>VEXAのボタンでコントロール</h4>
+      <table class="howto-table">
+        <tr><th>ボタン</th><th>動作</th></tr>
+        <tr><td>多機能キー</td><td>マイクのミュート解除 ⇔ ミュート</td></tr>
+        <tr><td>プラスボタン</td><td>音量が1ステップ上がる</td></tr>
+        <tr><td>マイナスボタン</td><td>音量が1ステップ下がる</td></tr>
+        <tr><td>通話キー</td><td>着信に応答する</td></tr>
+        <tr><td>通話キー長押し</td><td>着信を拒否する</td></tr>
+      </table>
+      <div class="howto-note"><strong>ご注意</strong>　ミュート解除は「ミュートが解除されました」のアナウンス後に完了します。アナウンス中は送話できていません。</div>
+    </div></div>
+
+    <button class="talk-cat-btn howto-acc" type="button">こんなときは（VEXA連携時のトラブル）<span class="talk-cat-arrow">▼</span></button>
+    <div class="talk-cat-body"><div class="talk-card howto-body">
+      <h4>Q. 自分の声がエコーのように遅れて聞こえてくる</h4>
+      <p>square子機のサイドトーン機能がオンになっています。square子機のマイナスボタンを、ピッピッという通知音が聞こえるまで長押ししてください。</p>
+      <h4>Q. マイクオンにしているのに、他の人に音声が伝わらない</h4>
+      <p>square子機のトークがミュートされています。子機のSTAT.LEDがオレンジになっていたらミュート状態です。VEXAの通話キーを一回押して、ミュートを解除してください。<br>※ボイスコマンドのみで使用する場合、square子機をオープンモードにすることを強く推奨します。電源オフの状態から、マイナスボタンと電源ボタンをMIC/PAIRのLEDが点灯するまで長押ししてください。STAT.LEDが緑に常時点灯し、ミュート状態にできなくなります。</p>
+      <h4>Q. Bluetoothペアリングがうまくいかない</h4>
+      <ul>
+        <li>VEXAの初期化をしてから、再度ペアリングを試してください。VEXAの電源がオンの状態で、多機能キーと電源ボタンとマイナスボタンを同時長押しし、「初期化します」のアナウンスが流れたら完了です。</li>
+        <li>squareの親機の電源をオフにしてお試しください。</li>
+        <li>周囲に他でペアリング状態になっているBluetoothデバイスがないか確認してください。</li>
+        <li>周囲に電子機器が少ない環境で試してください。テレビなどLEDが多く使用されているものや、電子レンジなどの電磁波を出すものにペアリングを妨害されることがあります。</li>
+      </ul>
+    </div></div>
+  </div>
+
   <!-- 質問・要望BOX -->
   <div id="qbox-view">
     <div class="view-head">
@@ -348,7 +609,7 @@
   var pendingEmail = '';
 
   // ── タブ切り替え ──
-  var TAB_IDS = ['chat-view', 'products-view', 'talks-view', 'qbox-view'];
+  var TAB_IDS = ['chat-view', 'products-view', 'talks-view', 'howto-view', 'qbox-view'];
   var noticesLoaded = false;
   function switchTab(tabId) {
     TAB_IDS.forEach(function(id) {
@@ -363,6 +624,15 @@
   }
   document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-tab')); });
+  });
+
+  // ── 使い方: アコーディオン開閉 ──
+  document.querySelectorAll('.howto-acc').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      btn.classList.toggle('open');
+      var body = btn.nextElementSibling;
+      if (body) body.classList.toggle('open');
+    });
   });
 
   // ── 初期化：既存セッションがあればチャットへ ──
