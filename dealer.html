@@ -148,6 +148,17 @@
     .prod-desc { font-size: 12px; color: var(--gray-500); margin: 8px 0 12px; flex: 1; }
     .prod-ask { align-self: flex-start; background: none; border: 1px solid var(--red); color: var(--red); border-radius: 4px; padding: 6px 14px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.15s, color 0.15s; }
     .prod-ask:hover { background: var(--red); color: var(--white); }
+    .prod-details { margin: 0 0 12px; }
+    .prod-details summary { list-style: none; cursor: pointer; display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--gray-300); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 5px 12px; transition: background 0.15s, color 0.15s; }
+    .prod-details summary::-webkit-details-marker { display: none; }
+    .prod-details summary::after { content: ' ▾'; font-size: 10px; }
+    .prod-details[open] summary::after { content: ' ▴'; }
+    .prod-details summary:hover { background: rgba(255,255,255,0.08); color: var(--white); }
+    .prod-spec-row { display: flex; gap: 10px; font-size: 11.5px; line-height: 1.55; padding: 6px 2px; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+    .prod-spec-row:first-of-type { margin-top: 10px; }
+    .prod-spec-key { flex: 0 0 72px; color: var(--gray-500); font-weight: 700; }
+    .prod-spec-val { color: var(--gray-100); flex: 1; }
+    .prod-noise { display: inline-block; margin-top: 6px; font-size: 10.5px; font-weight: 700; color: #ffb74d; border: 1px solid rgba(255,183,77,0.4); border-radius: 3px; padding: 2px 8px; }
 
     /* ── セールストーク ── */
     #talks-view { display: none; flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 8px 24px 60px; }
@@ -345,6 +356,7 @@
       <p class="view-note">squareクイックスタートガイド ver.1.1／square&amp;VEXAセットアップガイド ver.1.0 の内容です。印刷用PDFもダウンロードできます。</p>
       <a class="howto-dl" href="guides/square_quickstart_ver1.1.pdf" target="_blank" rel="noopener">📄 クイックスタートガイド（PDF）</a>
       <a class="howto-dl" href="guides/square_vexa_setup_ver1.0.pdf" target="_blank" rel="noopener">📄 VEXAセットアップガイド（PDF）</a>
+      <a class="howto-dl" href="guides/vexa_quickstart_v5.pdf" target="_blank" rel="noopener">📄 VEXAクイックスタートガイド（PDF・約8MB）</a>
       <a class="howto-dl" href="guides/square_catalog.pdf" target="_blank" rel="noopener">📄 製品カタログ（PDF・約7MB）</a>
     </div>
 
@@ -1149,44 +1161,116 @@
     row.scrollIntoView({ block: 'end' });
   }
 
-  // ── 製品データ（square本体＋アクセサリ16品目）──
+  // ── 製品データ（square本体＋アクセサリ16品目・製品マスタ記入シート2026-08反映）──
   var PRODUCTS = [
     { cat: 'square本体', model: 'SSW-1100-M', name: '親機（マスター）', img: 'square_red.jpg',
-      desc: '多人数同時通話DECTインカムの親機。最大8人同時通話・伝送遅延約0.05秒。IPX5防水・MIL-STD-810H準拠。' },
+      type: 'DECTワイヤレスインカム（親機）',
+      desc: '多人数同時通話DECTインカムの親機。最大8人同時通話・伝送遅延約0.05秒のリアルタイム通話を実現。',
+      spec: '1.9GHz DECT（1893.5〜1906.1MHz）／TDMA／定格出力最大100mW／6ch／最大同時通話8人／見通し約300m／伝送遅延約0.05秒／IPX5／MIL-STD-810H準拠／850mAh DC3.7V／USB Type-C 充電約2.5時間／使用温度-10〜+60℃／W69×H69×D25mm・80g／Bluetooth 5.2／日本製／連続使用最大約8時間',
+      connect: '有線マイク各種（2ピン）／Bluetoothヘッドセット（VEXA SSW-1121対応）',
+      acc: 'コーナーキャップ、USB Type-C充電ケーブル' },
     { cat: 'square本体', model: 'SSW-1100-S', name: '子機（スレーブ）', img: 'square_black.jpg',
-      desc: 'squareシステムの子機。有線マイク・Bluetoothヘッドセットのいずれにも対応。連続使用 有線約12時間／Bluetooth約10時間。' },
+      type: 'DECTワイヤレスインカム（子機）',
+      desc: 'squareシステムの子機。親機1台に対して最大8台接続可能。有線・Bluetoothいずれのマイクにも対応。',
+      spec: '連続使用時間：有線 最大約12時間／Bluetooth 最大約10時間（その他の仕様は親機と共通）',
+      connect: '有線マイク各種（2ピン）／Bluetoothヘッドセット（VEXA SSW-1121対応）',
+      acc: 'コーナーキャップ、USB Type-C充電ケーブル' },
     { cat: '有線マイク', model: 'SSP-1130', name: 'タイピンマイク（PTTボタン付）', img: '8_Tie Pin Mic.jpg',
-      desc: '胸元に装着するコンパクトなタイピン型。PTTボタン付き。' },
+      type: '有線マイク（タイピン型）',
+      desc: '胸元に装着するコンパクトなタイピン型。PTTボタン付き。',
+      spec: '単一指向性マイク／PTTボタン付き／カールコード付き／Φ3.5mm-4極 双頭プラグ／Φ2.5mmモノラルイヤホンジャック',
+      connect: 'square本体／対応イヤホン：SSE-1024・SSE-1071・SSE-1061',
+      acc: '風防', noise: '対応騒音レベル目安：〜80dB' },
     { cat: '有線マイク', model: 'SSH-1123', name: 'ヘルメット装着マイク（PTTボタン付）', img: '3_Helmet Headset.jpg',
-      desc: 'ヘルメットに装着して使用。建設・工事現場向け。防滴イヤスピーカーSSE-1040と組み合わせ可能。' },
+      type: '有線マイク（ヘルメット装着型）',
+      desc: 'ヘルメットに装着して使用。建設・工事現場向け。PTTボタン付き。',
+      spec: '接話型ノイズキャンセルマイク／PTTスイッチボックス／カールコード付き／Φ3.5mm-4極 双頭プラグ／左右兼用／Φ2.5mmモノラルイヤホンジャック',
+      connect: 'square本体／防滴イヤスピーカーSSE-1040と組み合わせ可／その他対応イヤホン：SSE-1024・SSE-1071・SSE-1061',
+      acc: '風防', noise: '対応騒音レベル目安：〜90dB' },
     { cat: '有線マイク', model: 'SSI-1028', name: 'スロートマイク（PTTボタン付）', img: '6_Throat Mic.jpg',
-      desc: '喉の振動を拾う咽喉マイク。高騒音環境でも声をクリアに伝達。' },
+      type: '有線マイク（咽喉型）',
+      desc: '喉の振動を拾うスロート（咽喉）マイク。高騒音環境でも声をクリアに伝達。PTTボタン付き。',
+      spec: 'ダイナミックマイク／PTTスイッチボックス／カールコード付き／Φ3.5mm-4極 双頭プラグ／左右兼用／Φ2.5mmモノラルイヤホンジャック',
+      connect: 'square本体／対応イヤホン：SSE-1024・SSE-1071・SSE-1061',
+      acc: '風防', noise: '対応騒音レベル目安：95dB〜100dB以上' },
     { cat: '有線マイク', model: 'SSH-1117', name: 'オーバーヘッドセット（PTTボタン付）', img: '5_Over Headset.jpg',
-      desc: '頭に装着するオーバーヘッド型。長時間の連続使用に。' },
+      type: '有線マイク（オーバーヘッド型）',
+      desc: '頭に装着するオーバーヘッド型。長時間の連続使用に。PTTボタン付き。',
+      spec: '単一指向性マイク／PTTスイッチボックス／カールコード付き／Φ3.5mm-4極 双頭プラグ／左右兼用／Φ2.5mmモノラルイヤホンジャック',
+      connect: 'square本体',
+      acc: '風防', noise: '対応騒音レベル目安：〜80dB' },
     { cat: '有線マイク', model: 'SSN-1059', name: 'ネックセット（PTTボタン付）', img: '7_Neckset.jpg',
-      desc: '首掛けタイプ。帽子・ヘルメットと干渉しにくい装着スタイル。' },
+      type: '有線マイク（ネックバンド型）',
+      desc: '首掛けタイプのネックセット。帽子・ヘルメットと干渉しにくい装着スタイル。PTTボタン付き。',
+      spec: '単一指向性マイク／PTTスイッチボックス／カールコード付き／Φ3.5mm-4極 双頭プラグ／左右兼用／Φ2.5mmモノラルイヤホンジャック',
+      connect: 'square本体／対応イヤホン：SSE-1024・SSE-1071・SSE-1061',
+      acc: '風防', noise: '対応騒音レベル目安：〜80dB' },
     { cat: '有線マイク', model: 'SSH-1124', name: 'レフェリーマイク', img: 'SSH-1124.jpg',
-      desc: 'スポーツ審判向けのレフェリーマイク。イヤホン一体型。' },
+      type: '有線マイク（レフェリー型）',
+      desc: 'スポーツ審判向けのレフェリーマイク。イヤホン一体型。PTTボタンなし。',
+      spec: '無指向性 ホイッスル音抑制マイク／Φ3.5mm-4極 双頭プラグ／マイクブームは右専用／イヤホンは左右どちらにも装着可能',
+      connect: 'square本体',
+      acc: 'シリコンイヤチップS・M・L' },
     { cat: '有線マイク', model: 'SSM-1041', name: 'ハンドマイク（PTTボタン付）', img: '9_Hand Mic.jpg',
-      desc: '手持ちで使うハンドマイク。接続ケーブルSSC-1246を使用します。' },
+      type: '有線マイク（ハンドマイク型）',
+      desc: '手持ちで使うハンドマイク。PTTボタン付き。接続ケーブルSSC-1246（別売）を使用します。',
+      spec: '接話型ノイズキャンセルマイク／PTTボタン付き／SSC-1246ヘッドセット接続ケーブル（別売）が必要／Φ3.5mm-4極 双頭プラグ／Φ2.5mmモノラルイヤホンジャック',
+      connect: 'square本体（接続ケーブルSSC-1246を使用）／対応イヤホン：SSE-1024・SSE-1071・SSE-1061',
+      acc: 'なし', noise: '対応騒音レベル目安：〜90dB' },
     { cat: '有線マイク', model: 'SSH-1115', name: 'ヘッドセット型（PTTボタン付）', img: '4_Earmuff Headset.jpg',
-      desc: 'イヤーマフ一体型ヘッドセット。高騒音環境での遮音と通話を両立。接続ケーブルSSC-1246を使用します。' },
+      type: '有線マイク（イヤーマフ型ヘッドセット）',
+      desc: 'イヤーマフ一体型ヘッドセット。高騒音環境での遮音と通話を両立。PTTボタン付き。接続ケーブルSSC-1246（別売）を使用します。',
+      spec: '接話型ノイズキャンセルマイク／PTTボタン付き／SSC-1246ヘッドセット接続ケーブル（別売）が必要／Φ3.5mm-4極 双頭プラグ／大音量レシーバー搭載',
+      connect: 'square本体（接続ケーブルSSC-1246を使用）',
+      acc: '風防' },
     { cat: '有線マイク', model: 'SSM-1071', name: 'ラベリアマイク', img: 'SSM-1071.jpg',
-      desc: 'クリップで襟元に装着する小型ラベリアマイク。' },
+      type: '有線マイク（ラベリア型）',
+      desc: 'クリップで襟元に装着する小型ラベリアマイク。2ピンプラグ接続。録音専用でイヤホンは接続できません。',
+      spec: '無指向性マイク／クリップ付き取り付け台座付属／Φ3.5mm-4極 双頭プラグ／イヤホン接続不可',
+      connect: 'square本体',
+      acc: '取り付けピン' },
     { cat: 'Bluetoothヘッドセット', model: 'SSW-1121', name: 'VEXA（ヴェクサ）', img: '1_vexa_IMG_0912.jpg',
-      desc: 'square専用のオープンイヤー型Bluetoothヘッドセット。ボイスコマンド・サイドトーン・マルチポイント搭載。通話約15.5時間以上・IP55。' },
+      type: 'Bluetoothヘッドセット（オープンイヤー型）',
+      desc: 'square専用Bluetoothヘッドセット。ボイスコマンド・サイドトーン・マルチポイントの3つのコア機能を搭載。',
+      spec: 'オープンイヤー式ワイヤレスイヤホン／Bluetooth 5.1／接続距離約10m／通話 最大15.5時間・音楽再生 最大16.5時間（80%音量時）／充電約60分（USB Type-C・DC 5V）／防塵防水IP55／重量約36g',
+      connect: 'square本体とペアリング／マルチポイントでスマートフォンと同時接続可（squareの接続を維持したまま電話応答可能）',
+      acc: '中風防（装着済）、大風防、充電ケーブル、クイックスタートガイド' },
     { cat: 'イヤホン', model: 'SSE-1024', name: '耳掛けイヤホン', img: '10_Earhook Earphone.jpg',
-      desc: '耳に掛けて使うオープンタイプのイヤホン。' },
+      type: 'イヤホン（耳掛け型）',
+      desc: '耳に掛けて使うオープンタイプのイヤホン。',
+      spec: 'インピーダンス8Ω／Φ2.5mmプラグ／コード長50cm（カタログ値）',
+      connect: '対応マイク：SSP-1130・SSH-1123・SSI-1028・SSN-1059・SSM-1041',
+      acc: 'イヤースポンジ' },
     { cat: 'イヤホン', model: 'SSE-1071-25 / -50', name: '防水イヤホン', img: 'SSE-1071.jpg',
-      desc: '防水仕様のカナル型イヤホン。ケーブル長2種類。' },
+      type: 'イヤホン（カナル型・防水）',
+      desc: '防水仕様のカナル型イヤホン。ケーブル長2種類（-25：25cm／-50：50cm）。',
+      spec: 'インピーダンス150Ω（カタログ値）／防水性能IPX7／ケーブル長25cm・50cm／Φ2.5mmプラグ',
+      connect: '対応マイク：SSP-1130・SSH-1123・SSI-1028・SSN-1059・SSM-1041',
+      acc: 'イヤチップ小・大' },
     { cat: 'イヤホン', model: 'SSE-1061-25 / -50', name: '小型イヤホン', img: '13_High sound insulation Earphone.jpg',
-      desc: '小型・高遮音タイプのイヤホン。ケーブル長2種類。' },
+      type: 'イヤホン（カナル型・小型）',
+      desc: '小型・高遮音タイプのイヤホン。ケーブル長2種類（-25：25cm／-50：50cm）。',
+      spec: 'インピーダンス13Ω（カタログ値）／ケーブル長25cm・50cm／Φ2.5mmプラグ',
+      connect: '対応マイク：SSP-1130・SSH-1123・SSI-1028・SSN-1059・SSM-1041',
+      acc: 'シリコンイヤチップS・M・L、ウレタンイヤチップ' },
     { cat: 'イヤホン', model: 'SSE-1040', name: '防滴イヤスピーカー', img: '11_Earpaff Speaker.jpg',
-      desc: '耳を塞がない防滴イヤスピーカー。SSH-1123（ヘルメット装着マイク）用。' },
+      type: 'イヤスピーカー（防滴）',
+      desc: '耳を塞がない防滴イヤスピーカー。SSH-1123（ヘルメット装着マイク）用。',
+      spec: 'インピーダンス8Ω／Φ2.5mmプラグ（カタログ値）',
+      connect: 'SSH-1123専用',
+      acc: 'なし' },
     { cat: '充電・ケーブル', model: 'SSZ-1070-4 / -8', name: 'スクエア専用充電器', img: 'SSZ-1070.jpg',
-      desc: 'square本体を差すだけで充電できる専用充電器。4台用と8台用の2種類。' },
+      type: '充電ステーション',
+      desc: 'square本体を差すだけで充電できる専用充電器。4台用と8台用の2種類。',
+      spec: '同時充電台数：4台（-4）／8台（-8）／充電端子：USB Type-C',
+      connect: 'square本体（親機・子機共通）',
+      acc: 'ACアダプター' },
     { cat: '充電・ケーブル', model: 'SSC-1246', name: 'ヘッドセット接続ケーブル', img: 'SSC-1246.jpg',
-      desc: 'SSM-1041・SSH-1115をsquare本体に接続するカールコードケーブル。' }
+      type: '接続ケーブル',
+      desc: 'SSM-1041（ハンドマイク）・SSH-1115（ヘッドセット型）をsquare本体に接続するカールコードケーブル。',
+      spec: '5pinコネクタ／カールコード付き／Φ3.5mm-4極 双頭プラグ',
+      connect: 'SSM-1041／SSH-1115 ⇔ square本体（2ピン）',
+      acc: '-' }
   ];
 
   var productsRendered = false;
@@ -1256,6 +1340,27 @@
       n.className = 'prod-name'; n.textContent = p.name;
       var d = document.createElement('div');
       d.className = 'prod-desc'; d.textContent = p.desc;
+      var det = null;
+      if (p.spec || p.connect || p.acc) {
+        det = document.createElement('details');
+        det.className = 'prod-details';
+        var sum = document.createElement('summary');
+        sum.textContent = '詳細仕様';
+        det.appendChild(sum);
+        [['種別', p.type], ['主な仕様', p.spec], ['対応・接続', p.connect], ['付属品', p.acc]].forEach(function(kv) {
+          if (!kv[1]) return;
+          var r = document.createElement('div'); r.className = 'prod-spec-row';
+          var k = document.createElement('div'); k.className = 'prod-spec-key'; k.textContent = kv[0];
+          var v = document.createElement('div'); v.className = 'prod-spec-val'; v.textContent = kv[1];
+          r.appendChild(k); r.appendChild(v); det.appendChild(r);
+        });
+      }
+      var noiseEl = null;
+      if (p.noise) {
+        noiseEl = document.createElement('span');
+        noiseEl.className = 'prod-noise';
+        noiseEl.textContent = p.noise;
+      }
       var btn = document.createElement('button');
       btn.className = 'prod-ask'; btn.textContent = 'AIに質問する';
       btn.addEventListener('click', function() {
@@ -1264,7 +1369,11 @@
         $('chat-input').value = p.model + '（' + p.name + '）について教えてください';
         $('chat-input').focus();
       });
-      body.appendChild(m); body.appendChild(n); body.appendChild(d); body.appendChild(btn);
+      body.appendChild(m); body.appendChild(n);
+      if (noiseEl) body.appendChild(noiseEl);
+      body.appendChild(d);
+      if (det) body.appendChild(det);
+      body.appendChild(btn);
       card.appendChild(body);
       grid.appendChild(card);
     });
