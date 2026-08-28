@@ -44,7 +44,13 @@
     .tab-btn:not(.active):hover { background: var(--panel); color: var(--white); }
 
     /* ── お知らせ(管理者からのお知らせ) ── */
-    #notices-box { display: none; max-width: 1080px; width: 100%; margin: 14px auto 0; padding: 0 24px; }
+    #notices-box { display: none; width: 100%; margin: 0 0 12px; }
+    .notice-head-row { cursor: pointer; display: flex; align-items: baseline; gap: 8px; }
+    .notice-head-row:hover .notice-title { color: var(--red); }
+    .notice-arrow { font-size: 10px; color: var(--gray-500); transition: transform 0.15s; flex: 0 0 auto; }
+    .notice-item.open .notice-arrow { transform: rotate(90deg); }
+    .notice-content { display: none; }
+    .notice-item.open .notice-content { display: block; }
     .notices-inner { background: var(--dark); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--red); border-radius: 8px; padding: 14px 18px; }
     .notices-head { font-size: 13px; font-weight: 900; letter-spacing: 0.06em; color: var(--red); margin-bottom: 8px; }
     .notice-item { padding: 8px 0; border-top: 1px dashed rgba(255,255,255,0.12); }
@@ -230,7 +236,7 @@
       #products-view, #talks-view, #qbox-view, #howto-view { padding: 8px 16px 40px; }
       .howto-table { font-size: 11px; }
       .howto-table th, .howto-table td { padding: 6px 7px; }
-      #notices-box { padding: 0 16px; }
+      #notices-box { padding: 0; }
       .view-title { font-size: 17px; }
       .view-note { font-size: 11px; }
       /* 製品カードを横型コンパクト表示(縦スクロール削減) */
@@ -287,23 +293,22 @@
 
   <!-- タブ -->
   <nav id="portal-tabs" aria-label="ページ切り替え">
-    <button class="tab-btn active" data-tab="chat-view">AIチャット</button>
+    <button class="tab-btn active" data-tab="chat-view">AIチャット/お知らせ</button>
     <button class="tab-btn" data-tab="products-view">製品ページ</button>
     <button class="tab-btn" data-tab="talks-view">セールストーク</button>
     <button class="tab-btn" data-tab="howto-view">使い方</button>
     <button class="tab-btn" data-tab="qbox-view">質問・要望</button>
   </nav>
 
-  <!-- 管理者からのお知らせ(ログイン後・全タブ共通) -->
-  <div id="notices-box" aria-label="管理者からのお知らせ">
-    <div class="notices-inner">
-      <div class="notices-head">お知らせ</div>
-      <div id="notices-list"></div>
-    </div>
-  </div>
-
   <!-- チャット -->
   <div id="chat-view">
+    <!-- 管理者からのお知らせ(AIチャット/お知らせタブ内のみ表示) -->
+    <div id="notices-box" aria-label="管理者からのお知らせ">
+      <div class="notices-inner">
+        <div class="notices-head">お知らせ</div>
+        <div id="notices-list"></div>
+      </div>
+    </div>
     <div class="chat-head">
       <h1 class="chat-title">square AIサポート</h1>
       <p class="chat-note">製品仕様・専門用語・アクセサリについてご質問ください。価格や納期は担当営業へお問い合わせください。</p>
@@ -782,7 +787,7 @@
         .eq('portal', 'square')
         .eq('published', true)
         .order('created_at', { ascending: false })
-        .limit(5),
+        .limit(10),
       sb.rpc('notice_like_counts'),
       sb.from('notice_reactions').select('notice_id')
     ]).then(function(results) {
@@ -795,20 +800,31 @@
 
       var list = $('notices-list');
       list.innerHTML = '';
-      res.data.forEach(function(n) {
+      res.data.forEach(function(n, idx) {
         var item = document.createElement('div');
-        item.className = 'notice-item';
+        item.className = 'notice-item' + (idx === 0 ? ' open' : '');
+
+        var head = document.createElement('div');
+        head.className = 'notice-head-row';
+        var arrow = document.createElement('span');
+        arrow.className = 'notice-arrow';
+        arrow.textContent = '▶';
+        var meta = document.createElement('div');
         var d = document.createElement('div');
         d.className = 'notice-date';
         d.textContent = n.created_at ? String(n.created_at).slice(0, 10).replace(/-/g, '/') : '';
         var t = document.createElement('div');
         t.className = 'notice-title';
         t.textContent = n.title || '';
-        var b = document.createElement('div');
-        b.className = 'notice-body';
-        b.textContent = n.body || '';
-        item.appendChild(d);
-        item.appendChild(t);
+        meta.appendChild(d);
+        meta.appendChild(t);
+        head.appendChild(arrow);
+        head.appendChild(meta);
+        head.addEventListener('click', function() { item.classList.toggle('open'); });
+        item.appendChild(head);
+
+        var content = document.createElement('div');
+        content.className = 'notice-content';
         if (n.image_url) {
           var im = document.createElement('img');
           im.className = 'notice-img';
@@ -820,10 +836,16 @@
             $('notice-lightbox-img').src = n.image_url;
             $('notice-lightbox').className = 'open';
           });
-          item.appendChild(im);
+          content.appendChild(im);
         }
-        if (n.body) item.appendChild(b);
-        item.appendChild(buildLikeRow(n.id, counts[n.id] || 0, !!mine[n.id]));
+        if (n.body) {
+          var b = document.createElement('div');
+          b.className = 'notice-body';
+          b.textContent = n.body || '';
+          content.appendChild(b);
+        }
+        content.appendChild(buildLikeRow(n.id, counts[n.id] || 0, !!mine[n.id]));
+        item.appendChild(content);
         list.appendChild(item);
       });
       $('notices-box').style.display = 'block';
