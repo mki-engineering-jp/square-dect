@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>AI営業資料 作成依頼フォーム | 幹開発 社内用</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red: #c8102e; --red-dark: #9e0c24; --ink: #1a1a1a; --ink-2: #444; --ink-3: #777; --line: #d9d9d9; --bg: #f4f4f4; --head: #c00000; }
+    html { background: var(--bg); }
+    body { font-family: 'Noto Sans JP', 'Inter', sans-serif; color: var(--ink); font-size: 14px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 1040px; margin: 0 auto; padding: 0 16px 80px; }
+    .sheet { background: #fff; border: 1px solid var(--line); box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-top: 20px; padding: 28px 36px 36px; }
+    .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 2px solid var(--red); padding-bottom: 14px; }
+    .top h1 { font-size: 22px; font-weight: 900; letter-spacing: 0.02em; }
+    .top .sub { font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+    .top img { height: 54px; width: auto; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 800; color: #fff; background: var(--red); padding: 2px 8px; border-radius: 3px; letter-spacing: 0.08em; vertical-align: middle; margin-left: 8px; }
+    .intro { font-size: 13px; color: var(--ink-2); margin: 16px 0 6px; }
+    .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin: 14px 0 6px; }
+    .meta label { font-size: 12px; font-weight: 700; color: var(--ink-3); display: block; margin-bottom: 3px; }
+    .meta .val { font-size: 13px; }
+    h2 { font-size: 17px; font-weight: 800; margin: 34px 0 10px; padding-left: 10px; border-left: 5px solid var(--red); line-height: 1.3; }
+    h2 small { font-weight: 500; font-size: 12px; color: var(--ink-3); margin-left: 8px; }
+    table.q { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table.q th, table.q td { border: 1px solid var(--line); padding: 9px 12px; vertical-align: top; text-align: left; }
+    table.q thead th { background: var(--head); color: #fff; font-weight: 700; font-size: 12px; letter-spacing: 0.04em; }
+    table.q tbody th { width: 26%; background: #fafafa; font-weight: 700; color: var(--ink-2); }
+    table.q td.note { width: 24%; color: var(--ink-3); font-size: 12px; }
+    .req { color: var(--red); font-size: 11px; margin-left: 4px; }
+    input[type=text], input[type=date], input[type=number], textarea, select {
+      width: 100%; font-family: inherit; font-size: 13px; color: var(--ink); background: #fff;
+      border: 1px solid #bbb; border-radius: 4px; padding: 7px 9px;
+    }
+    textarea { resize: vertical; min-height: 64px; }
+    input:focus, textarea:focus, select:focus { outline: 2px solid var(--red); outline-offset: 1px; border-color: transparent; }
+    .opts { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+    .opts label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; white-space: nowrap; }
+    .opts input { accent-color: var(--red); width: 15px; height: 15px; }
+    .other { display: flex; align-items: center; gap: 6px; margin-top: 6px; white-space: nowrap; font-size: 12.5px; color: var(--ink-2); }
+    .other input[type=text] { max-width: 420px; flex: 1 1 auto; min-width: 0; }
+    .rank { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .rank .row { display: flex; align-items: center; gap: 10px; }
+    .rank select { width: 86px; }
+    .hint { font-size: 11.5px; color: var(--ink-3); margin-top: 4px; }
+    .actions { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn { font-family: inherit; font-size: 14px; font-weight: 700; border-radius: 4px; padding: 11px 26px; cursor: pointer; border: 1px solid transparent; }
+    .btn.primary { background: var(--red); color: #fff; }
+    .btn.primary:hover:not(:disabled) { background: var(--red-dark); }
+    .btn.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.ghost { background: #fff; color: var(--ink-2); border-color: #bbb; }
+    .msg { font-size: 13px; min-height: 1.2em; }
+    .msg.ok { color: #1f8a4c; } .msg.err { color: var(--red); }
+    .back { display: inline-block; font-size: 13px; color: var(--ink-3); margin-top: 20px; }
+    #gate { text-align: center; padding: 60px 20px; color: var(--ink-2); }
+    #gate a { color: var(--red); }
+    #form-wrap { display: none; }
+    @media (max-width: 720px) {
+      .sheet { padding: 18px 14px 28px; }
+      .meta { grid-template-columns: 1fr; }
+      table.q, table.q tbody, table.q tr, table.q th, table.q td { display: block; width: 100%; }
+      table.q thead { display: none; }
+      table.q tbody th { width: 100%; border-bottom: none; }
+      table.q td.note { width: 100%; border-top: none; }
+      table.q tr { margin-bottom: 10px; }
+      .top img { height: 40px; }
+    }
+    @media print {
+      html { background: #fff; } .sheet { border: none; box-shadow: none; margin: 0; padding: 0; } .actions, .back { display: none; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.SQUARE_SUPABASE_URL = 'https://adatzeolzkjujtuxebrc.supabase.co';
+    window.SQUARE_SUPABASE_KEY = 'sb_publishable_2Ghe-V3dLS7Ym06p71i33A_zFU8eJgz';
+  </script>
+</head>
+<body>
+<div class="page">
+  <div class="sheet">
+    <div class="top">
+      <div>
+        <h1>AI営業資料 作成依頼フォーム <span class="badge">社内用</span></h1>
+        <div class="sub">AI（Claude）で営業資料を作成するためのヒアリングシート　MIKI Engineering Co., Ltd.</div>
+      </div>
+      <img src="https://mki-engineering-jp.github.io/assets/mki_logo.svg" alt="MKI Engineering">
+    </div>
+
+    <div id="gate">確認中...</div>
+
+    <div id="form-wrap">
+      <p class="intro">分かる範囲で結構です。空欄があっても送信できます。送信するとSlack（#aiポータル-未回答質問）に通知され、内容はデータベースにも保存されます。入力途中の内容はこの端末に自動保存されます。</p>
+      <div class="meta">
+        <div><label>依頼者</label><div class="val" id="who">—</div></div>
+        <div><label for="f-title">資料名（仮）<span class="req">任意</span></label><input type="text" id="f-title" placeholder="例: レンタル会社向け square＋VEXA 提案資料"></div>
+      </div>
+
+      <h2>1. 資料の目的</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>見せる相手</th><td><div class="opts" data-key="audience">
+          <label><input type="checkbox" value="エンドユーザーの決裁者">エンドユーザーの決裁者</label>
+          <label><input type="checkbox" value="現場担当者">現場担当者</label>
+          <label><input type="checkbox" value="販売代理店">販売代理店</label>
+          <label><input type="checkbox" value="レンタル会社">レンタル会社</label></div>
+          <div class="other">その他: <input type="text" data-key="audience_other"></div></td>
+          <td class="note">複数選択可</td></tr>
+        <tr><th>使う場面</th><td><div class="opts" data-key="scene">
+          <label><input type="checkbox" value="初回訪問">初回訪問</label>
+          <label><input type="checkbox" value="提案書添付">提案書添付</label>
+          <label><input type="checkbox" value="展示会配布">展示会配布</label>
+          <label><input type="checkbox" value="メール送付">メール送付</label>
+          <label><input type="checkbox" value="見積同封">見積同封</label></div>
+          <div class="other">その他: <input type="text" data-key="scene_other"></div></td>
+          <td class="note">複数選択可</td></tr>
+        <tr><th>読んだ相手にしてほしいこと</th><td><div class="opts" data-key="goal">
+          <label><input type="checkbox" value="デモ依頼">デモ依頼</label>
+          <label><input type="checkbox" value="見積依頼">見積依頼</label>
+          <label><input type="checkbox" value="貸出申込">貸出申込</label>
+          <label><input type="checkbox" value="社内稟議">社内稟議</label></div>
+          <div class="other">その他: <input type="text" data-key="goal_other"></div></td>
+          <td class="note">資料のゴール</td></tr>
+        <tr><th>対象製品</th><td><div class="opts" data-key="product">
+          <label><input type="radio" name="product" value="square 単体">square 単体</label>
+          <label><input type="radio" name="product" value="VEXA 単体">VEXA 単体</label>
+          <label><input type="radio" name="product" value="square＋VEXA のセット">square＋VEXA のセット</label></div></td>
+          <td class="note"></td></tr>
+      </tbody></table>
+
+      <h2>2. ターゲット顧客</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>業種・用途</th><td><div class="opts" data-key="industry">
+          <label><input type="checkbox" value="建設／レンタル">建設／レンタル</label>
+          <label><input type="checkbox" value="イベント・舞台">イベント・舞台</label>
+          <label><input type="checkbox" value="スポーツ審判">スポーツ審判</label>
+          <label><input type="checkbox" value="工場・倉庫">工場・倉庫</label>
+          <label><input type="checkbox" value="放送">放送</label></div>
+          <div class="other">その他: <input type="text" data-key="industry_other"></div></td>
+          <td class="note">複数選択可</td></tr>
+        <tr><th>想定している導入規模</th><td><input type="text" data-key="scale" placeholder="例: 子機8台×現場3か所／親機2台連結で16人"></td><td class="note">子機○台・現場○か所など</td></tr>
+        <tr><th>相手が今使っているもの</th><td><div class="opts" data-key="current">
+          <label><input type="checkbox" value="特定小電力トランシーバー">特定小電力トランシーバー</label>
+          <label><input type="checkbox" value="IP無線">IP無線</label>
+          <label><input type="checkbox" value="他社インカム">他社インカム</label>
+          <label><input type="checkbox" value="スマホアプリ">スマホアプリ</label>
+          <label><input type="checkbox" value="何も使っていない">何も使っていない</label></div>
+          <div class="other">その他・製品名: <input type="text" data-key="current_other"></div></td>
+          <td class="note">分かれば製品名も</td></tr>
+      </tbody></table>
+
+      <h2>3. 現場で聞く声</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>商談でよく聞かれる質問・不安</th><td><textarea data-key="faq" placeholder="上位3つ程度。例: 混信しないか／電池はどのくらい持つか／雨の日でも使えるか"></textarea></td><td class="note">上位3つ程度</td></tr>
+        <tr><th>受注につながった決め手</th><td><textarea data-key="win"></textarea></td><td class="note"></td></tr>
+        <tr><th>失注・保留になった理由</th><td><textarea data-key="lose"></textarea></td><td class="note"></td></tr>
+        <tr><th>顧客が「それは困る」と言う既存製品の不満</th><td><textarea data-key="pain"></textarea></td><td class="note">今使っている機器への不満</td></tr>
+      </tbody></table>
+
+      <h2>4. 訴求したいポイントの優先順位 <small>重要なもの順に 1〜5 を選択（3〜5個）</small></h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>優先順位</th><td><div class="rank" id="rank-list">
+          <div class="row"><select data-rank="免許・資格不要／混信しにくい（DECT 1.9GHz）"></select><span>免許・資格不要／混信しにくい（DECT 1.9GHz）</span></div>
+          <div class="row"><select data-rank="同時通話の人数（親機1台で最大9人、親機2台連結で子機最大16人）"></select><span>同時通話の人数（親機1台で最大9人、親機2台連結で子機最大16人）</span></div>
+          <div class="row"><select data-rank="動作時間（親機・子機）／据え置き給電運用"></select><span>動作時間（親機・子機）／据え置き給電運用</span></div>
+          <div class="row"><select data-rank="操作の簡単さ・セットアップの早さ"></select><span>操作の簡単さ・セットアップの早さ</span></div>
+          <div class="row"><select data-rank="VEXAでのワイヤレス運用（ケーブルレス・騒音下の聞き取りやすさ・ボイスコマンド）"></select><span>VEXAでのワイヤレス運用（ケーブルレス・騒音下の聞き取りやすさ・ボイスコマンド）</span></div>
+          <div class="row"><select data-rank="耐久性・防塵防水・保証"></select><span>耐久性・防塵防水・保証</span></div>
+          <div class="row"><select data-rank="価格・レンタル対応・導入コスト"></select><span>価格・レンタル対応・導入コスト</span></div>
+          <div class="row"><select data-rank="国内サポート体制（幹開発／サイエンスアーツ）"></select><span>国内サポート体制（幹開発／サイエンスアーツ）</span></div>
+        </div><div class="hint">同じ順位を複数に付けても構いません。</div></td>
+          <td class="note">1 が最重要</td></tr>
+        <tr><th>追加したい訴求点</th><td><textarea data-key="appeal_other" placeholder="上記にない訴求ポイントがあれば"></textarea></td><td class="note"></td></tr>
+      </tbody></table>
+
+      <h2>5. 比較してほしい競合</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>競合製品</th><td><div class="opts" data-key="competitor">
+          <label><input type="checkbox" value="Shokz系（骨伝導ヘッドセット）">Shokz系（骨伝導ヘッドセット）</label>
+          <label><input type="checkbox" value="BRIDGECOM X5">BRIDGECOM X5</label>
+          <label><input type="checkbox" value="特定小電力トランシーバー">特定小電力トランシーバー</label>
+          <label><input type="checkbox" value="他社DECTインカム">他社DECTインカム</label>
+          <label><input type="checkbox" value="比較不要">比較不要</label></div>
+          <div class="other">その他・具体的な製品名: <input type="text" data-key="competitor_other"></div></td>
+          <td class="note">資料内での他社名の扱いは要相談</td></tr>
+        <tr><th>競合に勝っている点</th><td><textarea data-key="adv"></textarea></td><td class="note">正直に認識しているもの</td></tr>
+        <tr><th>競合に劣っている点</th><td><textarea data-key="disadv"></textarea></td><td class="note">資料では触れない／触れ方を工夫する判断材料</td></tr>
+      </tbody></table>
+
+      <h2>6. 実績・事例</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>資料に出してよい顧客</th><td><textarea data-key="cases" placeholder="例: ○○建設（社名可）／イベント会社A（業種のみ可）／△△（不可）"></textarea>
+          <div class="opts" data-key="cases_policy" style="margin-top:6px;">
+          <label><input type="radio" name="cases_policy" value="社名可">社名可</label>
+          <label><input type="radio" name="cases_policy" value="業種のみ可">業種のみ可</label>
+          <label><input type="radio" name="cases_policy" value="不可（実績は載せない）">不可（実績は載せない）</label></div></td>
+          <td class="note">導入済み・検討中どちらも</td></tr>
+        <tr><th>使ってよい現場写真・コメント</th><td><textarea data-key="assets_cases" placeholder="写真の保存場所・コメントの出典など"></textarea></td><td class="note"></td></tr>
+      </tbody></table>
+
+      <h2>7. 価格・条件</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>価格の掲載</th><td><div class="opts" data-key="price">
+          <label><input type="radio" name="price" value="本体・アクセサリ・セットの価格を載せる">価格を載せる</label>
+          <label><input type="radio" name="price" value="「要見積」とする">「要見積」とする</label>
+          <label><input type="radio" name="price" value="一部のみ載せる">一部のみ載せる</label></div>
+          <div class="other">補足: <input type="text" data-key="price_note" placeholder="載せる範囲・価格表の所在など"></div></td>
+          <td class="note"></td></tr>
+        <tr><th>レンタル・貸出デモ</th><td><div class="opts" data-key="rental">
+          <label><input type="radio" name="rental" value="可">可</label>
+          <label><input type="radio" name="rental" value="条件付きで可">条件付きで可</label>
+          <label><input type="radio" name="rental" value="不可">不可</label>
+          <label><input type="radio" name="rental" value="記載しない">記載しない</label></div>
+          <div class="other">条件: <input type="text" data-key="rental_note" placeholder="期間・台数・送料など"></div></td>
+          <td class="note"></td></tr>
+        <tr><th>保証期間・修理対応の記載</th><td><input type="text" data-key="warranty" placeholder="例: 保証1年・有償修理の案内のみ／記載しない"></td><td class="note"></td></tr>
+        <tr><th>納期・在庫状況</th><td><div class="opts" data-key="stock">
+          <label><input type="radio" name="stock" value="記載する">記載する</label>
+          <label><input type="radio" name="stock" value="記載しない">記載しない</label></div>
+          <div class="other">内容: <input type="text" data-key="stock_note" placeholder="例: 通常○週間／在庫あり"></div></td>
+          <td class="note"></td></tr>
+      </tbody></table>
+
+      <h2>8. 体裁</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>形式</th><td><div class="opts" data-key="format">
+          <label><input type="radio" name="format" value="PDF">PDF</label>
+          <label><input type="radio" name="format" value="PowerPoint">PowerPoint</label>
+          <label><input type="radio" name="format" value="両方">両方</label></div></td><td class="note"></td></tr>
+        <tr><th>サイズ・枚数</th><td><div class="opts" data-key="size">
+          <label><input type="radio" name="size" value="A4縦">A4縦</label>
+          <label><input type="radio" name="size" value="A4横">A4横</label>
+          <label><input type="radio" name="size" value="16:9スライド">16:9スライド</label></div>
+          <div class="other">枚数の目安: <input type="text" data-key="pages" placeholder="例: 表裏2ページ／6〜8枚" style="max-width:260px;"></div></td><td class="note"></td></tr>
+        <tr><th>会社名・ロゴの扱い</th><td><div class="opts" data-key="logo">
+          <label><input type="radio" name="logo" value="幹開発のみ">幹開発のみ</label>
+          <label><input type="radio" name="logo" value="サイエンスアーツ併記">サイエンスアーツ併記</label>
+          <label><input type="radio" name="logo" value="販売店名を入れる枠が必要">販売店名を入れる枠が必要</label></div></td><td class="note"></td></tr>
+        <tr><th>問い合わせ先</th><td><input type="text" data-key="contact" placeholder="担当者名・電話・メール（例: 幹開発 市川 / sales@miki-kk.jp）"></td><td class="note">資料に載せる連絡先</td></tr>
+        <tr><th>トーン</th><td><div class="opts" data-key="tone">
+          <label><input type="radio" name="tone" value="硬め・法人向け">硬め・法人向け</label>
+          <label><input type="radio" name="tone" value="親しみやすい・現場向け">親しみやすい・現場向け</label>
+          <label><input type="radio" name="tone" value="おまかせ">おまかせ</label></div></td><td class="note"></td></tr>
+      </tbody></table>
+
+      <h2>9. 素材と制約</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>使ってよい既存素材</th><td><textarea data-key="materials" placeholder="例: HPの製品写真／square紹介資料PDFのP3〜5／YouTube動画のQR／カタログの仕様表"></textarea></td><td class="note">写真・動画・既存PDFのページなど</td></tr>
+        <tr><th>必ず入れる注記・使ってはいけない表現</th><td><div class="opts" data-key="rules">
+          <label><input type="checkbox" value="「通信機器は安全確保を目的とした装置ではない」注記を入れる">「通信機器は安全確保装置ではない」注記を入れる</label>
+          <label><input type="checkbox" value="動作時間の条件注記を入れる">動作時間の条件注記を入れる</label>
+          <label><input type="checkbox" value="他社製品名は出さない">他社製品名は出さない</label>
+          <label><input type="checkbox" value="開発中・予定の数値は載せない">開発中・予定の数値は載せない</label></div>
+          <div class="other">その他: <input type="text" data-key="rules_other" placeholder="社内で決まっている文言ルールなど"></div></td>
+          <td class="note">NG表現・NG数値</td></tr>
+        <tr><th>参考にしたい資料</th><td><input type="text" data-key="reference" placeholder="他社や他業界の資料・URLなど"></td><td class="note"></td></tr>
+      </tbody></table>
+
+      <h2>10. スケジュール</h2>
+      <table class="q"><thead><tr><th>項目</th><th>内容</th><th>備考</th></tr></thead><tbody>
+        <tr><th>必要な期日</th><td><input type="date" data-key="deadline" style="max-width:220px;"> <div class="other">用途・急ぎの理由: <input type="text" data-key="deadline_note" placeholder="例: 11/5 の商談で使用"></div></td><td class="note"></td></tr>
+        <tr><th>内容の最終確認者</th><td><input type="text" data-key="approver" placeholder="例: 高橋"></td><td class="note"></td></tr>
+        <tr><th>その他・補足</th><td><textarea data-key="memo"></textarea></td><td class="note"></td></tr>
+      </tbody></table>
+
+      <div class="actions">
+        <button class="btn primary" id="send-btn">送信する（Slackに通知）</button>
+        <button class="btn ghost" id="clear-btn" type="button">入力内容をクリア</button>
+        <span class="msg" id="msg"></span>
+      </div>
+      <a class="back" href="dealer.html">← 営業ツールへ戻る</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  var sb = window.supabase.createClient(window.SQUARE_SUPABASE_URL, window.SQUARE_SUPABASE_KEY);
+  var FN_URL = window.SQUARE_SUPABASE_URL + '/functions/v1/sales-doc-request';
+  var DRAFT_KEY = 'mki_sales_doc_request_draft';
+  var $ = function(id) { return document.getElementById(id); };
+  var userEmail = '';
+
+  // 順位セレクト
+  document.querySelectorAll('#rank-list select').forEach(function(sel) {
+    sel.innerHTML = '<option value="">—</option>' + [1,2,3,4,5].map(function(n){ return '<option value="'+n+'">'+n+'位</option>'; }).join('');
+  });
+
+  // ── アクセス制御: ログイン済み かつ @miki-kk.jp のみ ──
+  sb.auth.getSession().then(function(res) {
+    var s = res.data && res.data.session;
+    var email = s && s.user && s.user.email ? s.user.email.toLowerCase() : '';
+    if (!email) {
+      $('gate').innerHTML = 'このフォームは幹開発社内用です。<a href="dealer.html">営業ツール</a>に @miki-kk.jp のメールアドレスでログインしてから開いてください。';
+      return;
+    }
+    if (email.slice(-11) !== '@miki-kk.jp') {
+      $('gate').innerHTML = 'このフォームは幹開発社内（@miki-kk.jp）専用です。<a href="dealer.html">営業ツールへ戻る</a>';
+      return;
+    }
+    userEmail = email;
+    $('who').textContent = email;
+    $('gate').style.display = 'none';
+    $('form-wrap').style.display = 'block';
+    restoreDraft();
+  });
+
+  // ── 収集 ──
+  function val(key) { var el = document.querySelector('[data-key="'+key+'"]'); return el ? el.value.trim() : ''; }
+  function checked(key) {
+    var box = document.querySelector('.opts[data-key="'+key+'"]'); if (!box) return [];
+    return Array.prototype.map.call(box.querySelectorAll('input:checked'), function(i){ return i.value; });
+  }
+  function joinOther(key) {
+    var a = checked(key); var o = val(key + '_other'); if (o) a.push('その他: ' + o); return a.join('、');
+  }
+  function withNote(key, noteKey) { var a = checked(key).join('、'); var n = val(noteKey); return n ? (a ? a + '（' + n + '）' : n) : a; }
+
+  function collect() {
+    var ranks = Array.prototype.map.call(document.querySelectorAll('#rank-list select'), function(s){ return { n: s.value, t: s.getAttribute('data-rank') }; })
+      .filter(function(r){ return r.n; }).sort(function(a,b){ return a.n - b.n; }).map(function(r){ return r.n + '位: ' + r.t; }).join('\n');
+    return {
+      title: $('f-title').value.trim(),
+      sections: [
+        { title: '1. 資料の目的', items: [
+          { label: '見せる相手', value: joinOther('audience') },
+          { label: '使う場面', value: joinOther('scene') },
+          { label: '読んだ相手にしてほしいこと', value: joinOther('goal') },
+          { label: '対象製品', value: checked('product').join('') } ] },
+        { title: '2. ターゲット顧客', items: [
+          { label: '業種・用途', value: joinOther('industry') },
+          { label: '想定している導入規模', value: val('scale') },
+          { label: '相手が今使っているもの', value: joinOther('current') } ] },
+        { title: '3. 現場で聞く声', items: [
+          { label: 'よく聞かれる質問・不安', value: val('faq') },
+          { label: '受注につながった決め手', value: val('win') },
+          { label: '失注・保留になった理由', value: val('lose') },
+          { label: '既存製品の不満', value: val('pain') } ] },
+        { title: '4. 訴求ポイントの優先順位', items: [
+          { label: '優先順位', value: ranks },
+          { label: '追加したい訴求点', value: val('appeal_other') } ] },
+        { title: '5. 比較してほしい競合', items: [
+          { label: '競合製品', value: joinOther('competitor') },
+          { label: '勝っている点', value: val('adv') },
+          { label: '劣っている点', value: val('disadv') } ] },
+        { title: '6. 実績・事例', items: [
+          { label: '資料に出してよい顧客', value: val('cases') },
+          { label: '社名の扱い', value: checked('cases_policy').join('') },
+          { label: '使ってよい写真・コメント', value: val('assets_cases') } ] },
+        { title: '7. 価格・条件', items: [
+          { label: '価格の掲載', value: withNote('price', 'price_note') },
+          { label: 'レンタル・貸出デモ', value: withNote('rental', 'rental_note') },
+          { label: '保証・修理対応の記載', value: val('warranty') },
+          { label: '納期・在庫状況', value: withNote('stock', 'stock_note') } ] },
+        { title: '8. 体裁', items: [
+          { label: '形式', value: checked('format').join('') },
+          { label: 'サイズ・枚数', value: withNote('size', 'pages') },
+          { label: '会社名・ロゴ', value: checked('logo').join('') },
+          { label: '問い合わせ先', value: val('contact') },
+          { label: 'トーン', value: checked('tone').join('') } ] },
+        { title: '9. 素材と制約', items: [
+          { label: '使ってよい既存素材', value: val('materials') },
+          { label: '必ず入れる注記・NG表現', value: joinOther('rules') },
+          { label: '参考にしたい資料', value: val('reference') } ] },
+        { title: '10. スケジュール', items: [
+          { label: '必要な期日', value: val('deadline') + (val('deadline_note') ? '（' + val('deadline_note') + '）' : '') },
+          { label: '内容の最終確認者', value: val('approver') },
+          { label: 'その他・補足', value: val('memo') } ] }
+      ]
+    };
+  }
+
+  // ── 下書きの自動保存（この端末） ──
+  function serialize() {
+    var o = { title: $('f-title').value, f: {}, c: [], r: {} };
+    document.querySelectorAll('[data-key]').forEach(function(el){ if (el.tagName !== 'DIV') o.f[el.getAttribute('data-key')] = el.value; });
+    document.querySelectorAll('.opts input:checked').forEach(function(i){ o.c.push((i.name || i.closest('.opts').getAttribute('data-key')) + '|' + i.value); });
+    document.querySelectorAll('#rank-list select').forEach(function(s){ o.r[s.getAttribute('data-rank')] = s.value; });
+    return o;
+  }
+  function saveDraft() { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(serialize())); } catch (e) {} }
+  function restoreDraft() {
+    var o; try { o = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) {}
+    if (!o) return;
+    $('f-title').value = o.title || '';
+    Object.keys(o.f || {}).forEach(function(k){ var el = document.querySelector('[data-key="'+k+'"]'); if (el && el.tagName !== 'DIV') el.value = o.f[k]; });
+    (o.c || []).forEach(function(pair){ var i = pair.indexOf('|'); var k = pair.slice(0,i), v = pair.slice(i+1);
+      document.querySelectorAll('.opts input').forEach(function(inp){ if ((inp.name || inp.closest('.opts').getAttribute('data-key')) === k && inp.value === v) inp.checked = true; }); });
+    Object.keys(o.r || {}).forEach(function(k){ var s = document.querySelector('#rank-list select[data-rank="'+k+'"]'); if (s) s.value = o.r[k]; });
+  }
+  document.addEventListener('input', saveDraft);
+  document.addEventListener('change', saveDraft);
+
+  $('clear-btn').addEventListener('click', function() {
+    if (!confirm('入力内容をすべてクリアしますか？')) return;
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    document.querySelectorAll('input[type=text],input[type=date],textarea').forEach(function(el){ el.value=''; });
+    document.querySelectorAll('.opts input').forEach(function(el){ el.checked=false; });
+    document.querySelectorAll('#rank-list select').forEach(function(s){ s.value=''; });
+    $('msg').className = 'msg'; $('msg').textContent = '';
+  });
+
+  // ── 送信 ──
+  $('send-btn').addEventListener('click', function() {
+    var body = collect();
+    var msg = $('msg'), btn = $('send-btn');
+    var filled = body.sections.some(function(s){ return s.items.some(function(i){ return i.value; }); });
+    if (!body.title && !filled) { msg.className = 'msg err'; msg.textContent = '何も入力されていません。'; return; }
+    if (!checked('product').length) { msg.className = 'msg err'; msg.textContent = '「1. 資料の目的」の対象製品を選んでください。'; window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    btn.disabled = true; btn.textContent = '送信中...'; msg.className = 'msg'; msg.textContent = '';
+    sb.auth.getSession().then(function(res) {
+      var session = res.data.session;
+      if (!session) { location.reload(); return; }
+      return fetch(FN_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token, 'apikey': window.SQUARE_SUPABASE_KEY },
+        body: JSON.stringify(body)
+      });
+    }).then(function(resp) {
+      if (!resp) return null;
+      return resp.json().then(function(data) { return { ok: resp.ok, data: data }; });
+    }).then(function(r) {
+      btn.disabled = false; btn.textContent = '送信する（Slackに通知）';
+      if (!r) return;
+      if (!r.ok || r.data.error) { msg.className = 'msg err'; msg.textContent = r.data.error || '送信に失敗しました。時間をおいて再度お試しください。'; return; }
+      msg.className = 'msg ok';
+      msg.textContent = '送信しました（受付番号 #' + r.data.id + '）。' + (r.data.warning ? ' ' + r.data.warning : 'Slackに通知しました。');
+      try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    }).catch(function() {
+      btn.disabled = false; btn.textContent = '送信する（Slackに通知）';
+      msg.className = 'msg err'; msg.textContent = '通信エラーが発生しました。再度お試しください。';
+    });
+  });
+</script>
+</body>
+</html>

@@ -308,6 +308,7 @@
     <button class="tab-btn" data-tab="talks-view">セールストーク</button>
     <button class="tab-btn" data-tab="howto-view">使い方</button>
     <button class="tab-btn" data-tab="qbox-view">質問・要望</button>
+    <button class="tab-btn" id="docreq-btn" type="button" style="display:none;" title="幹開発社内用">📝 資料作成依頼</button>
   </nav>
 
   <!-- チャット -->
@@ -704,9 +705,10 @@
     if (tabId === 'talks-view' && !talksLoaded) loadTalks();
     if (tabId === 'products-view') renderProducts();
   }
-  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(function(btn) {
     btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-tab')); });
   });
+  $('docreq-btn').addEventListener('click', function() { location.href = 'request_form.html'; });
 
   // ── 使い方: アコーディオン開閉 ──
   document.querySelectorAll('.howto-acc').forEach(function(btn) {
@@ -793,6 +795,11 @@
     $('portal-tabs').style.display = 'flex';
     $('chat-view').style.display = 'flex';
     $('logout-btn').style.display = 'block';
+    // 幹開発社内（@miki-kk.jp）のみ: AI営業資料 作成依頼フォームへのボタン
+    sb.auth.getSession().then(function(res) {
+      var em = res.data && res.data.session && res.data.session.user && res.data.session.user.email;
+      if (em && em.toLowerCase().slice(-11) === '@miki-kk.jp') $('docreq-btn').style.display = '';
+    });
     if (!noticesLoaded) loadNotices();
     renderChips();
     if (!$('messages').children.length) {
