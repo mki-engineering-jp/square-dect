@@ -121,6 +121,9 @@
     .msg-row { display: flex; }
     .msg-row.user { justify-content: flex-end; }
     .bubble { max-width: 78%; padding: 12px 16px; border-radius: 10px; font-size: 15px; white-space: pre-wrap; word-break: break-word; }
+    .bubble-fig { display: block; margin: 10px 0 2px; white-space: normal; }
+    .bubble-fig img { display: block; width: 100%; max-width: 520px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: #fff; cursor: zoom-in; }
+    .bubble-fig figcaption { font-size: 12px; color: var(--gray-500); margin-top: 5px; line-height: 1.5; }
     .msg-row.user .bubble { background: var(--red); color: var(--white); border-bottom-right-radius: 2px; }
     .msg-row.bot .bubble { background: var(--panel); border: 1px solid rgba(255,255,255,0.08); color: var(--gray-100); border-bottom-left-radius: 2px; }
     .msg-row.bot .bubble.thinking { color: var(--gray-500); }
@@ -356,6 +359,7 @@
       <p class="view-note">square本体および専用アクセサリの一覧です。各カードの「AIに質問する」から、その製品について直接質問できます。</p>
       <a class="howto-dl" href="guides/square_catalog.pdf" target="_blank" rel="noopener">📄 製品カタログをダウンロード（PDF・約7MB）</a>
       <a class="howto-dl" href="guides/square_catalog_A4.pdf" target="_blank" rel="noopener">📄 製品カタログ A4版（表裏1枚・PDF・約1MB）</a>
+      <a class="howto-dl" href="guides/square_setsumei_20261023.pdf" target="_blank" rel="noopener">📄 square ご説明資料（2026-10-23版・33ページ・PDF・約3MB）</a>
       <a class="howto-dl" href="guides/square_intro_20260820.pdf" target="_blank" rel="noopener">📄 SQUAREご紹介資料（プレゼン用・20ページ・PDF・約5MB）</a>
       <a class="howto-dl" href="guides/vexa_vs_shokz_20260911.pdf" target="_blank" rel="noopener">📄 VEXA vs 骨伝導ヘッドセット（Shokz OpenComm2）比較資料（19ページ・PDF・約11MB）</a>
       <a class="howto-dl" href="guides/vexa_voice_recognition_20261015.pdf" target="_blank" rel="noopener">📄 VEXA ボイスコマンドの認識率を上げるポイント（営業向け・6ページ・PDF）</a>
@@ -370,6 +374,7 @@
     <div class="view-head">
       <h1 class="view-title">セールストーク</h1>
       <p class="view-note">商談・提案時にご活用ください。掲載内容は販売店様限定の情報です。社外への転載はご遠慮ください。</p>
+      <a class="howto-dl" href="guides/square_setsumei_20261023.pdf" target="_blank" rel="noopener">📄 square ご説明資料（2026-10-23版・33ページ・PDF・約3MB）</a>
       <a class="howto-dl" href="guides/square_intro_20260820.pdf" target="_blank" rel="noopener">📄 SQUAREご紹介資料（プレゼン用・20ページ・PDF・約5MB）</a>
       <a class="howto-dl" href="guides/vexa_vs_shokz_20260911.pdf" target="_blank" rel="noopener">📄 VEXA vs 骨伝導ヘッドセット（Shokz OpenComm2）比較資料（19ページ・PDF・約11MB）</a>
       <a class="howto-dl" href="guides/vexa_voice_recognition_20261015.pdf" target="_blank" rel="noopener">📄 VEXA ボイスコマンドの認識率を上げるポイント（営業向け・6ページ・PDF）</a>
@@ -390,6 +395,7 @@
       <a class="howto-dl" href="guides/vexa_quickstart_v5.pdf" target="_blank" rel="noopener">📄 VEXAクイックスタートガイド（PDF・約8MB）</a>
       <a class="howto-dl" href="guides/square_catalog.pdf" target="_blank" rel="noopener">📄 製品カタログ（PDF・約7MB）</a>
       <a class="howto-dl" href="guides/square_catalog_A4.pdf" target="_blank" rel="noopener">📄 製品カタログ A4版（表裏1枚・PDF・約1MB）</a>
+      <a class="howto-dl" href="guides/square_setsumei_20261023.pdf" target="_blank" rel="noopener">📄 square ご説明資料（2026-10-23版・33ページ・PDF・約3MB）</a>
       <a class="howto-dl" href="guides/square_intro_20260820.pdf" target="_blank" rel="noopener">📄 SQUAREご紹介資料（プレゼン用・20ページ・PDF・約5MB）</a>
       <a class="howto-dl" href="guides/vexa_vs_shokz_20260911.pdf" target="_blank" rel="noopener">📄 VEXA vs 骨伝導ヘッドセット（Shokz OpenComm2）比較資料（19ページ・PDF・約11MB）</a>
       <a class="howto-dl" href="guides/vexa_voice_recognition_20261015.pdf" target="_blank" rel="noopener">📄 VEXA ボイスコマンドの認識率を上げるポイント（営業向け・6ページ・PDF）</a>
@@ -1634,12 +1640,36 @@
     row.className = 'msg-row ' + role;
     var b = document.createElement('div');
     b.className = 'bubble' + (extraClass ? ' ' + extraClass : '');
-    b.textContent = text;
+    if (role === 'bot') renderWithFigures(b, text); else b.textContent = text;
     row.appendChild(b);
     if (parent) { parent.appendChild(row); return row; }   // 折りたたみ履歴など、別の入れ物に追加
     $('messages').appendChild(row);
     row.scrollIntoView({ block: 'end' });
     return row;
+  }
+  // AI回答内の図タグ [[図:images/kb/xxx.jpg|説明]] を画像として表示（タップで拡大）
+  function renderWithFigures(el, text) {
+    var re = /\[\[図:([^\]|]+?)(?:\|([^\]]*))?\]\]/g;
+    var last = 0, m, hasFig = false;
+    text = String(text || '');
+    while ((m = re.exec(text)) !== null) {
+      var before = text.slice(last, m.index);
+      if (before) el.appendChild(document.createTextNode(before.replace(/\n{2,}$/, '\n')));
+      var src = m[1].trim();
+      if (!/^images\/kb\/[\w\-]+\.(jpg|jpeg|png|webp)$/i.test(src)) { el.appendChild(document.createTextNode('')); last = re.lastIndex; continue; }
+      var fig = document.createElement('figure');
+      fig.className = 'bubble-fig';
+      var img = document.createElement('img');
+      img.src = src; img.alt = m[2] || '図'; img.loading = 'lazy';
+      img.addEventListener('click', function(s) { return function() { $('notice-lightbox-img').src = s; $('notice-lightbox').className = 'open'; }; }(src));
+      fig.appendChild(img);
+      if (m[2]) { var cap = document.createElement('figcaption'); cap.textContent = m[2]; fig.appendChild(cap); }
+      el.appendChild(fig);
+      hasFig = true;
+      last = re.lastIndex;
+    }
+    var rest = text.slice(last);
+    if (rest.trim() || !hasFig) el.appendChild(document.createTextNode(hasFig ? rest.replace(/^\n+/, '') : rest));
   }
   function showLoginMsg(text, type) {
     var el = $('login-msg');
