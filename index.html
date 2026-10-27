@@ -26,7 +26,7 @@
     :root {
       --black: #0a0a0a; --dark: #141414; --red: #c8102e; --red-dark: #9e0c24;
       --white: #ffffff; --gray-100: #f5f5f5; --gray-300: #d0d0d0;
-      --gray-500: #888888; --gray-700: #444444;
+      --gray-500: #888888; --gray-600: #9a9a9a; --gray-700: #444444;
     }
     html { scroll-behavior: smooth; scroll-padding-top: 70px; }
     @media (max-width: 768px) { html { scroll-padding-top: 100px; } }
@@ -175,7 +175,7 @@
     .cert-num-row { display: flex; justify-content: space-between; gap: 16px; padding: 6px 0; font-size: 12px; }
     .cert-num-label { color: var(--gray-500); flex-shrink: 0; }
     .cert-num-value { color: var(--gray-300); font-family: 'Inter', sans-serif; font-weight: 600; text-align: right; word-break: break-all; }
-    .cert-note { margin-top: 28px; font-size: 11px; color: var(--gray-700); line-height: 1.8; }
+    .cert-note { margin-top: 28px; font-size: 12px; color: var(--gray-600); line-height: 1.8; }
     @media (max-width: 900px) { .cert-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) { .cert-grid { grid-template-columns: 1fr; } }
 
@@ -250,7 +250,7 @@
     .footer-logo { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: var(--white); }
     .footer-logo span { color: var(--red); }
     .footer-company { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
-    .footer-copy { font-size: 12px; color: var(--gray-700); }
+    .footer-copy { font-size: 12px; color: var(--gray-600); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
@@ -831,7 +831,7 @@
   </div>
   <div class="footer-copy">&copy; 2026 MIKI Engineering Co., Ltd. All rights reserved.</div>
   <div style="flex-basis:100%;margin-top:4px;"><a href="dealer.html" style="color:var(--gray-700);font-size:11px;text-decoration:none;">販売店様専用ページ</a></div>
-  <div style="flex-basis:100%;font-size:11px;color:var(--gray-700);line-height:1.7;margin-top:8px;border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+  <div style="flex-basis:100%;font-size:12px;color:var(--gray-600);line-height:1.7;margin-top:8px;border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
     The Bluetooth<sup style="font-size:0.7em;vertical-align:super;">®</sup> word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by MIKI Engineering Co., Ltd. is under license. Other trademarks and trade names are those of their respective owners.
   </div>
 </footer>
