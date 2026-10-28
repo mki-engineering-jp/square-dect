@@ -295,6 +295,9 @@
     .color-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .color-info { padding-top: 16px; }
     .color-info h3 { font-size: 28px; font-weight: 900; margin-bottom: 12px; }
+    .wordmark { height: .8em; width: auto; vertical-align: -.06em; }
+    .color-info h3 .wordmark { margin-right: .3em; }
+    .acc-name .wordmark { height: .9em; vertical-align: -.1em; margin: 0 .1em; }
     .color-info p { font-size: 14px; color: var(--gray-500); line-height: 1.9; margin-bottom: 32px; }
     .color-variants { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
     .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s, transform 0.15s; }
@@ -623,16 +626,16 @@
           <div class="color-label-badge" id="colorLabel">RED ─ 親機</div>
         </div>
         <div class="color-thumbs">
-          <div class="color-thumb active" onclick="changeColor('square_red.jpg','RED ─ 親機','SQUARE DECT 親機（マスター）',this)"><img src="square_red.jpg" alt="親機（赤）"></div>
-          <div class="color-thumb" onclick="changeColor('square_black.jpg','BLACK ─ 子機','SQUARE DECT 子機（スレーブ）',this)"><img src="square_black.jpg" alt="子機（黒）"></div>
+          <div class="color-thumb active" onclick="changeColor('square_red.jpg','RED ─ 親機','親機（マスター）',this)"><img src="square_red.jpg" alt="親機（赤）"></div>
+          <div class="color-thumb" onclick="changeColor('square_black.jpg','BLACK ─ 子機','子機（スレーブ）',this)"><img src="square_black.jpg" alt="子機（黒）"></div>
         </div>
       </div>
       <div class="color-info">
-        <h3 id="colorTitle">SQUARE DECT 親機（マスター）</h3>
+        <h3 id="colorTitle"><img class="wordmark" src="square_logo.svg" alt="square"><span id="colorTitleText">親機（マスター）</span></h3>
         <p>防塵・防滴設計のボディ。赤いバンパーが親機（マスター）、黒が子機（スレーブ）です。ボディカラーで役割を色分けしているため、現場で瞬時に識別できます。</p>
         <div class="color-variants">
-          <div class="color-dot red active" onclick="changeColor('square_red.jpg','RED ─ 親機','SQUARE DECT 親機（マスター）',null)" title="親機（レッド）"></div>
-          <div class="color-dot black" onclick="changeColor('square_black.jpg','BLACK ─ 子機','SQUARE DECT 子機（スレーブ）',null)" title="子機（ブラック）"></div>
+          <div class="color-dot red active" onclick="changeColor('square_red.jpg','RED ─ 親機','親機（マスター）',null)" title="親機（レッド）"></div>
+          <div class="color-dot black" onclick="changeColor('square_black.jpg','BLACK ─ 子機','子機（スレーブ）',null)" title="子機（ブラック）"></div>
         </div>
         <div class="unit-images">
           <div class="unit-card">
@@ -689,7 +692,7 @@
       </div>
       <div class="acc-card">
         <img src="1_vexa_IMG_0912.jpg" alt="Bluetoothヘッドセット VEXA SSW-1121" loading="lazy">
-        <div class="acc-info"><div class="acc-model">SSW-1121</div><div class="acc-name">Bluetoothヘッドセット VEXA（ヴェクサ）</div></div>
+        <div class="acc-info"><div class="acc-model">SSW-1121</div><div class="acc-name">Bluetoothヘッドセット <img class="wordmark" src="vexa_logo.svg" alt="VEXA">（ヴェクサ）</div></div>
       </div>
       <div class="acc-card">
         <img src="SSM-1071.jpg" alt="ラベリアマイク SSM-1071" loading="lazy">
@@ -765,7 +768,7 @@
 <section id="vexa">
   <div class="container">
     <div class="section-label">Option</div>
-    <h2 class="section-title">Bluetoothヘッドセット<br>VEXA（ヴェクサ）</h2>
+    <h2 class="section-title">Bluetoothヘッドセット<br><img class="wordmark" src="vexa_logo.svg" alt="VEXA">（ヴェクサ）</h2>
     <p class="section-sub">square専用のBluetoothヘッドセット。squareとの連携で、より円滑な現場管理を可能にします。</p>
     <div class="vexa-wrap">
       <div class="vexa-img-area">
@@ -889,7 +892,7 @@
     function changeColor(src, label, title, thumbEl) {
       document.getElementById('colorMainImg').src = src;
       document.getElementById('colorLabel').textContent = label;
-      document.getElementById('colorTitle').textContent = title;
+      document.getElementById('colorTitleText').textContent = title;
       document.querySelectorAll('.color-thumb').forEach(t => t.classList.remove('active'));
       if (thumbEl) thumbEl.classList.add('active');
     }
