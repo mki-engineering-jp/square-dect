@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>シーン別おすすめ設置方法 | square（スクエア）多人数同時通話DECTインカム</title>
+  <link rel="canonical" href="https://square-intercom.jp/scenes.html">
+  <meta name="description" content="square（スクエア）のシーン別おすすめ設置方法。建設・工事現場、イベント・舞台進行・放送、スポーツ審判・コーチ、工場・プラント・倉庫の4シーンで、親機の設置場所・構成例・推奨マイクをご紹介。各シーンのPDFガイドもダウンロードできます。">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="square（スクエア）| 幹開発株式会社">
+  <meta property="og:title" content="シーン別おすすめ設置方法 | square（スクエア）">
+  <meta property="og:description" content="建設・イベント・スポーツ・工場の4シーンで、squareの親機設置場所・構成例・推奨マイクをご紹介。">
+  <meta property="og:url" content="https://square-intercom.jp/scenes.html">
+  <meta property="og:image" content="https://square-intercom.jp/square_red.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black:#0a0a0a; --dark:#141414; --red:#c8102e; --red-dark:#9e0c24; --white:#fff; --gray-100:#f5f5f5; --gray-300:#d0d0d0; --gray-500:#888; --gray-600:#9a9a9a; --gray-700:#444; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    @media (max-width:768px) { html { scroll-padding-top: 100px; } }
+    body { font-family:'Noto Sans JP',sans-serif; background:var(--black); color:var(--white); line-height:1.6; }
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:16px 40px; background:rgba(10,10,10,0.92); backdrop-filter:blur(8px); border-bottom:1px solid rgba(200,16,46,0.25); }
+    .nav-links { display:flex; gap:28px; list-style:none; }
+    .nav-links a { color:var(--gray-300); text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.04em; }
+    .nav-links a:hover { color:var(--white); }
+    .nav-cta { background:var(--red); color:var(--white)!important; padding:8px 20px; border-radius:4px; font-weight:700!important; }
+    section { padding:96px 40px; }
+    .container { max-width:1100px; margin:0 auto; }
+    .section-label { font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--red); text-transform:uppercase; margin-bottom:12px; }
+    .section-title { font-size:clamp(28px,4vw,44px); font-weight:900; line-height:1.2; margin-bottom:16px; }
+    .section-sub { font-size:16px; color:var(--gray-500); max-width:640px; line-height:1.8; }
+    .wordmark { height:.8em; width:auto; vertical-align:-.06em; }
+    /* page hero */
+    .page-hero { padding:150px 40px 70px; background:linear-gradient(135deg,#0a0a0a 0%,#1a0508 50%,#0a0a0a 100%); border-bottom:1px solid rgba(200,16,46,0.25); }
+    .page-hero h1 { font-size:clamp(30px,4.6vw,52px); font-weight:900; line-height:1.2; margin-bottom:16px; }
+    .page-hero h1 .wordmark { height:.85em; margin-right:.25em; }
+    .page-hero p { font-size:16px; color:var(--gray-500); max-width:680px; line-height:1.9; }
+    .scene-index { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:40px; }
+    .scene-card { position:relative; display:block; aspect-ratio:4/3; border-radius:8px; overflow:hidden; background-size:cover; background-position:center; text-decoration:none; color:var(--white); border:1px solid rgba(255,255,255,0.08); }
+    .scene-card::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.25) 60%,rgba(0,0,0,0) 100%); }
+    .scene-card-text { position:absolute; left:16px; right:16px; bottom:14px; z-index:1; }
+    .scene-card-num { font-family:'Inter',sans-serif; font-size:12px; font-weight:800; color:var(--red); letter-spacing:.1em; }
+    .scene-card-title { font-size:17px; font-weight:900; margin-top:2px; }
+    .scene-card-en { font-size:10px; color:var(--gray-300); letter-spacing:.08em; }
+    .scene-card:hover { border-color:var(--red); }
+    /* basics */
+    #basics { background:var(--dark); }
+    .basics-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:48px; }
+    .basic { background:var(--black); padding:32px 28px; position:relative; }
+    .basic-num { font-family:'Inter',sans-serif; font-size:30px; font-weight:800; color:rgba(200,16,46,.35); line-height:1; margin-bottom:12px; }
+    .basic h3 { font-size:17px; font-weight:700; margin-bottom:10px; }
+    .basic p { font-size:13.5px; color:var(--gray-500); line-height:1.9; }
+    /* scene block */
+    .scene { background:var(--black); border-top:1px solid rgba(255,255,255,0.06); }
+    .scene:nth-of-type(even) { background:#0d0d0d; }
+    .scene-head { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+    .scene-photo img { width:100%; aspect-ratio:3/2; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.08); }
+    .scene .section-title { font-size:clamp(26px,3.2vw,38px); }
+    .scene-lead { font-size:16px; color:var(--gray-300); line-height:1.9; margin-bottom:24px; }
+    .pdf-btn { display:inline-block; border:1.5px solid var(--red); color:var(--white); text-decoration:none; font-size:14px; font-weight:700; padding:12px 24px; border-radius:4px; transition:background .2s; }
+    .pdf-btn:hover { background:var(--red); }
+    .scene-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; }
+    .panel { background:var(--dark); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:32px; }
+    .panel-title { font-size:19px; font-weight:700; margin-bottom:16px; }
+    .panel-title span { color:var(--red); }
+    .placement { padding-left:1.4em; font-size:14px; color:var(--gray-300); line-height:1.9; }
+    .placement li { margin-bottom:10px; }
+    .placement li::marker { color:var(--red); font-weight:700; }
+    .diagram { margin-top:20px; background:#0a0a0a; border-radius:6px; padding:12px; border:1px solid rgba(255,255,255,0.06); }
+    .diagram svg { width:100%; height:auto; display:block; font-family:'Noto Sans JP',sans-serif; }
+    .config { width:100%; border-collapse:collapse; font-size:13.5px; }
+    .config th { text-align:left; padding:12px 8px 12px 0; color:var(--gray-500); font-weight:500; width:34%; vertical-align:top; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .config td { padding:12px 0; color:var(--gray-300); vertical-align:top; border-bottom:1px solid rgba(255,255,255,0.06); line-height:1.7; }
+    .config td.qty { color:var(--white); font-weight:700; white-space:nowrap; padding-right:14px; width:24%; }
+    .tips { padding-left:1.2em; font-size:13.5px; color:var(--gray-300); line-height:1.9; }
+    .tips li { margin-bottom:8px; }
+    .tips li::marker { color:var(--red); }
+    .mic-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .mic { background:var(--dark); border:1px solid rgba(255,255,255,0.06); border-radius:8px; overflow:hidden; }
+    .mic img { width:100%; height:150px; object-fit:contain; background:#fff; padding:10px; }
+    .mic-body { padding:14px 16px 18px; }
+    .mic-model { font-family:'Inter',sans-serif; font-size:12px; font-weight:800; color:var(--red); letter-spacing:.06em; }
+    .mic-name { font-size:14px; font-weight:700; margin:2px 0 6px; }
+    .mic-db { display:inline-block; font-size:11px; color:var(--white); background:rgba(200,16,46,.25); border:1px solid rgba(200,16,46,.5); padding:2px 8px; border-radius:999px; margin-bottom:8px; }
+    .mic-desc { font-size:12px; color:var(--gray-500); line-height:1.7; }
+    /* noise */
+    #noise { background:var(--dark); }
+    .noise { width:100%; border-collapse:collapse; margin-top:40px; font-size:14px; }
+    .noise th { text-align:left; font-size:11px; color:var(--gray-500); letter-spacing:.08em; padding:0 12px 12px 0; border-bottom:1px solid rgba(255,255,255,0.12); }
+    .noise td { padding:16px 12px 16px 0; border-bottom:1px solid rgba(255,255,255,0.06); color:var(--gray-300); vertical-align:top; line-height:1.7; }
+    .noise td.db { color:var(--white); font-weight:700; white-space:nowrap; }
+    .pdf-all { margin-top:40px; display:flex; gap:12px; flex-wrap:wrap; }
+    /* contact */
+    #contact { background:var(--black); }
+    .contact-box { background:var(--dark); border:1px solid rgba(200,16,46,0.2); border-radius:8px; padding:56px; text-align:center; margin-top:48px; }
+    .contact-title { font-size:26px; font-weight:900; margin-bottom:12px; }
+    .contact-sub { font-size:15px; color:var(--gray-500); margin-bottom:32px; }
+    .contact-mail a { color:var(--red); font-size:18px; font-weight:700; text-decoration:none; }
+    .contact-note { font-size:13px; color:var(--gray-500); line-height:1.8; margin-top:32px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.08); }
+    footer { padding:40px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+    .footer-company { font-size:12px; color:var(--gray-500); margin-top:4px; }
+    .footer-copy { font-size:12px; color:var(--gray-600); }
+    @media (max-width:768px) {
+      nav { padding:10px 14px; flex-wrap:wrap; row-gap:6px; }
+      .nav-links { display:flex; gap:6px; flex-basis:100%; order:3; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding:2px 0 4px; }
+      .nav-links::-webkit-scrollbar { display:none; }
+      .nav-links a { white-space:nowrap; font-size:12px; border:1px solid rgba(255,255,255,0.18); border-radius:999px; padding:6px 12px; }
+      .nav-links a.nav-cta { border-color:var(--red); }
+      section { padding:64px 20px; }
+      .page-hero { padding:130px 20px 56px; }
+      .scene-index { grid-template-columns:repeat(2,1fr); }
+      .basics-grid { grid-template-columns:1fr; }
+      .scene-head { grid-template-columns:1fr; gap:24px; }
+      .scene-grid { grid-template-columns:1fr; }
+      .panel { padding:24px 20px; }
+      .mic-grid { grid-template-columns:repeat(2,1fr); }
+      .noise th:nth-child(2), .noise td:nth-child(2) { display:none; }
+      .contact-box { padding:40px 24px; }
+      footer { flex-direction:column; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="square_logo__1_.png" alt="square" style="height:28px;width:auto;display:block;filter:invert(1);"></a>
+  <ul class="nav-links">
+    <li><a href="index.html">トップ</a></li>
+    <li><a href="#basics">設置の基本</a></li>
+    <li><a href="#construction">建設・工事現場</a></li><li><a href="#event">イベント・舞台進行・放送</a></li><li><a href="#sports">スポーツ審判・コーチ</a></li><li><a href="#factory">工場・プラント・倉庫</a></li>
+    <li><a href="#noise">マイク選び</a></li>
+    <li><a href="#contact" class="nav-cta">お問い合わせ</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero" id="top">
+  <div class="container">
+    <div class="section-label">Installation Guide by Scene</div>
+    <h1><img class="wordmark" src="square_logo.svg" alt="square">シーン別おすすめ設置方法</h1>
+    <p>親機を「どこに置くか」で、squareの通話はもっと安定します。建設・イベント・スポーツ・工場の4つのシーンごとに、親機の設置場所、構成例、騒音レベルに合わせたマイクの選び方をまとめました。各シーンのPDFガイドもダウンロードいただけます。</p>
+    <div class="scene-index"><a class="scene-card" href="#construction" style="background-image:url('usecase_1_construction.jpg')"><div class="scene-card-text"><span class="scene-card-num">01</span><div class="scene-card-title">建設・工事現場</div><div class="scene-card-en">Construction Site</div></div></a><a class="scene-card" href="#event" style="background-image:url('usecase_3_broadcast.jpg')"><div class="scene-card-text"><span class="scene-card-num">02</span><div class="scene-card-title">イベント・舞台進行・放送</div><div class="scene-card-en">Event / Stage / Broadcast</div></div></a><a class="scene-card" href="#sports" style="background-image:url('usecase_4_sports.jpg')"><div class="scene-card-text"><span class="scene-card-num">03</span><div class="scene-card-title">スポーツ審判・コーチ</div><div class="scene-card-en">Sports Officials / Coaching</div></div></a><a class="scene-card" href="#factory" style="background-image:url('usecase_2_crane.jpg')"><div class="scene-card-text"><span class="scene-card-num">04</span><div class="scene-card-title">工場・プラント・倉庫</div><div class="scene-card-en">Factory / Plant / Warehouse</div></div></a></div>
+  </div>
+</section>
+
+<section id="basics">
+  <div class="container">
+    <div class="section-label">Basics</div>
+    <h2 class="section-title">どのシーンでも共通の<br>設置の基本</h2>
+    <p class="section-sub">親機（マスター）は据え置き、子機（スレーブ）は身に着ける。この役割分担を守るだけで、通信の安定性と連続使用時間が大きく変わります。</p>
+    <div class="basics-grid"><div class="basic"><div class="basic-num">01</div><h3>据え置き・電源接続</h3><p>親機は身に着けず、電源（USB給電）につないで据え置きで使います。親機はパススルー給電対応なので、給電しながらの運用で時間制限なく使えます。子機5台以上、または8時間以上の連続運用では給電を推奨します。</p></div><div class="basic"><div class="basic-num">02</div><h3>高い位置・見通し</h3><p>親機は地面から1〜2m以上、できるだけ高く、子機と見通しの良い場所に置きます。高い位置ほど通信が安定します（見通し通話距離 約300m）。</p></div><div class="basic"><div class="basic-num">03</div><h3>ノイズ源から離す</h3><p>大電流が流れるケーブル・分電盤・大型モーター・溶接機の近く、強力な電波塔の付近は避けます。通信が不安定になったり到達距離が短くなることがあります。</p></div><div class="basic"><div class="basic-num">04</div><h3>複数グループは親機を離す</h3><p>同一エリアで使える最大グループ数は6グループ（親機6台）。親機同士が近いと子機のペアリングが外れやすくなるため、親機同士は離して設置します。</p></div><div class="basic"><div class="basic-num">05</div><h3>子機は体の側面に</h3><p>子機は腰のベルトや体の側面など、親機から見通しの良い位置に装着します。体で電波を遮らないようにするのがコツです。</p></div><div class="basic"><div class="basic-num">06</div><h3>16人通話は親機2台を有線連結</h3><p>親機2台を有線で接続すると、子機最大16台（通話は子機16人）で同時通話できます。連結中は親機のBluetooth接続は使えません。</p></div></div>
+  </div>
+</section>
+
+<section class="scene" id="construction">
+  <div class="container">
+    <div class="scene-head">
+      <div class="scene-photo"><img src="usecase_1_construction.jpg" alt="建設・工事現場"></div>
+      <div class="scene-intro">
+        <div class="section-label">Scene 01 ｜ Construction Site</div>
+        <h2 class="section-title">建設・工事現場</h2>
+        <p class="scene-lead">騒音と粉塵、広い敷地。親機は「現場を見渡せる高所」に据え置き、作業員はヘルメット装着マイクで。</p>
+        <a class="pdf-btn" href="guides/square_scene_01_construction.pdf" target="_blank" rel="noopener">📄 このシーンの設置ガイド（PDF）</a>
+      </div>
+    </div>
+    <div class="scene-grid">
+      <div class="panel">
+        <h3 class="panel-title"><span>親機</span>の設置場所</h3>
+        <ol class="placement"><li>現場事務所・詰所の窓際や外壁、仮設足場の上段など、作業エリア全体を見渡せる高所（1〜2m以上）に親機を据え置き、USB給電で運用します。</li><li>分電盤・溶接機・大電流ケーブルの近くは避けます。地上と地下（坑内）をつなぐ場合は、親機を坑口付近の見通しの良い位置に置くと安定します。</li><li>複数工区がある現場は、工区ごとに親機を分けて設置（同一エリア最大6グループ）。親機同士は離して置きます。</li></ol>
+        <div class="diagram"><svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="設置イメージ"><line x1="0" y1="190" x2="600" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/><rect x="60" y="40" width="180" height="150" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2"/><line x1="60" y1="90" x2="240" y2="90" stroke="rgba(255,255,255,0.18)"/><line x1="60" y1="140" x2="240" y2="140" stroke="rgba(255,255,255,0.18)"/><text x="150" y="30" fill="#9a9a9a" font-size="13" text-anchor="middle">仮設足場・現場事務所</text><circle cx="150" cy="78" r="40" fill="none" stroke="#c8102e" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="75" fill="none" stroke="#c8102e" stroke-opacity="0.42000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="110" fill="none" stroke="#c8102e" stroke-opacity="0.29000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="145" fill="none" stroke="#c8102e" stroke-opacity="0.16000000000000003" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="150" y1="88" x2="150" y2="118" stroke="#c8102e" stroke-width="2"/><rect x="139" y="67" width="22" height="22" rx="3" fill="#c8102e"/><text x="150" y="60" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">親機（据え置き・給電）</text><text x="10" y="218" fill="#9a9a9a" font-size="13">親機：事務所窓際・足場上段など高所に据え置き（給電）　■赤＝親機　■黒＝子機</text><g><rect x="311" y="144" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="320" y="174" fill="#9a9a9a" font-size="13" text-anchor="middle">職長</text></g><g><rect x="391" y="159" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="400" y="189" fill="#9a9a9a" font-size="13" text-anchor="middle">作業員</text></g><g><rect x="461" y="134" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="470" y="164" fill="#9a9a9a" font-size="13" text-anchor="middle">作業員</text></g><g><rect x="531" y="154" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="540" y="184" fill="#9a9a9a" font-size="13" text-anchor="middle">重機オペ</text></g><g><rect x="241" y="159" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="250" y="189" fill="#9a9a9a" font-size="13" text-anchor="middle">監督</text></g></svg></div>
+      </div>
+      <div class="panel">
+        <h3 class="panel-title"><span>構成</span>例</h3>
+        <table class="config"><tbody><tr><th>親機（据え置き）</th><td class="qty">1台</td><td>現場事務所・詰所に設置。通話には使わず固定運用</td></tr><tr><th>子機</th><td class="qty">4〜8台</td><td>現場監督・職長・各作業員（1グループ最大8人）</td></tr><tr><th>推奨マイク</th><td class="qty">SSH-1123</td><td>ヘルメット装着マイク＋防滴イヤスピーカー SSE-1040</td></tr><tr><th>高騒音エリア</th><td class="qty">SSI-1028</td><td>はつり・重機近傍はスロートマイク</td></tr></tbody></table>
+        <h3 class="panel-title" style="margin-top:28px;"><span>運用</span>のコツ</h3>
+        <ul class="tips"><li>ヘルメット装着マイク SSH-1123 は〜90dB、スロートマイク SSI-1028 は95〜100dB以上の騒音に対応。エリアの騒音レベルでマイクを選びます。</li><li>IPX5防水・MIL-STD-810H準拠。雨天・粉塵環境でもそのまま使えますが、マイク風防は汚れたら交換してください。</li><li>1日8時間を超える運用や子機5台以上では、親機は必ず給電しながら使用します。</li></ul>
+      </div>
+    </div>
+    <h3 class="panel-title" style="margin-top:40px;"><span>推奨</span>マイク・ヘッドセット</h3>
+    <div class="mic-grid"><div class="mic"><img src="3_Helmet Headset.jpg" alt="ヘルメット装着マイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSH-1123</div><div class="mic-name">ヘルメット装着マイク</div><div class="mic-db">対応騒音 〜90dB</div><div class="mic-desc">接話型ノイズキャンセル。ヘルメットに装着。防滴イヤスピーカー SSE-1040 と組み合わせ可。</div></div></div><div class="mic"><img src="6_Throat Mic.jpg" alt="スロートマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSI-1028</div><div class="mic-name">スロートマイク</div><div class="mic-db">対応騒音 95〜100dB以上</div><div class="mic-desc">喉の振動を拾う咽喉マイク。ラインナップ中で最も高騒音向け。</div></div></div><div class="mic"><img src="8_Tie Pin Mic.jpg" alt="タイピンマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSP-1130</div><div class="mic-name">タイピンマイク</div><div class="mic-db">対応騒音 〜80dB</div><div class="mic-desc">胸元に装着するコンパクトなタイピン型。PTTボタン付き。</div></div></div></div>
+  </div>
+</section>
+<section class="scene" id="event">
+  <div class="container">
+    <div class="scene-head">
+      <div class="scene-photo"><img src="usecase_3_broadcast.jpg" alt="イベント・舞台進行・放送"></div>
+      <div class="scene-intro">
+        <div class="section-label">Scene 02 ｜ Event / Stage / Broadcast</div>
+        <h2 class="section-title">イベント・舞台進行・放送</h2>
+        <p class="scene-lead">Wi-Fiやワイヤレスマイクが飛び交う会場でも、1.9GHz帯のsquareは混信しない。親機は進行卓に。</p>
+        <a class="pdf-btn" href="guides/square_scene_02_event.pdf" target="_blank" rel="noopener">📄 このシーンの設置ガイド（PDF）</a>
+      </div>
+    </div>
+    <div class="scene-grid">
+      <div class="panel">
+        <h3 class="panel-title"><span>親機</span>の設置場所</h3>
+        <ol class="placement"><li>舞台袖の進行卓・PA卓・ディレクター席に親機を据え置き、電源に接続します。客席の人垣に遮られないよう、卓上スタンドなどで高さを確保します。</li><li>ホール全体を見渡せる位置（調整室の窓際、2階バルコニーなど）に置くと、ステージ・客席・ロビーのスタッフまで安定して届きます。</li><li>大規模イベントでエリアが分かれる場合は、エリアごとに親機を設置（最大6グループ）。親機同士は離して配置します。</li></ol>
+        <div class="diagram"><svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="設置イメージ"><line x1="0" y1="190" x2="600" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/><rect x="40" y="130" width="280" height="60" fill="#1e1e1e" stroke="rgba(255,255,255,0.18)"/><text x="180" y="165" fill="#9a9a9a" font-size="14" text-anchor="middle">ステージ</text><rect x="110" y="95" width="80" height="20" fill="none" stroke="rgba(255,255,255,0.18)"/><text x="150" y="109" fill="#9a9a9a" font-size="13" text-anchor="middle">進行卓</text><circle cx="150" cy="78" r="40" fill="none" stroke="#c8102e" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="75" fill="none" stroke="#c8102e" stroke-opacity="0.42000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="110" fill="none" stroke="#c8102e" stroke-opacity="0.29000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="145" fill="none" stroke="#c8102e" stroke-opacity="0.16000000000000003" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="150" y1="88" x2="150" y2="118" stroke="#c8102e" stroke-width="2"/><rect x="139" y="67" width="22" height="22" rx="3" fill="#c8102e"/><text x="150" y="60" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">親機（据え置き・給電）</text><text x="10" y="218" fill="#9a9a9a" font-size="13">親機：舞台袖の進行卓・PA卓に据え置き（スタンドで高さ確保）　■赤＝親機　■黒＝子機</text><g><rect x="351" y="149" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="360" y="179" fill="#9a9a9a" font-size="13" text-anchor="middle">音響</text></g><g><rect x="421" y="124" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="430" y="154" fill="#9a9a9a" font-size="13" text-anchor="middle">照明</text></g><g><rect x="491" y="154" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="500" y="184" fill="#9a9a9a" font-size="13" text-anchor="middle">カメラ</text></g><g><rect x="551" y="124" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="560" y="154" fill="#9a9a9a" font-size="13" text-anchor="middle">フロア</text></g><g><rect x="61" y="154" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="70" y="184" fill="#9a9a9a" font-size="13" text-anchor="middle">舞台袖</text></g></svg></div>
+      </div>
+      <div class="panel">
+        <h3 class="panel-title"><span>構成</span>例</h3>
+        <table class="config"><tbody><tr><th>親機（据え置き）</th><td class="qty">1台</td><td>進行卓に設置。舞台監督・ディレクターが親機で通話に参加可</td></tr><tr><th>子機</th><td class="qty">6〜8台</td><td>カメラ・音響・照明・フロア・受付など</td></tr><tr><th>推奨マイク</th><td class="qty">SSH-1117 / SSN-1059</td><td>長時間向けのオーバーヘッド・ネックセット</td></tr><tr><th>16人体制</th><td class="qty">親機2台 有線連結</td><td>子機16台で同時通話（連結中は親機Bluetooth不可）</td></tr></tbody></table>
+        <h3 class="panel-title" style="margin-top:28px;"><span>運用</span>のコツ</h3>
+        <ul class="tips"><li>伝送遅延 約0.05秒。キューの「3・2・1」がずれず、カメラスイッチングや転換の合図が揃います。</li><li>両手を使うカメラマンや機材オペレーターには、ケーブルのないBluetoothヘッドセット VEXA も選択肢です。</li><li>本体の録音・外部機器連携用ジャックを使った卓への音声出力は、接続機器をご相談ください。</li></ul>
+      </div>
+    </div>
+    <h3 class="panel-title" style="margin-top:40px;"><span>推奨</span>マイク・ヘッドセット</h3>
+    <div class="mic-grid"><div class="mic"><img src="5_Over Headset.jpg" alt="オーバーヘッドセット" loading="lazy"><div class="mic-body"><div class="mic-model">SSH-1117</div><div class="mic-name">オーバーヘッドセット</div><div class="mic-db">対応騒音 〜80dB</div><div class="mic-desc">長時間の連続使用に向く頭装着型。PTTボタン付き。</div></div></div><div class="mic"><img src="7_Neckset.jpg" alt="ネックセット" loading="lazy"><div class="mic-body"><div class="mic-model">SSN-1059</div><div class="mic-name">ネックセット</div><div class="mic-db">対応騒音 〜80dB</div><div class="mic-desc">首掛けタイプ。帽子・ヘルメットと干渉しにくい。</div></div></div><div class="mic"><img src="8_Tie Pin Mic.jpg" alt="タイピンマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSP-1130</div><div class="mic-name">タイピンマイク</div><div class="mic-db">対応騒音 〜80dB</div><div class="mic-desc">胸元に装着するコンパクトなタイピン型。PTTボタン付き。</div></div></div><div class="mic"><img src="1_vexa_IMG_0912.jpg" alt="VEXA（Bluetoothヘッドセット）" loading="lazy"><div class="mic-body"><div class="mic-model">SSW-1121</div><div class="mic-name">VEXA（Bluetoothヘッドセット）</div><div class="mic-db">対応騒音 〜80dB目安</div><div class="mic-desc">オープンイヤー・ボイスコマンド対応。ケーブルなしで両手が自由。</div></div></div></div>
+  </div>
+</section>
+<section class="scene" id="sports">
+  <div class="container">
+    <div class="scene-head">
+      <div class="scene-photo"><img src="usecase_4_sports.jpg" alt="スポーツ審判・コーチ"></div>
+      <div class="scene-intro">
+        <div class="section-label">Scene 03 ｜ Sports Officials / Coaching</div>
+        <h2 class="section-title">スポーツ審判・コーチ</h2>
+        <p class="scene-lead">屋外のグラウンドでも見通し約300m。親機は本部席に、審判はホイッスル音を抑えるレフェリーマイクで。</p>
+        <a class="pdf-btn" href="guides/square_scene_03_sports.pdf" target="_blank" rel="noopener">📄 このシーンの設置ガイド（PDF）</a>
+      </div>
+    </div>
+    <div class="scene-grid">
+      <div class="panel">
+        <h3 class="panel-title"><span>親機</span>の設置場所</h3>
+        <ol class="placement"><li>本部席・記録席・ベンチ後方のテーブルや三脚の上など、フィールド全体を見渡せる高い位置に親機を据え置きます。</li><li>屋外で電源が取れない場合は、モバイルバッテリーで給電しながら運用します（親機はパススルー給電対応）。</li><li>複数コート・複数フィールドで同時に使う場合は、コートごとに親機を分け（最大6グループ）、親機同士を離して設置します。</li></ol>
+        <div class="diagram"><svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="設置イメージ"><line x1="0" y1="190" x2="600" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/><rect x="230" y="110" width="340" height="80" rx="40" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2"/><line x1="400" y1="110" x2="400" y2="190" stroke="rgba(255,255,255,0.18)"/><text x="400" y="104" fill="#9a9a9a" font-size="13" text-anchor="middle">フィールド（見通し約300m）</text><rect x="100" y="98" width="100" height="18" fill="none" stroke="rgba(255,255,255,0.18)"/><text x="150" y="111" fill="#9a9a9a" font-size="13" text-anchor="middle">本部席・記録席</text><circle cx="150" cy="78" r="40" fill="none" stroke="#c8102e" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="75" fill="none" stroke="#c8102e" stroke-opacity="0.42000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="110" fill="none" stroke="#c8102e" stroke-opacity="0.29000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="145" fill="none" stroke="#c8102e" stroke-opacity="0.16000000000000003" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="150" y1="88" x2="150" y2="118" stroke="#c8102e" stroke-width="2"/><rect x="139" y="67" width="22" height="22" rx="3" fill="#c8102e"/><text x="150" y="60" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">親機（据え置き・給電）</text><text x="10" y="218" fill="#9a9a9a" font-size="13">親機：本部席の机上・三脚上など高い位置に（モバイルバッテリー給電可）　■赤＝親機　■黒＝子機</text><g><rect x="291" y="124" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="300" y="154" fill="#9a9a9a" font-size="13" text-anchor="middle">副審</text></g><g><rect x="391" y="114" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="400" y="144" fill="#9a9a9a" font-size="13" text-anchor="middle">主審</text></g><g><rect x="491" y="124" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="500" y="154" fill="#9a9a9a" font-size="13" text-anchor="middle">副審</text></g><g><rect x="231" y="159" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="240" y="189" fill="#9a9a9a" font-size="13" text-anchor="middle">コーチ</text></g><g><rect x="551" y="159" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="560" y="189" fill="#9a9a9a" font-size="13" text-anchor="middle">コーチ</text></g></svg></div>
+      </div>
+      <div class="panel">
+        <h3 class="panel-title"><span>構成</span>例</h3>
+        <table class="config"><tbody><tr><th>親機（据え置き）</th><td class="qty">1台</td><td>本部席・記録席に設置</td></tr><tr><th>子機（審判団）</th><td class="qty">3〜4台</td><td>主審・副審・第4の審判など</td></tr><tr><th>子機（コーチ陣）</th><td class="qty">2〜3台</td><td>監督・コーチ・アナリスト</td></tr><tr><th>推奨マイク</th><td class="qty">SSH-1124</td><td>レフェリーマイク（ホイッスル音抑制・常時通話）</td></tr></tbody></table>
+        <h3 class="panel-title" style="margin-top:28px;"><span>運用</span>のコツ</h3>
+        <ul class="tips"><li>レフェリーマイク SSH-1124 はPTTボタンなし。子機をオープンモードにして、ホイッスルを吹きながらそのまま会話できます（マイクブームは右専用、イヤホンは左右どちらでも）。</li><li>IPX5防水のため雨天の試合でも使用可能。子機はベルトの側面など、親機から見通しの良い位置に装着します。</li><li>コーチ陣はタイピンマイク SSP-1130 やBluetoothヘッドセット VEXA で参加できます。</li></ul>
+      </div>
+    </div>
+    <h3 class="panel-title" style="margin-top:40px;"><span>推奨</span>マイク・ヘッドセット</h3>
+    <div class="mic-grid"><div class="mic"><img src="SSH-1124.jpg" alt="レフェリーマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSH-1124</div><div class="mic-name">レフェリーマイク</div><div class="mic-db">対応騒音 屋外・ホイッスル</div><div class="mic-desc">ホイッスル音抑制マイク。イヤホン一体型・PTTボタンなし（常時通話向け）。</div></div></div><div class="mic"><img src="8_Tie Pin Mic.jpg" alt="タイピンマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSP-1130</div><div class="mic-name">タイピンマイク</div><div class="mic-db">対応騒音 〜80dB</div><div class="mic-desc">胸元に装着するコンパクトなタイピン型。PTTボタン付き。</div></div></div><div class="mic"><img src="1_vexa_IMG_0912.jpg" alt="VEXA（Bluetoothヘッドセット）" loading="lazy"><div class="mic-body"><div class="mic-model">SSW-1121</div><div class="mic-name">VEXA（Bluetoothヘッドセット）</div><div class="mic-db">対応騒音 〜80dB目安</div><div class="mic-desc">オープンイヤー・ボイスコマンド対応。ケーブルなしで両手が自由。</div></div></div></div>
+  </div>
+</section>
+<section class="scene" id="factory">
+  <div class="container">
+    <div class="scene-head">
+      <div class="scene-photo"><img src="usecase_2_crane.jpg" alt="工場・プラント・倉庫"></div>
+      <div class="scene-intro">
+        <div class="section-label">Scene 04 ｜ Factory / Plant / Warehouse</div>
+        <h2 class="section-title">工場・プラント・倉庫</h2>
+        <p class="scene-lead">金属の棚・設備で電波が遮られる屋内。親機は棚より高い位置に、作業者は騒音レベルに合わせたマイクで。</p>
+        <a class="pdf-btn" href="guides/square_scene_04_factory.pdf" target="_blank" rel="noopener">📄 このシーンの設置ガイド（PDF）</a>
+      </div>
+    </div>
+    <div class="scene-grid">
+      <div class="panel">
+        <h3 class="panel-title"><span>親機</span>の設置場所</h3>
+        <ol class="placement"><li>フロア全体を見渡せる柱・壁の高所、またはライン事務所の窓際に親機を据え置き、電源に接続します。金属棚・ラックで遮られないよう、棚の上端より高い位置が理想です。</li><li>溶接機・大型モーター・分電盤・大電流ケーブルの近くは避けます。通信が不安定になったり到達距離が短くなることがあります。</li><li>広い倉庫やフロアが分かれる工場では、エリアごとに親機を設置（最大6グループ）し、親機同士を離して配置します。</li></ol>
+        <div class="diagram"><svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="設置イメージ"><line x1="0" y1="190" x2="600" y2="190" stroke="rgba(255,255,255,0.18)" stroke-width="2"/><rect x="260" y="120" width="50" height="70" fill="none" stroke="rgba(255,255,255,0.18)"/><line x1="260" y1="145" x2="310" y2="145" stroke="rgba(255,255,255,0.18)"/><line x1="260" y1="168" x2="310" y2="168" stroke="rgba(255,255,255,0.18)"/><rect x="340" y="120" width="50" height="70" fill="none" stroke="rgba(255,255,255,0.18)"/><line x1="340" y1="145" x2="390" y2="145" stroke="rgba(255,255,255,0.18)"/><line x1="340" y1="168" x2="390" y2="168" stroke="rgba(255,255,255,0.18)"/><rect x="420" y="120" width="50" height="70" fill="none" stroke="rgba(255,255,255,0.18)"/><line x1="420" y1="145" x2="470" y2="145" stroke="rgba(255,255,255,0.18)"/><line x1="420" y1="168" x2="470" y2="168" stroke="rgba(255,255,255,0.18)"/><rect x="500" y="120" width="50" height="70" fill="none" stroke="rgba(255,255,255,0.18)"/><line x1="500" y1="145" x2="550" y2="145" stroke="rgba(255,255,255,0.18)"/><line x1="500" y1="168" x2="550" y2="168" stroke="rgba(255,255,255,0.18)"/><text x="420" y="112" fill="#9a9a9a" font-size="13" text-anchor="middle">金属棚・ライン設備（棚の上端より高い位置に親機）</text><rect x="100" y="98" width="100" height="18" fill="none" stroke="rgba(255,255,255,0.18)"/><text x="150" y="111" fill="#9a9a9a" font-size="13" text-anchor="middle">ライン事務所・柱の高所</text><circle cx="150" cy="78" r="40" fill="none" stroke="#c8102e" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="75" fill="none" stroke="#c8102e" stroke-opacity="0.42000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="110" fill="none" stroke="#c8102e" stroke-opacity="0.29000000000000004" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="150" cy="78" r="145" fill="none" stroke="#c8102e" stroke-opacity="0.16000000000000003" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="150" y1="88" x2="150" y2="118" stroke="#c8102e" stroke-width="2"/><rect x="139" y="67" width="22" height="22" rx="3" fill="#c8102e"/><text x="150" y="60" fill="#ffffff" font-size="14" font-weight="700" text-anchor="middle">親機（据え置き・給電）</text><text x="10" y="218" fill="#9a9a9a" font-size="13">親機：棚より高い柱・壁・事務所窓際に据え置き（給電）　■赤＝親機　■黒＝子機</text><g><rect x="291" y="174" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="300" y="204" fill="#9a9a9a" font-size="13" text-anchor="middle">ライン長</text></g><g><rect x="371" y="174" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="380" y="204" fill="#9a9a9a" font-size="13" text-anchor="middle">保全</text></g><g><rect x="451" y="174" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="460" y="204" fill="#9a9a9a" font-size="13" text-anchor="middle">フォーク</text></g><g><rect x="531" y="174" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="540" y="204" fill="#9a9a9a" font-size="13" text-anchor="middle">検査</text></g><g><rect x="211" y="174" width="18" height="18" rx="2" fill="#2a2a2a" stroke="#555"/><text x="220" y="204" fill="#9a9a9a" font-size="13" text-anchor="middle">出荷</text></g></svg></div>
+      </div>
+      <div class="panel">
+        <h3 class="panel-title"><span>構成</span>例</h3>
+        <table class="config"><tbody><tr><th>親機（据え置き）</th><td class="qty">1台</td><td>ライン事務所・フロア高所に設置</td></tr><tr><th>子機</th><td class="qty">5〜8台</td><td>ライン長・保全・フォークリフト・検査など</td></tr><tr><th>推奨マイク</th><td class="qty">SSH-1115 / SSI-1028</td><td>イヤーマフ型（遮音）／スロートマイク（95〜100dB以上）</td></tr><tr><th>中騒音・倉庫</th><td class="qty">SSH-1123 / SSP-1130</td><td>ヘルメット装着（〜90dB）／タイピン（〜80dB）</td></tr></tbody></table>
+        <h3 class="panel-title" style="margin-top:28px;"><span>運用</span>のコツ</h3>
+        <ul class="tips"><li>イヤーマフ型ヘッドセット SSH-1115 は接続ケーブル SSC-1246（別売）が必要です。</li><li>シフト運用では専用充電器 SSZ-1070（4台用／8台用）で一括充電。子機は有線マイク使用時 最大約14時間・充電約2.5時間です。</li><li>子機8台をフル接続する場合、親機は給電しながら据え置きで運用します。</li></ul>
+      </div>
+    </div>
+    <h3 class="panel-title" style="margin-top:40px;"><span>推奨</span>マイク・ヘッドセット</h3>
+    <div class="mic-grid"><div class="mic"><img src="4_Earmuff Headset.jpg" alt="ヘッドセット型（イヤーマフ）" loading="lazy"><div class="mic-body"><div class="mic-model">SSH-1115</div><div class="mic-name">ヘッドセット型（イヤーマフ）</div><div class="mic-db">対応騒音 高騒音</div><div class="mic-desc">イヤーマフ一体型で遮音と通話を両立。接続ケーブル SSC-1246 が必要。</div></div></div><div class="mic"><img src="6_Throat Mic.jpg" alt="スロートマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSI-1028</div><div class="mic-name">スロートマイク</div><div class="mic-db">対応騒音 95〜100dB以上</div><div class="mic-desc">喉の振動を拾う咽喉マイク。ラインナップ中で最も高騒音向け。</div></div></div><div class="mic"><img src="3_Helmet Headset.jpg" alt="ヘルメット装着マイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSH-1123</div><div class="mic-name">ヘルメット装着マイク</div><div class="mic-db">対応騒音 〜90dB</div><div class="mic-desc">接話型ノイズキャンセル。ヘルメットに装着。防滴イヤスピーカー SSE-1040 と組み合わせ可。</div></div></div><div class="mic"><img src="8_Tie Pin Mic.jpg" alt="タイピンマイク" loading="lazy"><div class="mic-body"><div class="mic-model">SSP-1130</div><div class="mic-name">タイピンマイク</div><div class="mic-db">対応騒音 〜80dB</div><div class="mic-desc">胸元に装着するコンパクトなタイピン型。PTTボタン付き。</div></div></div></div>
+  </div>
+</section>
+<section id="noise">
+  <div class="container">
+    <div class="section-label">Microphone Guide</div>
+    <h2 class="section-title">騒音レベルで選ぶ<br>マイク・ヘッドセット</h2>
+    <p class="section-sub">squareは音声を加工せず原音に近いまま伝えるため、現場の騒音レベルに合ったマイクを選ぶことが大切です。目安は以下のとおりです。</p>
+    <table class="noise">
+      <thead><tr><th>騒音の目安</th><th>想定される環境</th><th>推奨マイク・ヘッドセット</th></tr></thead>
+      <tbody><tr><td class="db">〜80dB</td><td>一般的な屋内・イベント会場・倉庫</td><td>タイピン SSP-1130／オーバーヘッド SSH-1117／ネックセット SSN-1059／VEXA SSW-1121</td></tr><tr><td class="db">〜90dB</td><td>建設現場・工場ライン・重機周辺</td><td>ヘルメット装着 SSH-1123／ハンドマイク SSM-1041（SSC-1246要）</td></tr><tr><td class="db">95〜100dB以上</td><td>はつり・プレス・プラント内の高騒音</td><td>スロートマイク SSI-1028／イヤーマフ型 SSH-1115（SSC-1246要）</td></tr><tr><td class="db">屋外・ホイッスル</td><td>スポーツ審判</td><td>レフェリーマイク SSH-1124</td></tr></tbody>
+    </table>
+    <div class="pdf-all">
+      <a class="pdf-btn" href="guides/square_scene_guide_all.pdf" target="_blank" rel="noopener">📄 全4シーンの設置ガイド（PDF・まとめ版）</a>
+      <a class="pdf-btn" href="index.html#accessories" style="border-color:var(--gray-700);">アクセサリ一覧を見る</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">設置のご相談・デモのご依頼</h2>
+    <p class="section-sub">現場の図面や規模をお知らせいただければ、親機の配置やグループ構成をご提案します。実機デモも承ります。</p>
+    <div class="contact-box">
+      <h3 class="contact-title">現場に合わせた構成をご提案します</h3>
+      <p class="contact-sub">導入相談、お見積り、販売店のご案内はこちらから。</p>
+      <div class="contact-mail"><a href="mailto:sales@miki-kk.jp">sales@miki-kk.jp</a></div>
+      <p class="contact-note">※ square は法人・団体のお客様向けの製品です。個人のお客様への販売は行っておりません。ご購入は全国の販売店、または当社営業窓口までご相談ください。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-logo"><img src="square_logo__1_.png" alt="square" style="height:24px;width:auto;filter:invert(1);"></div>
+    <div class="footer-company">幹開発株式会社 / MIKI Engineering Co., Ltd.</div>
+    <div style="font-size:11px;color:var(--gray-600);margin-top:6px;">法人・団体のお客様向け製品です（個人のお客様への販売は行っておりません）</div>
+  </div>
+  <div class="footer-copy">&copy; 2026 MIKI Engineering Co., Ltd. All rights reserved.</div>
+  <div style="flex-basis:100%;font-size:12px;color:var(--gray-600);line-height:1.7;margin-top:8px;border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+    本ページの設置方法は一般的な目安です。実際の通信距離・安定性は建物の構造や周囲の電波環境により変わります。The Bluetooth<sup style="font-size:0.7em;vertical-align:super;">&reg;</sup> word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by MIKI Engineering Co., Ltd. is under license.
+  </div>
+</footer>
+
+</body>
+</html>
